@@ -422,3 +422,79 @@ function initialize(){
     initializeDemandDeck();
     initializePlayers();
 }
+
+//
+// UI CODE BELOW
+//
+
+function renderDemand() {
+    var demandText = function(demand) {
+        return "Demand: " + demand;
+    }
+
+    var $demand_power = $(".box-item--power .box-item-demand p");
+    var $demand_iron = $(".box-item--iron .box-item-demand p");
+    var $demand_aluminium = $(".box-item--aluminium .box-item-demand p");
+    var $demand_carbon = $(".box-item--carbon .box-item-demand p");
+    var $demand_steel = $(".box-item--steel .box-item-demand p");
+    var $demand_lithium = $(".box-item--lithium .box-item-demand p");
+
+    $demand_power.text(demandText(power.demand));
+    $demand_iron.text(demandText(iron.demand));
+    $demand_aluminium.text(demandText(aluminium.demand));
+    $demand_carbon.text(demandText(carbon.demand));
+    $demand_steel.text(demandText(steel.demand));
+    $demand_lithium.text(demandText(lithium.demand));
+}
+
+function renderPrice() {
+    var priceText = function(price) {
+        return price + "$";
+    }
+
+    var $price_power = $(".box-item--power .box-item-price h2");
+    var $price_iron = $(".box-item--iron .box-item-price h2");
+    var $price_aluminium = $(".box-item--aluminium .box-item-price h2");
+    var $price_carbon = $(".box-item--carbon .box-item-price h2");
+    var $price_steel = $(".box-item--steel .box-item-price h2");
+    var $price_lithium = $(".box-item--lithium .box-item-price h2");
+
+    $price_power.text(priceText(power.price));
+    $price_iron.text(priceText(iron.price));
+    $price_aluminium.text(priceText(aluminium.price));
+    $price_carbon.text(priceText(carbon.price));
+    $price_steel.text(priceText(steel.price));
+    $price_lithium.text(priceText(lithium.price));
+}
+
+function renderSupply() {
+    var supplyText = function(demand) {
+        return "Supply: " + demand;
+    }
+    var $supply_power = $(".box-item--power .box-item-supply p");
+    var $supply_iron = $(".box-item--iron .box-item-supply p");
+    var $supply_aluminium = $(".box-item--aluminium .box-item-supply p");
+    var $supply_carbon = $(".box-item--carbon .box-item-supply p");
+    var $supply_steel = $(".box-item--steel .box-item-supply p");
+    var $supply_aluminium = $(".box-item--aluminium .box-item-supply p");
+
+    $supply_power.text(supplyText(power.supply));
+    $supply_iron.text(supplyText(iron.supply));
+    $supply_aluminium.text(supplyText(aluminium.supply));
+    $supply_carbon.text(supplyText(carbon.supply));
+    $supply_steel.text(supplyText(steel.supply));
+    $supply_lithium.text(supplyText(lithium.supply));
+
+}
+function renderUI() {
+    renderDemand();
+    renderPrice();
+    renderSupply();
+}
+
+$(document).ready(function() {
+    console.log("Initializing...");
+    initialize();
+    renderUI();
+    console.log(power.price);
+});
