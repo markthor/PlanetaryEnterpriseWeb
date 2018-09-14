@@ -528,40 +528,21 @@ function registerMarketClickListeners() {
 function registerPlayerClickListeners() {
     $(".box-item--player-red .box-item-player-header .debt img").click(function() {
         toggleDebt(playerRed)
-        if ($(this).hasClass("active")) {
-            $(this).removeClass("active");
-        } else {
-            $(this).addClass("active");
-        }
         renderUI();
     });
+
     $(".box-item--player-blue .box-item-player-header .debt img").click(function() {
         toggleDebt(playerBlue)
-        if ($(this).hasClass("active")) {
-            $(this).removeClass("active");
-        } else {
-            $(this).addClass("active");
-        }
         renderUI();
     });
 
     $(".box-item--player-green .box-item-player-header .debt img").click(function() {
         toggleDebt(playerGreen)
-        if ($(this).hasClass("active")) {
-            $(this).removeClass("active");
-        } else {
-            $(this).addClass("active");
-        }
         renderUI();
     });
 
     $(".box-item--player-yellow .box-item-player-header .debt img").click(function() {
         toggleDebt(playerYellow)
-        if ($(this).hasClass("active")) {
-            $(this).removeClass("active");
-        } else {
-            $(this).addClass("active");
-        }
         renderUI();
     });
 }
@@ -656,6 +637,30 @@ function renderPlayerDebt() {
     $debt_blue.text(debtText(playerBlue.debt));
     $debt_green.text(debtText(playerGreen.debt));
     $debt_yellow.text(debtText(playerYellow.debt));
+
+    if (playerRed.accumulateDebt) {
+        $(".box-item--player-red .debt img").addClass("active"); 
+    } else {
+        $(".box-item--player-red .debt img").removeClass("active");
+    }
+
+    if (playerBlue.accumulateDebt) {
+        $(".box-item--player-blue .debt img").addClass("active"); 
+    } else {
+        $(".box-item--player-blue .debt img").removeClass("active");
+    }
+
+    if (playerGreen.accumulateDebt) {
+        $(".box-item--player-green .debt img").addClass("active"); 
+    } else {
+        $(".box-item--player-green .debt img").removeClass("active");
+    }
+
+    if (playerYellow.accumulateDebt) {
+        $(".box-item--player-yellow .debt img").addClass("active"); 
+    } else {
+        $(".box-item--player-yellow .debt img").removeClass("active");
+    }
 }
 
 function renderUI() {
@@ -671,5 +676,4 @@ $(document).ready(function() {
     registerMarketClickListeners();
     registerPlayerClickListeners();
     renderUI();
-    console.log(power.price);
 });
