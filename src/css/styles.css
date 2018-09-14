@@ -133,7 +133,11 @@ p {
 }
 
 .box-item-player-header .debt img.active {
-    background: rgba(0,0,0,0.3);
+    filter: opacity(100%);
+}
+
+.box-item-player-header .debt img:not(active) {
+    filter: opacity(40%);
 }
 
 
