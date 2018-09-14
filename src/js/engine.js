@@ -415,6 +415,8 @@ function initializePlayers(){
 }
 
 function initialize(){
+    console.log("Initializing...");
+
     initializeResources();
     initializeDemandDeck();
     initializePlayers();
@@ -609,7 +611,6 @@ function renderUI() {
 }
 
 $(document).ready(function() {
-    console.log("Initializing...");
     initialize();
     registerMarketClickListeners();
     registerPlayerClickListeners();
