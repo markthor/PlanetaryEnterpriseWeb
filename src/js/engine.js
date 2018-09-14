@@ -1,6 +1,6 @@
 var deck;
 var demandCardsDrawn = 0;
-var energy;
+var power;
 var iron;
 var aluminium;
 var carbon;
@@ -58,14 +58,14 @@ function adjustSupply(resource, amount) {
 
 function produceForBuilding(buildingName){
     switch (buildingName) {
-        case "mineIron": adjustSupply(iron, 1); adjustSupply(energy, -1); break;
-        case "mineAluminium": adjustSupply(aluminium, 1); adjustSupply(energy, -1); break;
-        case "mineCarbon": adjustSupply(carbon, 1); adjustSupply(energy, -1); break;
-        case "furnace":  adjustSupply(steel, 1); adjustSupply(energy, -1); adjustSupply(iron, -1); break;
+        case "mineIron": adjustSupply(iron, 1); adjustSupply(power, -1); break;
+        case "mineAluminium": adjustSupply(aluminium, 1); adjustSupply(power, -1); break;
+        case "mineCarbon": adjustSupply(carbon, 1); adjustSupply(power, -1); break;
+        case "furnace":  adjustSupply(steel, 1); adjustSupply(power, -1); adjustSupply(iron, -1); break;
         case "lab":  adjustSupply(lithium, 1); adjustSupply(aluminium, -1); adjustSupply(carbon, -1); break;
-        case "fossilPowerPlant":  adjustSupply(energy, 3); adjustSupply(carbon, -1); break;
-        case "geothermalPlant":  adjustSupply(energy, 2); break;
-        case "windTurbine":  adjustSupply(energy, 1); break;
+        case "fossilPowerPlant":  adjustSupply(power, 3); adjustSupply(carbon, -1); break;
+        case "geothermalPlant":  adjustSupply(power, 2); break;
+        case "windTurbine":  adjustSupply(power, 1); break;
         default:
             console.error("Illegal argument exception. name: " + name);
             break;
@@ -201,14 +201,14 @@ function getBuildingPrice(buildingName, carbonFabrication){
 function getBuildingRevenue(buildingName, market){
     revenue = 0;
     switch (buildingName) {
-        case "mineIron": revenue = getPrice(market.iron) - getPrice(market.energy); break;
-        case "mineAluminium": revenue = getPrice(market.aluminium) - getPrice(market.energy); break;
-        case "mineCarbon": revenue = getPrice(market.carbon) - getPrice(market.energy); break;
-        case "furnace": revenue = getPrice(market.steel) - getPrice(market.energy) - getPrice(iron); break;
-        case "lab": revenue = getPrice(market.iron) - getPrice(market.energy); break;
-        case "fossilPowerPlant": revenue = getPrice(market.energy) * 3 - getPrice(carbon); break;
-        case "geothermalPlant": revenue = getPrice(market.energy) * 2; break;
-        case "windTurbine": revenue = getPrice(market.energy); break;
+        case "mineIron": revenue = getPrice(market.iron) - getPrice(market.power); break;
+        case "mineAluminium": revenue = getPrice(market.aluminium) - getPrice(market.power); break;
+        case "mineCarbon": revenue = getPrice(market.carbon) - getPrice(market.power); break;
+        case "furnace": revenue = getPrice(market.steel) - getPrice(market.power) - getPrice(iron); break;
+        case "lab": revenue = getPrice(market.lithium) - getPrice(market.carbon) - getPrice(market.aluminium); break;
+        case "fossilPowerPlant": revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
+        case "geothermalPlant": revenue = getPrice(market.power) * 2; break;
+        case "windTurbine": revenue = getPrice(market.power); break;
         case "supplyConnector": revenue = 0; break;
         case "constructionSite": revenue = 0; break;
         default:
@@ -286,11 +286,11 @@ function getDemand() {
         aluminium.demand++;
         return "aluminium"
     }
-    temp += deck.energy
+    temp += deck.power
     if(randomInt < temp) {
-        deck.energy = deck.energy - 1;
-        energy.demand++;
-        return "energy"
+        deck.power = deck.power - 1;
+        power.demand++;
+        return "power"
     }
     temp += deck.interest
     if(randomInt < temp) {
@@ -310,7 +310,7 @@ function getTotal(deck) {
     total += deck.carbon
     total += deck.iron
     total += deck.aluminium
-    total += deck.energy
+    total += deck.power
     total += deck.interest
     return total
 }
@@ -337,7 +337,7 @@ function updateMarket(player, market){
 
 function getMarket(){
     return {
-        energy: energy,
+        power: power,
         iron: iron,
         aluminium: aluminium,
         carbon: carbon,
@@ -355,7 +355,7 @@ function getIncome(player){
 }
 
 function adjustSupplyForDemand(){
-    adjustSupply(energy, -energy.demand);
+    adjustSupply(power, -power.demand);
     adjustSupply(iron, -iron.demand);
     adjustSupply(carbon, -carbon.demand);
     adjustSupply(aluminium, -aluminium.demand);
@@ -365,7 +365,7 @@ function adjustSupplyForDemand(){
 
 function produce(){
     market = {
-        energy: jQuery.extend(true, {}, energy),
+        power: jQuery.extend(true, {}, power),
         iron: jQuery.extend(true, {}, iron),
         aluminium: jQuery.extend(true, {}, aluminium),
         carbon: jQuery.extend(true, {}, carbon),
@@ -379,10 +379,15 @@ function produce(){
     updateMarket(playerYellow, market);
 
     adjustSupplyForDemand();
+
+    playerRed.accumulateDebt = false;
+    playerBlue.accumulateDebt = false;
+    playerGreen.accumulateDebt = false;
+    playerYellow.accumulateDebt = false;
 }
 
 function initializeResources(){
-    energy = resource("energy", 1, 10);
+    power = resource("power", 1, 10);
     iron = resource("iron", 2, 5);
     aluminium = resource("aluminium", 2, 5);
     carbon = resource("carbon", 2, 5);
@@ -397,7 +402,7 @@ function initializeDemandDeck() {
     deck.carbon = 4;
     deck.iron = 4;
     deck.aluminium = 4;
-    deck.energy = 7;
+    deck.power = 7;
     deck.interest = 6;
     return deck;
 }
@@ -413,4 +418,22 @@ function initialize(){
     initializeResources();
     initializeDemandDeck();
     initializePlayers();
+}
+
+function test(){
+    initialize();
+    getDemand();
+    addBuilding(playerRed, "mineIron");
+    addBuilding(playerBlue, "mineCarbon");
+    addBuilding(playerGreen, "fossilPowerPlant");
+    getMarket();
+    produce();
+    getMarket();
+    getDemand();
+    addBuilding(playerRed, "windTurbine");
+    playerBlue.carbonFabrication = true;
+    addBuilding(playerGreen, "geothermalPlant");
+    playerGreen.accumulateDebt = true;
+    produce();
+    getMarket();
 }
