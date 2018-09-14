@@ -491,7 +491,7 @@ function renderSupply() {
     var $supply_aluminium = $(".box-item--aluminium .box-item-supply p");
     var $supply_carbon = $(".box-item--carbon .box-item-supply p");
     var $supply_steel = $(".box-item--steel .box-item-supply p");
-    var $supply_aluminium = $(".box-item--aluminium .box-item-supply p");
+    var $supply_lithium = $(".box-item--lithium .box-item-supply p");
 
     $supply_power.text(supplyText(power.supply));
     $supply_iron.text(supplyText(iron.supply));
