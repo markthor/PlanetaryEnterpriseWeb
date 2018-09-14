@@ -1,41 +1,98 @@
-.header {
+body {
+    height: 100%;
+    margin: 0;
+    color: black;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.flex-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.box-item {
+    flex: 1 1 0;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: inset 0 0 10px #333333;
+}
+
+.box-item--power {
+    background: #98FB98;
+}
+
+.box-item--iron {
+    background: #B55A31;
+}
+
+.box-item--aluminium {
+    background: #0099FF;
+}
+
+.box-item--carbon {
+    background: #646478;
+}
+
+.box-item--steel {
+    background: #F0F0F4;
+}
+
+.box-item--lithium {
+    background: #FFEE32;
+}
+
+.box-item--player-red {
+    background: #FF4136;
+}
+
+.box-item--player-green {
+    background: #2ECC40;
+}
+
+.box-item--player-yellow {
+    background: #FFDC00;
+}
+
+.box-item--player-blue {
+    background: #0074D9;
+}
+
+.box-header {
+    flex: 0 1 auto;
     text-align: center;
     padding: 0;
-    background-color: #0066cc;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    background-color: lightgrey;
+    box-shadow: inset 0 0 10px #333333;
 }
 
-.header--first {
-    margin-top: 15px;
-}
-
-.row {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-.header > h1 {
-    color: white;
-    padding-top: 15px;
+.box-header > h1 {
+    margin: 0;
+    color: dimgrey;
+    padding-top: 10px;
     padding-bottom: 10px;
     font-weight: bold;
     font-family: calibri;
-    font-size: 40px;
+    font-size: 38px;
 }
 
-.item_resource {
-    text-align: center;
-    font-weight: bold;
-    background: slategrey;
-    border: 1px solid black;
-    min-height: 200px;
+.box-content {
+    display: flex;
+    flex: 1 1 auto;
 }
 
-.item_player {
-    text-align: center;
-    font-weight: bold;
-    background: slategrey;
-    border: 1px solid black;
-    min-height: 200px;
+.box-market {
+    flex: 1 1 auto;
+}
+
+.box-players {
+    flex: 2 1 auto;
+}
+
+.box-footer {
+    flex: 0 1 auto;
 }
