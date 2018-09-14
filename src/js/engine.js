@@ -348,6 +348,10 @@ function getTotal(deck) {
     return total
 }
 
+function toggleDebt(player){
+    player.accumulateDebt = !player.accumulateDebt;
+}
+
 function interest(){
     playerRed.debt += Math.floor(playerRed.debt / 5);
     playerBlue.debt += Math.floor(playerBlue.debt / 5);
