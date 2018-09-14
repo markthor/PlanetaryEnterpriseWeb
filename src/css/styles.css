@@ -1,0 +1,41 @@
+.header {
+    text-align: center;
+    padding: 0;
+    background-color: #0066cc;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.header--first {
+    margin-top: 15px;
+}
+
+.row {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.header > h1 {
+    color: white;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    font-weight: bold;
+    font-family: calibri;
+    font-size: 40px;
+}
+
+.item_resource {
+    text-align: center;
+    font-weight: bold;
+    background: slategrey;
+    border: 1px solid black;
+    min-height: 200px;
+}
+
+.item_player {
+    text-align: center;
+    font-weight: bold;
+    background: slategrey;
+    border: 1px solid black;
+    min-height: 200px;
+}
