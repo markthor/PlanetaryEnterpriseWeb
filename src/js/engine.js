@@ -224,7 +224,8 @@ function player(color){
         color: color,
         debt: 0,
         accumulateDebt: false,
-        buildings: []
+        buildings: [],
+        carbonFabrication: false
     };
 }
 
