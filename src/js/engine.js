@@ -224,7 +224,8 @@ function player(color){
         color: color,
         debt: 0,
         accumulateDebt: false,
-        buildings: []
+        buildings: [],
+        carbonFabrication: false
     };
 }
 
@@ -236,15 +237,6 @@ function addBuilding(player, buildingName){
     player.buildings.push(buildingName);
     buildBuilding(buildingName, player.carbonFabrication);
 }
-
-// var array = [2, 5, 9];
-// console.log(array)
-// var index = array.indexOf(5);
-// if (index > -1) {
-//   array.splice(index, 1);
-// }
-// // array = [2, 9]
-// console.log(array);
 
 function removeBuilding(player, buildingName){
     index = player.buildings.indexOf(buildingName);
