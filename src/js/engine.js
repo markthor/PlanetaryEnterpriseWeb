@@ -72,7 +72,7 @@ function produceForBuilding(buildingName){
     }
 }
 
-function buyCarbonFabrication(player){
+function toggleCarbonFabrication(player){
     if(player.carbonFabrication){
         player.carbonFabrication = false;
         removeBuilding(player, "carbonFabrication");
@@ -82,7 +82,7 @@ function buyCarbonFabrication(player){
     }
 }
 
-function buyDenseConnector(player){
+function toggleDenseConnector(player){
     if(player.denseConnector){
         player.denseConnector = false;
         removeBuilding(player, "denseConnector");
@@ -123,8 +123,9 @@ function modifyBuilding(player, buildingName, add){
                 break;
             case "denseConnector":
                 adjustSupply(steel, 1 * multiplier)
+                break;
             default:
-                console.error("Illegal argument exception. name: " + name);
+                console.error("Illegal argument exception. buildingName: " + buildingName);
                 break;
         }
     } else {
@@ -155,8 +156,9 @@ function modifyBuilding(player, buildingName, add){
                 break;
             case "denseConnector":
                 adjustSupply(steel, 1 * multiplier)
+                break;
             default:
-                console.error("Illegal argument exception. name: " + name);
+                console.error("Illegal argument exception. buildingName: " + buildingName);
                 break;
         }
     }
@@ -188,8 +190,9 @@ function getBuildingPrice(player, buildingName){
                 break;
             case "denseConnector":
                 return getPrice(steel)
+                break;
             default:
-                exception ="Illegal argument exception. name: " + name;
+                exception ="Illegal argument exception. buildingName: " + buildingName;
                 console.error(exception);
                 return exception;
                 break;
@@ -221,8 +224,9 @@ function getBuildingPrice(player, buildingName){
                 return getPrice(lithium) + getPrice(carbon, 3);
             case "denseConnector":
                 return getPrice(steel)
+                break;
             default:
-                exception = "Illegal argument exception. name: " + name;
+                exception = "Illegal argument exception. buildingName: " + buildingName;
                 console.error(exception);
                 return exception;
                 break;
