@@ -22,14 +22,12 @@ function resource(name, price, supply) {
     };
 }
 
-function getPrice(name){
-    return name.price;
-}
-
 function getPrice(resource, amount){
+    if(!amount) amount = 1;
+
     if(amount > resource.maxSupply) return "Illegal argument exception. name: " + resource + "amount: " + amount;  
     if(resource.supply >= amount) return amount * resource.price
-    else return (amount - resource.supply) * (price + 1) + resource.supply * price;
+    else return (amount - resource.supply) * (resource.price + 1) + resource.supply * resource.price;
 }
 
 function adjustSupply(resource, amount) {
@@ -79,19 +77,19 @@ function buildBuilding(buildingName, carbonFabrication){
             case "furnace": 
             case "lab": 
             case "fossilPowerPlant": 
-                return adjustSupply(carbon, 3);
+                return adjustSupply(carbon, -3);
                 break;
             case "geothermalPlant": 
-                return adjustSupply(carbon, 6);
+                return adjustSupply(carbon, -6);
                 break;
             case "windTurbine": 
-                return adjustSupply(lithium) + adjustSupply(aluminium);
+                return adjustSupply(lithium, -1) + adjustSupply(aluminium, -1);
                 break;
             case "supplyConnector":
-                return adjustSupply(aluminium);
+                return adjustSupply(aluminium, -1);
                 break;
             case "constructionSite":
-                return adjustSupply(carbon, 2);
+                return adjustSupply(carbon, -2);
                 break;
             default:
                 return "Illegal argument exception. name: " + name;
@@ -105,19 +103,19 @@ function buildBuilding(buildingName, carbonFabrication){
             case "furnace": 
             case "lab": 
             case "fossilPowerPlant": 
-                return adjustSupply(steel, 2);
+                return adjustSupply(steel, -2);
                 break;
             case "geothermalPlant": 
-                return adjustSupply(steel, 4);
+                return adjustSupply(steel, -4);
                 break;
             case "windTurbine": 
-                return adjustSupply(lithium) + adjustSupply(aluminium);
+                return adjustSupply(lithium, -1) + adjustSupply(aluminium, -1);
                 break;
             case "supplyConnector":
-                return adjustSupply(aluminium);
+                return adjustSupply(aluminium, -1);
                 break;
             case "constructionSite":
-                return adjustSupply(steel);
+                return adjustSupply(steel, -1);
                 break;
             default:
                 return "Illegal argument exception. name: " + name;
@@ -200,6 +198,7 @@ function getBuildingRevenue(buildingName, market){
             break;
     }
     if(revenue < 0) return 0;
+    return revenue;
 }
 
 function player(color){
@@ -216,49 +215,58 @@ function addDebt(player, amount){
 }
 
 function addBuilding(player, buildingName){
-    player.buildings.put(name);
+    player.buildings.push(buildingName);
+    buildBuilding(buildingName, player.carbonFabrication);
 }
 
-function getDemand(deck) {
+function getDemand() {
     total = getTotal(deck)
     if (total === 0) {
         return "nothing"
     }
+    demandCardsDrawn++;
     randomInt = Math.floor(Math.random() * total);
     temp = 0
     temp += deck.steel
     if(randomInt < temp) {
         deck.steel = deck.steel - 1;
+        steel.demand++;
         return "steel"
     }
     temp += deck.lithium
     if(randomInt < temp) {
         deck.lithium = deck.lithium - 1;
+        lithium.demand++;
         return "lithium"
     }
     temp += deck.carbon
     if(randomInt < temp) {
         deck.carbon = deck.carbon - 1;
+        carbon.demand++;
         return "carbon"
     }
     temp += deck.iron
     if(randomInt < temp) {
         deck.iron = deck.iron - 1;
+        iron.demand++;
         return "iron"
     }
     temp += deck.aluminium
     if(randomInt < temp) {
         deck.aluminium = deck.aluminium - 1;
+        aluminium.demand++;
         return "aluminium"
     }
     temp += deck.energy
     if(randomInt < temp) {
         deck.energy = deck.energy - 1;
+        energy.demand++;
         return "energy"
     }
     temp += deck.interest
     if(randomInt < temp) {
         deck.interest = deck.interest - 1;
+        interest();
         return "interest"
     }
     return "IllegalStateException. Deck: " + deck
@@ -291,6 +299,8 @@ function updateMarket(player, market){
                 produceForBuilding(buildingName);
             }
         });
+    } else{
+        addDebt(player, demandCardsDrawn);
     }
 }
 
@@ -306,16 +316,11 @@ function getMarket(){
 }
 
 function getIncome(player){
-    if(player.accumulateDebt) {
-        addDebt(player, demandCardsDrawn);
-        return demandCardsDrawn;
-    } else{
-        revenue = 0;
-        player.buildings.forEach(function(building) {
-            revenue += getBuildingRevenue(building, getMarket());
-        });
-        return revenue;
-    }
+    revenue = 0;
+    player.buildings.forEach(function(building) {
+        revenue += getBuildingRevenue(building, getMarket());
+    });
+    return revenue;
 }
 
 function adjustSupplyForDemand(){
@@ -323,6 +328,7 @@ function adjustSupplyForDemand(){
     adjustSupply(iron, -iron.demand);
     adjustSupply(carbon, -carbon.demand);
     adjustSupply(aluminium, -aluminium.demand);
+    adjustSupply(steel, -steel.demand);
     adjustSupply(lithium, -lithium.demand);
 }
 
@@ -339,7 +345,7 @@ function produce(){
     updateMarket(playerRed, market);
     updateMarket(playerBlue, market);
     updateMarket(playerGreen, market);
-    updateMarket(playerRed, market);
+    updateMarket(playerYellow, market);
 
     adjustSupplyForDemand();
 }
