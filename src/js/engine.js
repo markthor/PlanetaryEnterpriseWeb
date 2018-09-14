@@ -72,14 +72,30 @@ function produceForBuilding(buildingName){
     }
 }
 
-function buildBuilding(buildingName, carbonFabrication){
-    modifyBuilding(buildingName, carbonFabrication, true);
+function buyCarbonFabrication(player){
+    if(player.carbonFabrication){
+        player.carbonFabrication = false;
+        removeBuilding(player, "carbonFabrication");
+    } else {
+        player.carbonFabrication = true;
+        addBuilding(player, "carbonFabrication");
+    }
 }
 
-function modifyBuilding(buildingName, carbonFabrication, add){
+function buyDenseConnector(player){
+    if(player.denseConnector){
+        player.denseConnector = false;
+        removeBuilding(player, "denseConnector");
+    } else {
+        player.denseConnector = true;
+        addBuilding(player, "denseConnector");
+    }
+}
+
+function modifyBuilding(player, buildingName, add){
     multiplier = -1;
     if(!add) multiplier = 1;
-    if(carbonFabrication){
+    if(player.carbonFabrication){
         switch (buildingName) {
             case "mineIron": 
             case "mineAluminium": 
@@ -87,24 +103,28 @@ function modifyBuilding(buildingName, carbonFabrication, add){
             case "furnace": 
             case "lab": 
             case "fossilPowerPlant": 
-                return adjustSupply(carbon, 3 * multiplier);
+                adjustSupply(carbon, 3 * multiplier);
                 break;
             case "geothermalPlant": 
-                return adjustSupply(carbon, 6 * multiplier);
+                adjustSupply(carbon, 6 * multiplier);
                 break;
             case "windTurbine": 
-                return adjustSupply(lithium, 1 * multiplier) + adjustSupply(aluminium, 1 * multiplier);
+                adjustSupply(lithium, 1 * multiplier); adjustSupply(aluminium, 1 * multiplier);
                 break;
             case "supplyConnector":
-                return adjustSupply(aluminium, 1 * multiplier);
+                if(player.denseConnector) adjustSupply(iron, 1 * multiplier)
+                else adjustSupply(aluminium, 1 * multiplier);
                 break;
             case "constructionSite":
-                return adjustSupply(carbon, 2 * multiplier);
+                adjustSupply(carbon, 2 * multiplier);
                 break;
+            case "carbonFabrication":
+                adjustSupply(lithium, 1 * multiplier); adjustSupply(carbon, 3 * multiplier);
+                break;
+            case "denseConnector":
+                adjustSupply(steel, 1 * multiplier)
             default:
-                exception = "Illegal argument exception. name: " + name;
-                console.error(exception);
-                return exception;
+                console.error("Illegal argument exception. name: " + name);
                 break;
         }
     } else {
@@ -115,31 +135,35 @@ function modifyBuilding(buildingName, carbonFabrication, add){
             case "furnace": 
             case "lab": 
             case "fossilPowerPlant": 
-                return adjustSupply(steel, 2 * multiplier);
+                adjustSupply(steel, 2 * multiplier);
                 break;
             case "geothermalPlant": 
-                return adjustSupply(steel, 4 * multiplier);
+                adjustSupply(steel, 4 * multiplier);
                 break;
             case "windTurbine": 
-                return adjustSupply(lithium, 1 * multiplier) + adjustSupply(aluminium, 1 * multiplier);
+                adjustSupply(lithium, 1 * multiplier); adjustSupply(aluminium, 1 * multiplier);
                 break;
             case "supplyConnector":
-                return adjustSupply(aluminium, 1 * multiplier);
+                if(player.denseConnector) adjustSupply(iron, 1 * multiplier)
+                else adjustSupply(aluminium, 1 * multiplier);
                 break;
             case "constructionSite":
-                return adjustSupply(steel, 1 * multiplier);
+                adjustSupply(steel, 1 * multiplier);
                 break;
+            case "carbonFabrication":
+                adjustSupply(lithium, 1 * multiplier); adjustSupply(carbon, 3 * multiplier);
+                break;
+            case "denseConnector":
+                adjustSupply(steel, 1 * multiplier)
             default:
-                exception = "Illegal argument exception. name: " + name;
-                console.error(exception);
-                return exception;
+                console.error("Illegal argument exception. name: " + name);
                 break;
         }
     }
 }
 
-function getBuildingPrice(buildingName, carbonFabrication){
-    if(carbonFabrication){
+function getBuildingPrice(player, buildingName){
+    if(player.carbonFabrication){
         switch (buildingName) {
             case "mineIron": 
             case "mineAluminium": 
@@ -156,11 +180,14 @@ function getBuildingPrice(buildingName, carbonFabrication){
                 return getPrice(lithium) + getPrice(aluminium);
                 break;
             case "supplyConnector":
-                return getPrice(aluminium);
+                if(player.denseConnector) return getPrice(iron);
+                else return getPrice(aluminium);
                 break;
             case "constructionSite":
                 return getPrice(carbon, 2);
                 break;
+            case "denseConnector":
+                return getPrice(steel)
             default:
                 exception ="Illegal argument exception. name: " + name;
                 console.error(exception);
@@ -184,11 +211,16 @@ function getBuildingPrice(buildingName, carbonFabrication){
                 return getPrice(lithium) + getPrice(aluminium);
                 break;
             case "supplyConnector":
-                return getPrice(aluminium);
+                if(player.denseConnector) return getPrice(iron);
+                else return getPrice(aluminium);
                 break;
             case "constructionSite":
                 return getPrice(steel);
                 break;
+            case "carbonFabrication":
+                return getPrice(lithium) + getPrice(carbon, 3);
+            case "denseConnector":
+                return getPrice(steel)
             default:
                 exception = "Illegal argument exception. name: " + name;
                 console.error(exception);
@@ -225,7 +257,8 @@ function player(color){
         debt: 0,
         accumulateDebt: false,
         buildings: [],
-        carbonFabrication: false
+        carbonFabrication: false,
+        denseConnector: false
     };
 }
 
@@ -235,14 +268,14 @@ function addDebt(player, amount){
 
 function addBuilding(player, buildingName){
     player.buildings.push(buildingName);
-    buildBuilding(buildingName, player.carbonFabrication);
+    modifyBuilding(player, buildingName, true);
 }
 
 function removeBuilding(player, buildingName){
     index = player.buildings.indexOf(buildingName);
     if(index > -1){
         player.buildings.splice(index, 1);
-        modifyBuilding(buildingName, player.carbonFabrication, false);
+        modifyBuilding(player, buildingName, false);
     } else {
         console.error("Invalid argument exception. player: " + player + ", buildingName: " + buildingName);
     }
@@ -420,24 +453,6 @@ function initialize(){
     initializeResources();
     initializeDemandDeck();
     initializePlayers();
-}
-
-function test(){
-    initialize();
-    getDemand();
-    addBuilding(playerRed, "mineIron");
-    addBuilding(playerBlue, "mineCarbon");
-    addBuilding(playerGreen, "fossilPowerPlant");
-    getMarket();
-    produce();
-    getMarket();
-    getDemand();
-    addBuilding(playerRed, "windTurbine");
-    playerBlue.carbonFabrication = true;
-    addBuilding(playerGreen, "geothermalPlant");
-    playerGreen.accumulateDebt = true;
-    produce();
-    getMarket();
 }
 
 //
