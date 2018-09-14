@@ -7,6 +7,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <style>
+        @font-face {
+            font-family: "dragon";
+            src: url("fonts/dragon.ttf") format("truetype");
+        }
+    </style>
+
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css">
 
@@ -25,28 +32,118 @@
             </div>
             <div class="box-content">
                 <div class="box-item box-item--power">
-                    <p>Power</p>
-                    <img src="resources/icons/market/power.png">
+                    <div class="box-item-demand">
+                        <h2>Power</h2>
+                        <p>Demand: 0</p>
+                    </div>
+                    <div class="box-item-price">
+                        <div class="img-container">
+                            <img src="resources/icons/market/power.png">
+                        </div>
+                        <h2>0$</h2>
+                    </div>
+                    <div class="box-item-supply">
+                        <p>Supply: 0</p>
+                    </div>
+                    <div class="box-item-buttons">
+                        <div class="minus">-</div>
+                        <div class="plus">+</div>
+                    </div>                  
                 </div>                
                 <div class="box-item box-item--iron">
-                    <p>Iron</p>
-                    <img src="resources/icons/market/iron.png">
+                    <div class="box-item-demand">
+                        <h2>Iron</h2>
+                        <p>Demand: 0</p>
+                    </div>
+                    <div class="box-item-price">
+                        <div class="img-container">
+                            <img src="resources/icons/market/iron.png">
+                        </div>
+                        <h2>0$</h2>
+                    </div>
+                    <div class="box-item-supply">
+                        <p>Supply: 0</p>
+                    </div>
+                    <div class="box-item-buttons">
+                        <div class="minus">-</div>
+                        <div class="plus">+</div>
+                    </div>
                 </div>
                 <div class="box-item box-item--aluminium">
-                    <p>Aluminum</p>
-                    <img src="resources/icons/market/aluminum.png">
+                    <div class="box-item-demand">
+                        <h2>Aluminum</h2>
+                        <p>Demand: 0</p>
+                    </div>
+                    <div class="box-item-price">
+                        <div class="img-container">
+                            <img src="resources/icons/market/aluminum.png">
+                        </div>
+                        <h2>0$</h2>
+                    </div>
+                    <div class="box-item-supply">
+                        <p>Supply: 0</p>
+                    </div>
+                    <div class="box-item-buttons">
+                        <div class="minus">-</div>
+                        <div class="plus">+</div>
+                    </div>
                 </div>
                 <div class="box-item box-item--carbon">
-                    <p>Carbon</p>
-                    <img src="resources/icons/market/carbon.png">
+                    <div class="box-item-demand">
+                        <h2>Carbon</h2>
+                        <p>Demand: 0</p>
+                    </div>
+                    <div class="box-item-price">
+                        <div class="img-container">
+                            <img src="resources/icons/market/carbon.png">
+                        </div>
+                        <h2>0$</h2>
+                    </div>
+                    <div class="box-item-supply">
+                        <p>Supply: 0</p>
+                    </div>
+                    <div class="box-item-buttons">
+                        <div class="minus">-</div>
+                        <div class="plus">+</div>
+                    </div>
                 </div>          
                 <div class="box-item box-item--steel">
-                    <p>Steel</p>
-                    <img src="resources/icons/market/steel.png">
+                    <div class="box-item-demand">
+                        <h2>Steel</h2>
+                        <p>Demand: 0</p>
+                    </div>
+                    <div class="box-item-price">
+                        <div class="img-container">
+                            <img src="resources/icons/market/steel.png">
+                        </div>
+                        <h2>0$</h2>
+                    </div>
+                    <div class="box-item-supply">
+                        <p>Supply: 0</p>
+                    </div>
+                    <div class="box-item-buttons">
+                        <div class="minus">-</div>
+                        <div class="plus">+</div>
+                    </div>
                 </div>
                 <div class="box-item box-item--lithium">
-                    <p>Lithium</p>
-                    <img src="resources/icons/market/lithium.png">
+                    <div class="box-item-demand">
+                        <h2>Lithium</h2>
+                        <p>Demand: 0</p>
+                    </div>
+                    <div class="box-item-price">
+                        <div class="img-container">
+                            <img src="resources/icons/market/lithium.png">
+                        </div>
+                        <h2>0$</h2>
+                    </div>
+                    <div class="box-item-supply">
+                        <p>Supply: 0</p>
+                    </div>
+                    <div class="box-item-buttons">
+                        <div class="minus">-</div>
+                        <div class="plus">+</div>
+                    </div>
                 </div>                         
             </div>
             
@@ -75,66 +172,5 @@
             <h1>Brahduce</h1>
         </div>
     </div>
-    <!--<div class="flex-container">
-        <div class="header">
-            <h1>Market prices</h1>
-        </div>
-
-        <div class="header">
-            <h1>Players</h1>
-        </div>
-
-    </div>-->
-    <!--<div class="container-fluid">
-        <div>
-            <div class="row">
-                <div class="col-sm-12 header header--first">
-                    <h1>Market prices</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-2 item_resource">
-                    <p>Silicon</p>
-                </div>
-                <div class="col-sm-2 item_resource">
-                    <p>Steel</p>
-                </div>
-                <div class="col-sm-2 item_resource">
-                    <p>Carbon</p>
-                </div>
-                <div class="col-sm-2 item_resource">
-                    <p>Aluminium</p>
-                </div>
-                <div class="col-sm-2 item_resource">
-                    <p>Iron</p>
-                </div>
-                <div class="col-sm-2 item_resource">
-                    <p>Power</p>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="row">
-                <div class="col-sm-12 header">
-                    <h1>Players</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-3 item_player">
-                    <p>Mikkel</p>
-                </div>
-                <div class="col-sm-3 item_player">
-                    <p>MarkT</p>
-                </div>
-                <div class="col-sm-3 item_player">
-                    <p>Beton</p>
-                </div>
-                <div class="col-sm-3 item_player">
-                    <p>Raun</p>
-                </div>
-            </div>
-        </div>
-    
-    </div>-->
 </body>
 </html>
