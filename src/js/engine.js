@@ -237,15 +237,6 @@ function addBuilding(player, buildingName){
     buildBuilding(buildingName, player.carbonFabrication);
 }
 
-// var array = [2, 5, 9];
-// console.log(array)
-// var index = array.indexOf(5);
-// if (index > -1) {
-//   array.splice(index, 1);
-// }
-// // array = [2, 9]
-// console.log(array);
-
 function removeBuilding(player, buildingName){
     index = player.buildings.indexOf(buildingName);
     if(index > -1){
