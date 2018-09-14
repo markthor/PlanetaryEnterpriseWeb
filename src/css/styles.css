@@ -9,6 +9,10 @@ p {
     font-size: 34px;
 }
 
+.center {
+    margin: 0 auto;
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -111,6 +115,25 @@ p {
 
 .box-item-player-header .debt {
     color: red;
+}
+
+.box-item-player-header .debt .center {
+    display: inline-flex;
+}
+
+.box-item-player-header .debt .center div {
+    display: inline-block;
+}
+
+
+.box-item-player-header .debt img {
+    height: 24px;
+    padding: 8px;
+    display: inline-block;
+}
+
+.box-item-player-header .debt img.active {
+    background: rgba(0,0,0,0.3);
 }
 
 

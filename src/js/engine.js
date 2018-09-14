@@ -507,7 +507,44 @@ function registerMarketClickListeners() {
 }
 
 function registerPlayerClickListeners() {
+    $(".box-item--player-red .box-item-player-header .debt img").click(function() {
+        toggleDebt(playerRed)
+        if ($(this).hasClass("active")) {
+            $(this).removeClass("active");
+        } else {
+            $(this).addClass("active");
+        }
+        renderUI();
+    });
+    $(".box-item--player-blue .box-item-player-header .debt img").click(function() {
+        toggleDebt(playerBlue)
+        if ($(this).hasClass("active")) {
+            $(this).removeClass("active");
+        } else {
+            $(this).addClass("active");
+        }
+        renderUI();
+    });
 
+    $(".box-item--player-green .box-item-player-header .debt img").click(function() {
+        toggleDebt(playerGreen)
+        if ($(this).hasClass("active")) {
+            $(this).removeClass("active");
+        } else {
+            $(this).addClass("active");
+        }
+        renderUI();
+    });
+
+    $(".box-item--player-yellow .box-item-player-header .debt img").click(function() {
+        toggleDebt(playerYellow)
+        if ($(this).hasClass("active")) {
+            $(this).removeClass("active");
+        } else {
+            $(this).addClass("active");
+        }
+        renderUI();
+    });
 }
 
 function renderDemand() {
@@ -591,10 +628,10 @@ function renderPlayerDebt() {
         return debt + "$";
     }
 
-    var $debt_red = $(".box-item--player-red .debt");
-    var $debt_blue = $(".box-item--player-blue .debt");
-    var $debt_green = $(".box-item--player-green .debt");
-    var $debt_yellow = $(".box-item--player-yellow .debt");
+    var $debt_red = $(".box-item--player-red .debt .center div");
+    var $debt_blue = $(".box-item--player-blue .debt .center div");
+    var $debt_green = $(".box-item--player-green .debt .center div");
+    var $debt_yellow = $(".box-item--player-yellow .debt .center div");
 
     $debt_red.text(debtText(playerRed.debt));
     $debt_blue.text(debtText(playerBlue.debt));
