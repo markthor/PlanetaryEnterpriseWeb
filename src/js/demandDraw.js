@@ -1,9 +1,3 @@
-deck = initializeDemandDeck()
-
-for(i = 0; i < 50; i++) {
-    print(getDemand(deck))
-}
-
 function initializeDemandDeck() {
     deck = new Object();
     deck.steel = 3;
