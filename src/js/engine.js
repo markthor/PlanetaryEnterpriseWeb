@@ -442,6 +442,72 @@ function test(){
 // UI CODE BELOW
 //
 
+function registerMarketClickListeners() {
+    // Power
+    $( ".box-item--power .box-item-buttons .plus" ).click(function() {
+        adjustSupply(power, 1);
+        renderUI();
+    });
+    $( ".box-item--power .box-item-buttons .minus" ).click(function() {
+        adjustSupply(power, -1);
+        renderUI();
+    });
+
+    // Iron
+    $( ".box-item--iron .box-item-buttons .plus" ).click(function() {
+        adjustSupply(iron, 1);
+        renderUI();
+    });
+    $( ".box-item--iron .box-item-buttons .minus" ).click(function() {
+        adjustSupply(iron, -1);
+        renderUI();
+    });
+
+    // Aluminium
+    $( ".box-item--aluminium .box-item-buttons .plus" ).click(function() {
+        adjustSupply(aluminium, 1);
+        renderUI();
+    });
+    $( ".box-item--aluminium .box-item-buttons .minus" ).click(function() {
+        adjustSupply(aluminium, -1);
+        renderUI();
+    });
+
+    // Carbon
+    $( ".box-item--carbon .box-item-buttons .plus" ).click(function() {
+        adjustSupply(carbon, 1);
+        renderUI();
+    });
+    $( ".box-item--carbon .box-item-buttons .minus" ).click(function() {
+        adjustSupply(carbon, -1);
+        renderUI();
+    });
+
+    // Steel
+    $( ".box-item--steel .box-item-buttons .plus" ).click(function() {
+        adjustSupply(steel, 1);
+        renderUI();
+    });
+    $( ".box-item--steel .box-item-buttons .minus" ).click(function() {
+        adjustSupply(steel, -1);
+        renderUI();
+    });
+
+    // Lithium
+    $( ".box-item--lithium .box-item-buttons .plus" ).click(function() {
+        adjustSupply(lithium, 1);
+        renderUI();
+    });
+    $( ".box-item--lithium .box-item-buttons .minus" ).click(function() {
+        adjustSupply(lithium, -1);
+        renderUI();
+    });
+}
+
+function registerPlayerClickListeners() {
+
+}
+
 function renderDemand() {
     var demandText = function(demand) {
         return "Demand: " + demand;
@@ -501,15 +567,52 @@ function renderSupply() {
     $supply_lithium.text(supplyText(lithium.supply));
 
 }
+
+function renderPlayerIncome() {
+    var incomeText = function(income) {
+        return income + "$";
+    }
+
+    var $income_red = $(".box-item--player-red .income");
+    var $income_blue = $(".box-item--player-blue .income");
+    var $income_green = $(".box-item--player-green .income");
+    var $income_yellow = $(".box-item--player-yellow .income");
+
+    $income_red.text(incomeText(getIncome(playerRed)));
+    $income_blue.text(incomeText(getIncome(playerBlue)));
+    $income_green.text(incomeText(getIncome(playerGreen)));
+    $income_yellow.text(incomeText(getIncome(playerYellow)));
+}
+
+function renderPlayerDebt() {
+    var debtText = function(debt) {
+        return debt + "$";
+    }
+
+    var $debt_red = $(".box-item--player-red .debt");
+    var $debt_blue = $(".box-item--player-blue .debt");
+    var $debt_green = $(".box-item--player-green .debt");
+    var $debt_yellow = $(".box-item--player-yellow .debt");
+
+    $debt_red.text(debtText(playerRed.debt));
+    $debt_blue.text(debtText(playerBlue.debt));
+    $debt_green.text(debtText(playerGreen.debt));
+    $debt_yellow.text(debtText(playerYellow.debt));
+}
+
 function renderUI() {
     renderDemand();
     renderPrice();
     renderSupply();
+    renderPlayerIncome();
+    renderPlayerDebt();
 }
 
 $(document).ready(function() {
     console.log("Initializing...");
     initialize();
+    registerMarketClickListeners();
+    registerPlayerClickListeners();
     renderUI();
     console.log(power.price);
 });
