@@ -311,7 +311,30 @@ function removeBuilding(player, buildingName){
 }
 
 function sortBuildings(player){
-    player.buildings.sort();
+    player.buildings.sort(function(a, b){
+        i = getSortOrder(a);
+        j = getSortOrder(b);
+
+        return i - j;
+    });
+}
+
+function getSortOrder(buildingName){
+    switch (buildingName) {
+        case "mineIron": return 1
+        case "mineAluminium": return 2
+        case "mineCarbon": return 3
+        case "furnace": return 4
+        case "lab": return 5
+        case "fossilPowerPlant": return 6
+        case "geothermalPlant": return 7
+        case "windTurbine": return 8
+        case "supplyConnector": return 9
+        case "constructionSite": return 10
+        default:
+            console.error("Illegal argument exception. name: " + buildingName);
+            break;
+    }
 }
 
 function getDemand() {
@@ -490,6 +513,17 @@ function initialize(){
     initializeResources();
     initializeDemandDeck();
     initializePlayers();
+
+    addBuilding(playerRed, "mineIron");
+    addBuilding(playerRed, "mineCarbon");
+    addBuilding(playerRed, "mineAluminium");
+    addBuilding(playerRed, "furnace");
+    addBuilding(playerRed, "windTurbine");
+    addBuilding(playerRed, "geothermalPlant");
+    addBuilding(playerRed, "fossilPowerPlant");
+    addBuilding(playerRed, "supplyConnector");
+    addBuilding(playerRed, "constructionSite");
+
 }
 
 //
