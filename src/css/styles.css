@@ -41,12 +41,13 @@ p {
 .box-item-demand > h2 {
     font-family: dragon, calibri;
     font-size: 42px;
-    margin-top: 12px;
-    margin-bottom: 20px;
+    margin-top: 4px;
+    margin-bottom: 6px;
 }
 
 .box-item-demand > p {
-    margin-top: 14px;
+    margin-top: 6px;
+    margin-bottom: 6px;
 }
 
 .box-item-price {
@@ -70,6 +71,11 @@ p {
 
 .box-item-supply {
     flex: 0 1 auto;
+}
+
+.box-item-supply p {
+    margin-top: 4px;
+    margin-bottom: 10px;
 }
 
 .box-item-buttons {
@@ -138,6 +144,37 @@ p {
 
 .box-item-player-header .debt img:not(active) {
     filter: opacity(40%);
+}
+
+.box-item-player-content {
+    flex: 1 1 auto;
+    height: 100%;
+}
+
+.box-item-player-content-inventory {
+    height: 40%;
+}
+
+.box-item-player-content-buildings {
+    height: 60%;
+    box-shadow: inset 0px 5px 10px -5px #333333;
+}
+
+.building-column {
+    height: 100%;
+    width: 22%;
+    display: inline-block;
+}
+
+.building-row {
+    height: 33%;
+    width: 100%;
+}
+
+.building-row img {
+    height: 80%;
+    width: 80%;
+    vertical-align: middle;
 }
 
 /*.box-item-buttons .plus {
@@ -223,11 +260,11 @@ p {
 .box-header > h1 {
     margin: 0;
     color: dimgrey;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
     font-weight: bold;
     font-family: dragon, calibri;
-    font-size: 38px;
+    font-size: 30px;
 }
 
 .box-content {
