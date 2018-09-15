@@ -513,17 +513,6 @@ function initialize(){
     initializeResources();
     initializeDemandDeck();
     initializePlayers();
-
-    addBuilding(playerRed, "mineIron");
-    addBuilding(playerRed, "mineCarbon");
-    addBuilding(playerRed, "mineAluminium");
-    addBuilding(playerRed, "furnace");
-    addBuilding(playerRed, "windTurbine");
-    addBuilding(playerRed, "geothermalPlant");
-    addBuilding(playerRed, "fossilPowerPlant");
-    addBuilding(playerRed, "supplyConnector");
-    addBuilding(playerRed, "constructionSite");
-
 }
 
 //
