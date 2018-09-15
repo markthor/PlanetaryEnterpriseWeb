@@ -92,6 +92,16 @@ function toggleDenseConnector(player){
     }
 }
 
+function toggleMarketManipulator(player){
+    if(player.marketManipulator){
+        player.marketManipulator = false;
+        removeBuilding(player, "marketManipulator");
+    } else {
+        player.marketManipulator = true;
+        addBuilding(player, "marketManipulator");
+    }
+}
+
 function modifyBuilding(player, buildingName, add){
     multiplier = -1;
     if(!add) multiplier = 1;
@@ -124,6 +134,9 @@ function modifyBuilding(player, buildingName, add){
             case "denseConnector":
                 adjustSupply(steel, 1 * multiplier)
                 break;
+            case "marketManipulator":
+                adjustSupply(lithium, 1 * multiplier);
+                break;
             default:
                 console.error("Illegal argument exception. buildingName: " + buildingName);
                 break;
@@ -155,7 +168,10 @@ function modifyBuilding(player, buildingName, add){
                 adjustSupply(lithium, 1 * multiplier); adjustSupply(carbon, 3 * multiplier);
                 break;
             case "denseConnector":
-                adjustSupply(steel, 1 * multiplier)
+                adjustSupply(steel, 1 * multiplier);
+                break;
+            case "marketManipulator":
+                adjustSupply(lithium, 1 * multiplier);
                 break;
             default:
                 console.error("Illegal argument exception. buildingName: " + buildingName);
@@ -191,6 +207,9 @@ function getBuildingPrice(player, buildingName){
             case "denseConnector":
                 return getPrice(steel)
                 break;
+            case "marketManipulator":
+                return getPrice(lithium)
+                break;
             default:
                 exception ="Illegal argument exception. buildingName: " + buildingName;
                 console.error(exception);
@@ -224,6 +243,9 @@ function getBuildingPrice(player, buildingName){
                 return getPrice(lithium) + getPrice(carbon, 3);
             case "denseConnector":
                 return getPrice(steel)
+                break;
+            case "marketManipulator":
+                return getPrice(lithium)
                 break;
             default:
                 exception = "Illegal argument exception. buildingName: " + buildingName;
@@ -262,7 +284,8 @@ function player(color){
         accumulateDebt: false,
         buildings: [],
         carbonFabrication: false,
-        denseConnector: false
+        denseConnector: false,
+        marketManipulator: false
     };
 }
 
@@ -273,6 +296,7 @@ function addDebt(player, amount){
 function addBuilding(player, buildingName){
     player.buildings.push(buildingName);
     modifyBuilding(player, buildingName, true);
+    sortBuildings(player);
 }
 
 function removeBuilding(player, buildingName){
@@ -280,8 +304,36 @@ function removeBuilding(player, buildingName){
     if(index > -1){
         player.buildings.splice(index, 1);
         modifyBuilding(player, buildingName, false);
+        sortBuildings(player);
     } else {
         console.error("Invalid argument exception. player: " + player + ", buildingName: " + buildingName);
+    }
+}
+
+function sortBuildings(player){
+    player.buildings.sort(function(a, b){
+        i = getSortOrder(a);
+        j = getSortOrder(b);
+
+        return i - j;
+    });
+}
+
+function getSortOrder(buildingName){
+    switch (buildingName) {
+        case "mineIron": return 1
+        case "mineAluminium": return 2
+        case "mineCarbon": return 3
+        case "furnace": return 4
+        case "lab": return 5
+        case "fossilPowerPlant": return 6
+        case "geothermalPlant": return 7
+        case "windTurbine": return 8
+        case "supplyConnector": return 9
+        case "constructionSite": return 10
+        default:
+            console.error("Illegal argument exception. name: " + buildingName);
+            break;
     }
 }
 
