@@ -296,6 +296,7 @@ function addDebt(player, amount){
 function addBuilding(player, buildingName){
     player.buildings.push(buildingName);
     modifyBuilding(player, buildingName, true);
+    sortBuildings(player);
 }
 
 function removeBuilding(player, buildingName){
@@ -303,9 +304,14 @@ function removeBuilding(player, buildingName){
     if(index > -1){
         player.buildings.splice(index, 1);
         modifyBuilding(player, buildingName, false);
+        sortBuildings(player);
     } else {
         console.error("Invalid argument exception. player: " + player + ", buildingName: " + buildingName);
     }
+}
+
+function sortBuildings(player){
+    player.buildings.sort();
 }
 
 function getDemand() {
