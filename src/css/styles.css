@@ -90,7 +90,7 @@ p {
 .box-item-buttons > div {
     display: inline-block;
     width: 50%;
-    box-shadow: inset 0 0 2px #333333;
+    /*box-shadow: inset 0 0 2px #333333;*/
     padding: 5px 0px;
     user-select: none;
 }
@@ -155,26 +155,28 @@ p {
 .box-item-player-content-inventory {
     flex: 1 1 0;
     display: flex;
-    /*height: 40%;*/
 }
 
 .box-item-player-content-buildings {
-    /*height: 60%;*/
-    /* flex: 0 1 auto; */
     flex: 1 1 0;
     display: flex;
-    box-shadow: inset 0px 5px 10px -5px #333333;
+    box-shadow: inset 0px 5px 1px -5px #333333;
 }
 
 .building-column {
-    /*height: 100%;
-    width: 33%;
-    float: left;
-    padding: 6px 0;*/
     display: flex;
     padding: 6px 0;
     flex: 1 1 0;
     flex-direction: column;
+    box-shadow: inset 5px 0 1px -5px #333333, inset -5px 0 1px -5px #333333;
+}
+
+.building-column:first-child {
+    box-shadow: inset -5px 0 1px -5px #333333;
+}
+
+.building-column:last-child {
+    box-shadow: inset 5px 0 1px -5px #333333;
 }
 
 .building-row {
@@ -200,14 +202,31 @@ p {
     vertical-align: middle;
 }
 
-/*.box-item-buttons .plus {
-    background-color: #2ECC40;
+/* Box item content boxes END  */
+
+.shadow-top {
+    box-shadow: inset 0px 5px 1px -5px #333333;
 }
 
-.box-item-buttons .minus {
-    background-color: #FF4136;
-}*/
-/* Box item content boxes END */
+.shadow-top-right {
+    box-shadow: inset -5px 0 1px -5px #333333, inset 0px 5px 1px -5px #333333;
+}
+
+.shadow-top-left {
+    box-shadow: inset 5px 0 1px -5px #333333, inset 0px 5px 1px -5px #333333;
+}
+
+.shadow-right {
+    box-shadow: inset -5px 0 1px -5px #333333;
+}
+
+.shadow-left {
+    box-shadow: inset 5px 0 1px -5px #333333;
+}
+
+.shadow-bottom {
+    box-shadow: inset 0px -5px 1px -5px #333333;
+}
 
 .img-container {
     flex: 1 1 0;
