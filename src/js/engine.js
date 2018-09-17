@@ -22,7 +22,19 @@ var EBuilding = {
     GeothermalPlant: "geothermalPlant",
     FossilPowerPlant: "fossilPowerPlant",
     SupplyConnector: "supplyConnector",
-    ConstructionSite: "constructionSite"
+    ConstructionSite: "constructionSite",
+    properties: {
+        "mineIron": { sortPriority: 0 },
+        "mineCarbon": { sortPriority: 1 },
+        "mineAluminium": { sortPriority: 2 },
+        "furnace": { sortPriority: 3 },
+        "lab": { sortPriority: 4 },
+        "windTurbine": { sortPriority: 5 },
+        "geothermalPlant": { sortPriority: 6 },
+        "fossilPowerPlant": { sortPriority: 7 },
+        "supplyConnector": { sortPriority: 8 },
+        "constructionSite": { sortPriority: 9 }
+    }
 }
 
 var ETechnology = {
@@ -316,29 +328,11 @@ function removeBuilding(player, buildingName){
 
 function sortBuildings(player){
     player.buildings.sort(function(a, b){
-        i = getSortOrder(a);
-        j = getSortOrder(b);
+        i = EBuilding.properties[a].sortPriority;
+        j = EBuilding.properties[b].sortPriority;
 
         return i - j;
     });
-}
-
-function getSortOrder(buildingName){
-    switch (buildingName) {
-        case EBuilding.MineIron: return 1
-        case EBuilding.MineAluminium: return 2
-        case EBuilding.MineCarbon: return 3
-        case EBuilding.Furnace: return 4
-        case EBuilding.Lab: return 5
-        case EBuilding.FossilPowerPlant: return 6
-        case EBuilding.GeothermalPlant: return 7
-        case EBuilding.WindTurbine: return 8
-        case EBuilding.SupplyConnector: return 9
-        case EBuilding.ConstructionSite: return 10
-        default:
-            console.error("Illegal argument exception. name: " + buildingName);
-            break;
-    }
 }
 
 function getDemand() {
