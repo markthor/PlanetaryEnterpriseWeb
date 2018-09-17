@@ -12,6 +12,25 @@ var playerGreen;
 var playerBlue;
 var playerYellow;
 
+var EBuilding = {
+    MineIron: "mineIron",
+    MineCarbon: "mineCarbon",
+    MineAluminium: "mineAluminium",
+    Furnace: "furnace",
+    Lab: "lab",
+    WindTurbine: "windTurbine",
+    GeothermalPlant: "geothermalPlant",
+    FossilPowerPlant: "fossilPowerPlant",
+    SupplyConnector: "supplyConnector",
+    ConstructionSite: "constructionSite"
+}
+
+var ETechnology = {
+    MarketManipulator: "marketManipulator",
+    CarbonFabrication: "carbonFabrication",
+    DenseConnector: "denseConnector"
+}
+
 function resource(name, price, supply) {
     return {
         name: name,
@@ -58,14 +77,14 @@ function adjustSupply(resource, amount) {
 
 function produceForBuilding(buildingName){
     switch (buildingName) {
-        case "mineIron": adjustSupply(iron, 1); adjustSupply(power, -1); break;
-        case "mineAluminium": adjustSupply(aluminium, 1); adjustSupply(power, -1); break;
-        case "mineCarbon": adjustSupply(carbon, 1); adjustSupply(power, -1); break;
-        case "furnace":  adjustSupply(steel, 1); adjustSupply(power, -1); adjustSupply(iron, -1); break;
-        case "lab":  adjustSupply(lithium, 1); adjustSupply(aluminium, -1); adjustSupply(carbon, -1); break;
-        case "fossilPowerPlant":  adjustSupply(power, 3); adjustSupply(carbon, -1); break;
-        case "geothermalPlant":  adjustSupply(power, 2); break;
-        case "windTurbine":  adjustSupply(power, 1); break;
+        case EBuilding.MineIron: adjustSupply(iron, 1); adjustSupply(power, -1); break;
+        case EBuilding.MineAluminium: adjustSupply(aluminium, 1); adjustSupply(power, -1); break;
+        case EBuilding.MineCarbon: adjustSupply(carbon, 1); adjustSupply(power, -1); break;
+        case EBuilding.Furnace:  adjustSupply(steel, 1); adjustSupply(power, -1); adjustSupply(iron, -1); break;
+        case EBuilding.Lab:  adjustSupply(lithium, 1); adjustSupply(aluminium, -1); adjustSupply(carbon, -1); break;
+        case EBuilding.FossilPowerPlant:  adjustSupply(power, 3); adjustSupply(carbon, -1); break;
+        case EBuilding.GeothermalPlant:  adjustSupply(power, 2); break;
+        case EBuilding.WindTurbine:  adjustSupply(power, 1); break;
         default:
             console.error("Illegal argument exception. name: " + name);
             break;
@@ -75,30 +94,49 @@ function produceForBuilding(buildingName){
 function toggleCarbonFabrication(player){
     if(player.carbonFabrication){
         player.carbonFabrication = false;
-        removeBuilding(player, "carbonFabrication");
+        modifyTechnology(ETechnology.CarbonFabrication, false);
     } else {
         player.carbonFabrication = true;
-        addBuilding(player, "carbonFabrication");
+        modifyTechnology(ETechnology.CarbonFabrication, true);
     }
 }
 
 function toggleDenseConnector(player){
     if(player.denseConnector){
         player.denseConnector = false;
-        removeBuilding(player, "denseConnector");
+        modifyTechnology(ETechnology.DenseConnector, false);
     } else {
         player.denseConnector = true;
-        addBuilding(player, "denseConnector");
+        modifyTechnology(ETechnology.DenseConnector, true);
     }
 }
 
 function toggleMarketManipulator(player){
     if(player.marketManipulator){
         player.marketManipulator = false;
-        removeBuilding(player, "marketManipulator");
+        modifyTechnology(ETechnology.MarketManipulator, false);
     } else {
         player.marketManipulator = true;
-        addBuilding(player, "marketManipulator");
+        modifyTechnology(ETechnology.MarketManipulator, true);
+    }
+}
+
+function modifyTechnology(technologyName, add){
+    multiplier = -1;
+    if(!add) multiplier = 1;
+    switch (technologyName) {
+        case ETechnology.CarbonFabrication:
+            adjustSupply(lithium, 1 * multiplier); adjustSupply(carbon, 3 * multiplier);
+            break;
+        case ETechnology.DenseConnector:
+            adjustSupply(steel, 1 * multiplier)
+            break;
+        case ETechnology.MarketManipulator:
+            adjustSupply(lithium, 1 * multiplier);
+            break;
+        default:                 
+            console.error("Illegal argument exception. technologyName: " + technologyName);
+            break;
     }
 }
 
@@ -107,35 +145,26 @@ function modifyBuilding(player, buildingName, add){
     if(!add) multiplier = 1;
     if(player.carbonFabrication){
         switch (buildingName) {
-            case "mineIron": 
-            case "mineAluminium": 
-            case "mineCarbon": 
-            case "furnace": 
-            case "lab": 
-            case "fossilPowerPlant": 
+            case EBuilding.MineIron: 
+            case EBuilding.MineAluminium: 
+            case EBuilding.MineCarbon: 
+            case EBuilding.Furnace: 
+            case EBuilding.Lab: 
+            case EBuilding.FossilPowerPlant: 
                 adjustSupply(carbon, 3 * multiplier);
                 break;
-            case "geothermalPlant": 
+            case EBuilding.GeothermalPlant: 
                 adjustSupply(carbon, 6 * multiplier);
                 break;
-            case "windTurbine": 
+            case EBuilding.WindTurbine: 
                 adjustSupply(lithium, 1 * multiplier); adjustSupply(aluminium, 1 * multiplier);
                 break;
-            case "supplyConnector":
+            case EBuilding.SupplyConnector:
                 if(player.denseConnector) adjustSupply(iron, 1 * multiplier)
                 else adjustSupply(aluminium, 1 * multiplier);
                 break;
-            case "constructionSite":
+            case EBuilding.ConstructionSite:
                 adjustSupply(carbon, 2 * multiplier);
-                break;
-            case "carbonFabrication":
-                adjustSupply(lithium, 1 * multiplier); adjustSupply(carbon, 3 * multiplier);
-                break;
-            case "denseConnector":
-                adjustSupply(steel, 1 * multiplier)
-                break;
-            case "marketManipulator":
-                adjustSupply(lithium, 1 * multiplier);
                 break;
             default:
                 console.error("Illegal argument exception. buildingName: " + buildingName);
@@ -143,35 +172,26 @@ function modifyBuilding(player, buildingName, add){
         }
     } else {
         switch (buildingName) {
-            case "mineIron": 
-            case "mineAluminium": 
-            case "mineCarbon": 
-            case "furnace": 
-            case "lab": 
-            case "fossilPowerPlant": 
+            case EBuilding.MineIron: 
+            case EBuilding.MineAluminium: 
+            case EBuilding.MineCarbon: 
+            case EBuilding.Furnace: 
+            case EBuilding.Lab: 
+            case EBuilding.FossilPowerPlant: 
                 adjustSupply(steel, 2 * multiplier);
                 break;
-            case "geothermalPlant": 
+            case EBuilding.GeothermalPlant: 
                 adjustSupply(steel, 4 * multiplier);
                 break;
-            case "windTurbine": 
+            case EBuilding.WindTurbine: 
                 adjustSupply(lithium, 1 * multiplier); adjustSupply(aluminium, 1 * multiplier);
                 break;
-            case "supplyConnector":
+            case EBuilding.SupplyConnector:
                 if(player.denseConnector) adjustSupply(iron, 1 * multiplier)
                 else adjustSupply(aluminium, 1 * multiplier);
                 break;
-            case "constructionSite":
+            case EBuilding.ConstructionSite:
                 adjustSupply(steel, 1 * multiplier);
-                break;
-            case "carbonFabrication":
-                adjustSupply(lithium, 1 * multiplier); adjustSupply(carbon, 3 * multiplier);
-                break;
-            case "denseConnector":
-                adjustSupply(steel, 1 * multiplier);
-                break;
-            case "marketManipulator":
-                adjustSupply(lithium, 1 * multiplier);
                 break;
             default:
                 console.error("Illegal argument exception. buildingName: " + buildingName);
@@ -183,75 +203,59 @@ function modifyBuilding(player, buildingName, add){
 function getBuildingPrice(player, buildingName){
     if(player.carbonFabrication){
         switch (buildingName) {
-            case "mineIron": 
-            case "mineAluminium": 
-            case "mineCarbon": 
-            case "furnace": 
-            case "lab": 
-            case "fossilPowerPlant": 
+            case EBuilding.MineIron: 
+            case EBuilding.MineAluminium: 
+            case EBuilding.MineCarbon: 
+            case EBuilding.Furnace: 
+            case EBuilding.Lab: 
+            case EBuilding.FossilPowerPlant: 
                 return getPrice(carbon, 3);
-                break;
-            case "geothermalPlant": 
+            case EBuilding.GeothermalPlant: 
                 return getPrice(carbon, 6);
-                break;
-            case "windTurbine": 
+            case EBuilding.WindTurbine: 
                 return getPrice(lithium) + getPrice(aluminium);
-                break;
-            case "supplyConnector":
+            case EBuilding.SupplyConnector:
                 if(player.denseConnector) return getPrice(iron);
                 else return getPrice(aluminium);
-                break;
-            case "constructionSite":
+            case EBuilding.ConstructionSite:
                 return getPrice(carbon, 2);
-                break;
-            case "denseConnector":
+            case ETechnology.DenseConnector:
                 return getPrice(steel)
-                break;
-            case "marketManipulator":
+            case ETechnology.MarketManipulator:
                 return getPrice(lithium)
-                break;
             default:
                 exception ="Illegal argument exception. buildingName: " + buildingName;
                 console.error(exception);
                 return exception;
-                break;
         }
     } else {
         switch (buildingName) {
-            case "mineIron": 
-            case "mineAluminium": 
-            case "mineCarbon": 
-            case "furnace": 
-            case "lab": 
-            case "fossilPowerPlant": 
+            case EBuilding.MineIron: 
+            case EBuilding.MineAluminium: 
+            case EBuilding.MineCarbon: 
+            case EBuilding.Furnace: 
+            case EBuilding.Lab: 
+            case EBuilding.FossilPowerPlant: 
                 return getPrice(steel, 2);
-                break;
-            case "geothermalPlant": 
+            case EBuilding.GeothermalPlant: 
                 return getPrice(steel, 4);
-                break;
-            case "windTurbine": 
+            case EBuilding.WindTurbine: 
                 return getPrice(lithium) + getPrice(aluminium);
-                break;
-            case "supplyConnector":
+            case EBuilding.SupplyConnector:
                 if(player.denseConnector) return getPrice(iron);
                 else return getPrice(aluminium);
-                break;
-            case "constructionSite":
+            case EBuilding.ConstructionSite:
                 return getPrice(steel);
-                break;
-            case "carbonFabrication":
+            case ETechnology.CarbonFabrication:
                 return getPrice(lithium) + getPrice(carbon, 3);
-            case "denseConnector":
+            case ETechnology.DenseConnector:
                 return getPrice(steel)
-                break;
-            case "marketManipulator":
+            case ETechnology.MarketManipulator:
                 return getPrice(lithium)
-                break;
             default:
                 exception = "Illegal argument exception. buildingName: " + buildingName;
                 console.error(exception);
                 return exception;
-                break;
         }
     }
 }
@@ -259,16 +263,16 @@ function getBuildingPrice(player, buildingName){
 function getBuildingRevenue(buildingName, market){
     revenue = 0;
     switch (buildingName) {
-        case "mineIron": revenue = getPrice(market.iron) - getPrice(market.power); break;
-        case "mineAluminium": revenue = getPrice(market.aluminium) - getPrice(market.power); break;
-        case "mineCarbon": revenue = getPrice(market.carbon) - getPrice(market.power); break;
-        case "furnace": revenue = getPrice(market.steel) - getPrice(market.power) - getPrice(iron); break;
-        case "lab": revenue = getPrice(market.lithium) - getPrice(market.carbon) - getPrice(market.aluminium); break;
-        case "fossilPowerPlant": revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
-        case "geothermalPlant": revenue = getPrice(market.power) * 2; break;
-        case "windTurbine": revenue = getPrice(market.power); break;
-        case "supplyConnector": revenue = 0; break;
-        case "constructionSite": revenue = 0; break;
+        case EBuilding.MineIron: revenue = getPrice(market.iron) - getPrice(market.power); break;
+        case EBuilding.MineAluminium: revenue = getPrice(market.aluminium) - getPrice(market.power); break;
+        case EBuilding.MineCarbon: revenue = getPrice(market.carbon) - getPrice(market.power); break;
+        case EBuilding.Furnace: revenue = getPrice(market.steel) - getPrice(market.power) - getPrice(iron); break;
+        case EBuilding.Lab: revenue = getPrice(market.lithium) - getPrice(market.carbon) - getPrice(market.aluminium); break;
+        case EBuilding.FossilPowerPlant: revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
+        case EBuilding.GeothermalPlant: revenue = getPrice(market.power) * 2; break;
+        case EBuilding.WindTurbine: revenue = getPrice(market.power); break;
+        case EBuilding.SupplyConnector: revenue = 0; break;
+        case EBuilding.ConstructionSite: revenue = 0; break;
         default:
             console.error("Illegal argument exception. name: " + buildingName);
             break;
@@ -321,16 +325,16 @@ function sortBuildings(player){
 
 function getSortOrder(buildingName){
     switch (buildingName) {
-        case "mineIron": return 1
-        case "mineAluminium": return 2
-        case "mineCarbon": return 3
-        case "furnace": return 4
-        case "lab": return 5
-        case "fossilPowerPlant": return 6
-        case "geothermalPlant": return 7
-        case "windTurbine": return 8
-        case "supplyConnector": return 9
-        case "constructionSite": return 10
+        case EBuilding.MineIron: return 1
+        case EBuilding.MineAluminium: return 2
+        case EBuilding.MineCarbon: return 3
+        case EBuilding.Furnace: return 4
+        case EBuilding.Lab: return 5
+        case EBuilding.FossilPowerPlant: return 6
+        case EBuilding.GeothermalPlant: return 7
+        case EBuilding.WindTurbine: return 8
+        case EBuilding.SupplyConnector: return 9
+        case EBuilding.ConstructionSite: return 10
         default:
             console.error("Illegal argument exception. name: " + buildingName);
             break;
