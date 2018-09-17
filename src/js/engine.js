@@ -24,16 +24,16 @@ var EBuilding = {
     SupplyConnector: "supplyConnector",
     ConstructionSite: "constructionSite",
     properties: {
-        "mineIron": { sortPriority: 0 },
-        "mineCarbon": { sortPriority: 1 },
-        "mineAluminium": { sortPriority: 2 },
-        "furnace": { sortPriority: 3 },
-        "lab": { sortPriority: 4 },
-        "windTurbine": { sortPriority: 5 },
-        "geothermalPlant": { sortPriority: 6 },
-        "fossilPowerPlant": { sortPriority: 7 },
-        "supplyConnector": { sortPriority: 8 },
-        "constructionSite": { sortPriority: 9 }
+        "mineIron": { produce: "iron", sortPriority: 0 },
+        "mineCarbon": { produce: "carbon", sortPriority: 1 },
+        "mineAluminium": { produce: "aluminum", sortPriority: 2 },
+        "furnace": { produce: "steel", sortPriority: 3 },
+        "lab": { produce: "lithium", sortPriority: 4 },
+        "windTurbine": { produce: "power", sortPriority: 5 },
+        "geothermalPlant": { produce: ["power", "power"], sortPriority: 6 },
+        "fossilPowerPlant": { produce: ["power", "power", "power"], sortPriority: 7 },
+        "supplyConnector": { produce: "", sortPriority: 8 },
+        "constructionSite": { produce: "", sortPriority: 9 }
     }
 }
 
@@ -435,6 +435,17 @@ function getMarket(){
         steel: steel,
         lithium: lithium
     }
+}
+
+function getProducedResources(player){
+    resources = [];
+    player.buildings.forEach(function(building) {
+        revenue = getBuildingRevenue(building, getMarket());
+        if(revenue > 0){
+            resources = resources.concat(EBuilding.properties[building].produce);
+        }
+    });
+    return resources;
 }
 
 function getIncome(player){
