@@ -630,7 +630,12 @@ function registerBuildingClickListeners() {
     $("[data-building]").click(function() {
         let $player_elem = $(this).parents("[data-player]");
         let player = getPlayer($player_elem.attr("data-player"));
-        addBuilding(player, $(this).attr("data-building"));
+
+        if ($(this).parents(".box-item-player-content-buildings").length) {
+            addBuilding(player, $(this).attr("data-building"));
+        } else {
+            removeBuilding(player, $(this).attr("data-building"));
+        }
         renderUI();
     });
 
@@ -742,27 +747,27 @@ function renderPlayerDebt() {
     $debt_yellow.text(debtText(playerYellow.debt));
 
     if (playerRed.accumulateDebt) {
-        $(".box-item--player-red .debt img").addClass("active"); 
+        $(".box-item--player-red .debt img").removeClass("disabled"); 
     } else {
-        $(".box-item--player-red .debt img").removeClass("active");
+        $(".box-item--player-red .debt img").addClass("disabled"); 
     }
 
     if (playerBlue.accumulateDebt) {
-        $(".box-item--player-blue .debt img").addClass("active"); 
+        $(".box-item--player-blue .debt img").removeClass("disabled"); 
     } else {
-        $(".box-item--player-blue .debt img").removeClass("active");
+        $(".box-item--player-blue .debt img").addClass("disabled"); 
     }
 
     if (playerGreen.accumulateDebt) {
-        $(".box-item--player-green .debt img").addClass("active"); 
+        $(".box-item--player-green .debt img").removeClass("disabled"); 
     } else {
-        $(".box-item--player-green .debt img").removeClass("active");
+        $(".box-item--player-green .debt img").addClass("disabled"); 
     }
 
     if (playerYellow.accumulateDebt) {
-        $(".box-item--player-yellow .debt img").addClass("active"); 
+        $(".box-item--player-yellow .debt img").removeClass("disabled"); 
     } else {
-        $(".box-item--player-yellow .debt img").removeClass("active");
+        $(".box-item--player-yellow .debt img").addClass("disabled"); 
     }
 }
 
@@ -770,26 +775,26 @@ function renderUpgrades() {
     let toggleUpgrades = function(playerName) {
         let player = getPlayer(playerName);
         if (player.carbonFabrication) {
-            $("[data-player='" + playerName + "'] [data-upgrade='carbonFabrication']").addClass("active");
+            $("[data-player='" + playerName + "'] [data-upgrade='carbonFabrication']").removeClass("disabled");
             $("[data-player='" + playerName + "'] [data-upgrade='carbonFabrication'] .building-price").addClass("hidden");
         } else {
-            $("[data-player='" + playerName + "'] [data-upgrade='carbonFabrication']").removeClass("active");
+            $("[data-player='" + playerName + "'] [data-upgrade='carbonFabrication']").addClass("disabled");
             $("[data-player='" + playerName + "'] [data-upgrade='carbonFabrication'] .building-price").removeClass("hidden");
         }
 
         if (player.denseConnector) {
-            $("[data-player='" + playerName + "'] [data-upgrade='denseConnector']").addClass("active");
+            $("[data-player='" + playerName + "'] [data-upgrade='denseConnector']").removeClass("disabled");
             $("[data-player='" + playerName + "'] [data-upgrade='denseConnector'] .building-price").addClass("hidden");
         } else {
-            $("[data-player='" + playerName + "'] [data-upgrade='denseConnector']").removeClass("active");
+            $("[data-player='" + playerName + "'] [data-upgrade='denseConnector']").addClass("disabled");
             $("[data-player='" + playerName + "'] [data-upgrade='denseConnector'] .building-price").removeClass("hidden");
         }
 
         if (player.marketManipulator) {
-            $("[data-player='" + playerName + "'] [data-upgrade='marketManipulator']").addClass("active");
+            $("[data-player='" + playerName + "'] [data-upgrade='marketManipulator']").removeClass("disabled");
             $("[data-player='" + playerName + "'] [data-upgrade='marketManipulator'] .building-price").addClass("hidden");
         } else {
-            $("[data-player='" + playerName + "'] [data-upgrade='marketManipulator']").removeClass("active");
+            $("[data-player='" + playerName + "'] [data-upgrade='marketManipulator']").addClass("disabled");
             $("[data-player='" + playerName + "'] [data-upgrade='marketManipulator'] .building-price").removeClass("hidden");
         }
     }
@@ -799,13 +804,27 @@ function renderUpgrades() {
     toggleUpgrades("yellow");
 }
 
-function renderBuildingPrices() {
+function renderBuildings() {
     $("[data-building]").each(function() {
         let $player_elem = $(this).parents("[data-player]");
         let player = getPlayer($player_elem.attr("data-player"));
         let buildingName = $(this).attr("data-building");
         let buildingPrice = getBuildingPrice(player, buildingName);
+
         $(this).children(".building-price").text(buildingPrice + "$");
+        $(this).children(".building-count").each(function(){
+            let filter = function(name) {
+                return name === buildingName;
+            }
+            let buildingCount = player.buildings.filter(filter).length;
+            $(this).text(buildingCount);
+
+            if (buildingCount > 0) {
+                $(this).parents(".building-row").removeClass("disabled");
+            } else {
+                $(this).parents(".building-row").addClass("disabled");
+            }
+        });
     });
 }
 
@@ -826,7 +845,7 @@ function renderUI() {
     renderPlayerIncome();
     renderPlayerDebt();
     renderUpgrades();
-    renderBuildingPrices();
+    renderBuildings();
     renderUpgradePrices();
 }
 

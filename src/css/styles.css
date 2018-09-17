@@ -9,6 +9,10 @@ p {
   font-size: 34px;
 }
 
+.disabled {
+  filter: opacity(30%);
+}
+
 .hidden {
   display: none;
 }
@@ -107,7 +111,7 @@ p {
   flex: 0 1 auto;
   background: rgba(255, 255, 255, 0.7);
   /*box-shadow: inset 0 0 2px $color-shadow;*/
-  padding: 10px 0;
+  padding: 8px 0;
 }
 
 .box-item-player-header > div {
@@ -137,25 +141,9 @@ p {
 }
 
 .box-item-player-header .debt img {
-  height: 24px;
-  padding: 8px;
+  height: 30px;
+  padding: 5px 0 5px 10px;
   display: inline-block;
-}
-
-.box-item-player-header .debt img.active {
-  filter: opacity(100%);
-}
-
-.box-item-player-header .debt img:not(active) {
-  filter: opacity(40%);
-}
-
-[data-upgrade].active {
-  filter: opacity(100%);
-}
-
-[data-upgrade]:not(active) {
-  filter: opacity(40%);
 }
 
 .box-item-player-content {
@@ -192,24 +180,58 @@ p {
   box-shadow: inset 5px 0 1px -5px #333333;
 }
 
+.building-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+.building-container img {
+  margin: 0 3px;
+  height: 40px;
+  width: 40px;
+}
+
 .building-row {
-  height: 33%;
-  width: 100%;
-  padding: 6px 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 25%;
+  width: 100%;
+  padding: 6px 0;
 }
-
 .building-row img {
   height: 60px;
   width: 60px;
   vertical-align: middle;
 }
+.building-row--small {
+  height: 50%;
+  padding: 3px 0;
+}
+.building-row--small img {
+  height: 34px;
+  width: 34px;
+}
 
 .building-price {
   font-family: dragon;
-  font-size: 40px;
+  font-size: 42px;
+  font-weight: bold;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+
+.building-multiplier {
+  font-family: dragon;
+  font-size: 26px;
+  font-weight: bold;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+.building-count {
+  font-family: dragon;
+  font-size: 32px;
   font-weight: bold;
   vertical-align: middle;
 }
