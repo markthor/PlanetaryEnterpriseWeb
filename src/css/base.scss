@@ -119,10 +119,12 @@ p {
 
 .box-item-player-header .income {
     color: $color-income;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .box-item-player-header .debt {
     color: $color-debt;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .box-item-player-header .debt .center {
@@ -145,6 +147,14 @@ p {
 }
 
 .box-item-player-header .debt img:not(active) {
+    filter: opacity(40%);
+}
+
+[data-upgrade].active {
+    filter: opacity(100%);
+}
+
+[data-upgrade]:not(active) {
     filter: opacity(40%);
 }
 
@@ -171,6 +181,7 @@ p {
     flex: 1 1 0;
     flex-direction: column;
     box-shadow: inset 5px 0 1px -5px $color-shadow, inset -5px 0 1px -5px $color-shadow;
+    user-select: none;
 }
 
 .building-column:first-child {

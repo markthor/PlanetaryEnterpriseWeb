@@ -626,16 +626,16 @@ function registerPlayerClickListeners() {
 
 function registerBuildingClickListeners() {
     $("[data-building]").click(function() {
-        $player_elem = $(this).parents("[data-player]");
-        var player = getPlayer($player_elem.attr("data-player"));
+        let $player_elem = $(this).parents("[data-player]");
+        let player = getPlayer($player_elem.attr("data-player"));
         addBuilding(player, $(this).attr("data-building"));
         renderUI();
     });
 
     $("[data-upgrade]").click(function() {
-        $player_elem = $(this).parents("[data-player]");
-        var player = getPlayer($player_elem.attr("data-player"));
-        var buildingName = $(this).attr("data-upgrade");
+        let $player_elem = $(this).parents("[data-player]");
+        let player = getPlayer($player_elem.attr("data-player"));
+        let buildingName = $(this).attr("data-upgrade");
         switch(buildingName) {
             case "marketManipulator": toggleMarketManipulator(player); break;
             case "carbonFabrication": toggleCarbonFabrication(player); break;
@@ -709,14 +709,14 @@ function renderSupply() {
 }
 
 function renderPlayerIncome() {
-    var incomeText = function(income) {
+    let incomeText = function(income) {
         return income + "$";
     }
 
-    var $income_red = $(".box-item--player-red .income");
-    var $income_blue = $(".box-item--player-blue .income");
-    var $income_green = $(".box-item--player-green .income");
-    var $income_yellow = $(".box-item--player-yellow .income");
+    let $income_red = $(".box-item--player-red .income");
+    let $income_blue = $(".box-item--player-blue .income");
+    let $income_green = $(".box-item--player-green .income");
+    let $income_yellow = $(".box-item--player-yellow .income");
 
     $income_red.text(incomeText(getIncome(playerRed)));
     $income_blue.text(incomeText(getIncome(playerBlue)));
@@ -725,14 +725,14 @@ function renderPlayerIncome() {
 }
 
 function renderPlayerDebt() {
-    var debtText = function(debt) {
+    let debtText = function(debt) {
         return debt + "$";
     }
 
-    var $debt_red = $(".box-item--player-red .debt .center div");
-    var $debt_blue = $(".box-item--player-blue .debt .center div");
-    var $debt_green = $(".box-item--player-green .debt .center div");
-    var $debt_yellow = $(".box-item--player-yellow .debt .center div");
+    let $debt_red = $(".box-item--player-red .debt .center div");
+    let $debt_blue = $(".box-item--player-blue .debt .center div");
+    let $debt_green = $(".box-item--player-green .debt .center div");
+    let $debt_yellow = $(".box-item--player-yellow .debt .center div");
 
     $debt_red.text(debtText(playerRed.debt));
     $debt_blue.text(debtText(playerBlue.debt));
@@ -765,7 +765,50 @@ function renderPlayerDebt() {
 }
 
 function renderUpgrades() {
+    let toggleUpgrades = function(playerName) {
+        let player = getPlayer(playerName);
+        if (player.carbonFabrication) {
+            $("[data-player='" + playerName + "'] [data-upgrade='carbonFabrication']").addClass("active");
+        } else {
+            $("[data-player='" + playerName + "'] [data-upgrade='carbonFabrication']").removeClass("active");
+        }
 
+        if (player.denseConnector) {
+            $("[data-player='" + playerName + "'] [data-upgrade='denseConnector']").addClass("active");
+        } else {
+            $("[data-player='" + playerName + "'] [data-upgrade='denseConnector']").removeClass("active");
+        }
+
+        if (player.marketManipulator) {
+            $("[data-player='" + playerName + "'] [data-upgrade='marketManipulator']").addClass("active");
+        } else {
+            $("[data-player='" + playerName + "'] [data-upgrade='marketManipulator']").removeClass("active");
+        }
+    }
+    toggleUpgrades("red");
+    toggleUpgrades("blue");
+    toggleUpgrades("green");
+    toggleUpgrades("yellow");
+}
+
+function renderBuildingPrices() {
+    $("[data-building]").each(function() {
+        let $player_elem = $(this).parents("[data-player]");
+        let player = getPlayer($player_elem.attr("data-player"));
+        let buildingName = $(this).attr("data-building");
+        let buildingPrice = getBuildingPrice(player, buildingName);
+        $(this).children(".building-price").text(buildingPrice + "$");
+    });
+}
+
+function renderUpgradePrices() {
+    $("[data-upgrade]").each(function() {
+        let $player_elem = $(this).parents("[data-player]");
+        let player = getPlayer($player_elem.attr("data-player"));
+        let buildingName = $(this).attr("data-upgrade");
+        let buildingPrice = getBuildingPrice(player, buildingName);
+        $(this).children(".building-price").text(buildingPrice + "$");
+    });
 }
 
 function renderUI() {
@@ -775,6 +818,8 @@ function renderUI() {
     renderPlayerIncome();
     renderPlayerDebt();
     renderUpgrades();
+    renderBuildingPrices();
+    renderUpgradePrices();
 }
 
 $(document).ready(function() {
