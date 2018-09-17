@@ -769,20 +769,26 @@ function renderUpgrades() {
         let player = getPlayer(playerName);
         if (player.carbonFabrication) {
             $("[data-player='" + playerName + "'] [data-upgrade='carbonFabrication']").addClass("active");
+            $("[data-player='" + playerName + "'] [data-upgrade='carbonFabrication'] .building-price").addClass("hidden");
         } else {
             $("[data-player='" + playerName + "'] [data-upgrade='carbonFabrication']").removeClass("active");
+            $("[data-player='" + playerName + "'] [data-upgrade='carbonFabrication'] .building-price").removeClass("hidden");
         }
 
         if (player.denseConnector) {
             $("[data-player='" + playerName + "'] [data-upgrade='denseConnector']").addClass("active");
+            $("[data-player='" + playerName + "'] [data-upgrade='denseConnector'] .building-price").addClass("hidden");
         } else {
             $("[data-player='" + playerName + "'] [data-upgrade='denseConnector']").removeClass("active");
+            $("[data-player='" + playerName + "'] [data-upgrade='denseConnector'] .building-price").removeClass("hidden");
         }
 
         if (player.marketManipulator) {
             $("[data-player='" + playerName + "'] [data-upgrade='marketManipulator']").addClass("active");
+            $("[data-player='" + playerName + "'] [data-upgrade='marketManipulator'] .building-price").addClass("hidden");
         } else {
             $("[data-player='" + playerName + "'] [data-upgrade='marketManipulator']").removeClass("active");
+            $("[data-player='" + playerName + "'] [data-upgrade='marketManipulator'] .building-price").removeClass("hidden");
         }
     }
     toggleUpgrades("red");

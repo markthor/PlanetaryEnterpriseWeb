@@ -9,6 +9,10 @@ p {
   font-size: 34px;
 }
 
+.hidden {
+  display: none;
+}
+
 .center {
   margin: 0 auto;
 }
