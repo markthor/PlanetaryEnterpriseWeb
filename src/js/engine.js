@@ -627,7 +627,7 @@ function registerBuildingClickListeners() {
         $player_elem = $(this).parents("[data-player]");
         var player = getPlayer($player_elem.attr("data-player"));
         var buildingName = $(this).attr("data-upgrade");
-        switch(building) {
+        switch(buildingName) {
             case "marketManipulator": toggleMarketManipulator(player); break;
             case "carbonFabrication": toggleCarbonFabrication(player); break;
             case "denseConnector": toggleDenseConnector(player); break;
@@ -755,12 +755,17 @@ function renderPlayerDebt() {
     }
 }
 
+function renderUpgrades() {
+
+}
+
 function renderUI() {
     renderDemand();
     renderPrice();
     renderSupply();
     renderPlayerIncome();
     renderPlayerDebt();
+    renderUpgrades();
 }
 
 $(document).ready(function() {
