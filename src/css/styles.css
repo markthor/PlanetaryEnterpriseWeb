@@ -158,14 +158,14 @@ p {
 }
 
 .box-item-player-content-buildings {
-    flex: 1 1 0;
+    flex: 3 1 0;
     display: flex;
     box-shadow: inset 0px 5px 1px -5px #333333;
 }
 
 .building-column {
     display: flex;
-    padding: 6px 0;
+    padding: 0;
     flex: 1 1 0;
     flex-direction: column;
     box-shadow: inset 5px 0 1px -5px #333333, inset -5px 0 1px -5px #333333;
@@ -182,7 +182,7 @@ p {
 .building-row {
     height: 33%;
     width: 100%;
-    margin: 6px 0;
+    padding: 6px 0;
 
     display: flex;
     align-items: center;
