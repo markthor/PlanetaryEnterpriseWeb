@@ -1,0 +1,343 @@
+@import 'colors';
+
+body {
+    height: 100%;
+    margin: 0;
+    color: black;
+}
+
+p {
+    font-family: dragon, calibri;
+    font-size: 34px;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.flex-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.box-item {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: inset 0 0 10px $color-shadow;
+}
+
+/* Box item content boxes START */
+.box-item-demand {
+    flex: 0 1 auto;
+}
+
+.box-item-demand > h2 {
+    font-family: dragon, calibri;
+    font-size: 42px;
+    margin-top: 4px;
+    margin-bottom: 6px;
+}
+
+.box-item-demand > p {
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.box-item-price {
+    display: flex;
+    flex: 1 1 0;
+}
+
+.box-item-price > h2 {
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    width: 40%;
+    vertical-align: middle;
+    margin-right: 10%;
+    font-size: 86px;
+    margin-top: 0;
+    font-family: dragon, calibri;
+    line-height: 100%;
+    margin-bottom: 0;
+}
+
+.box-item-supply {
+    flex: 0 1 auto;
+}
+
+.box-item-supply p {
+    margin-top: 4px;
+    margin-bottom: 10px;
+}
+
+.box-item-buttons {
+    display: inline-flex;
+    flex: 0 1 auto;
+
+    font-weight: bold;
+    font-family: dragon;
+    font-size: 28px;
+}
+
+.box-item-buttons > div {
+    display: inline-block;
+    width: 50%;
+    /*box-shadow: inset 0 0 2px $color-shadow;*/
+    padding: 5px 0px;
+    user-select: none;
+}
+
+.box-item-buttons > div:hover {
+    background: $color-button-hover;
+}
+
+.box-item-player-header {
+    display: inline-flex;
+    flex: 0 1 auto;
+    background: $color-player-header-background;
+    /*box-shadow: inset 0 0 2px $color-shadow;*/
+    padding: 10px 0;
+}
+
+.box-item-player-header > div {
+    display: inline-block;
+    width: 33%;
+    font-weight: bold;
+    font-family: dragon, calibri;
+    font-size: 36px;
+}
+
+.box-item-player-header .income {
+    color: $color-income;
+}
+
+.box-item-player-header .debt {
+    color: $color-debt;
+}
+
+.box-item-player-header .debt .center {
+    display: inline-flex;
+}
+
+.box-item-player-header .debt .center div {
+    display: inline-block;
+}
+
+
+.box-item-player-header .debt img {
+    height: 24px;
+    padding: 8px;
+    display: inline-block;
+}
+
+.box-item-player-header .debt img.active {
+    filter: opacity(100%);
+}
+
+.box-item-player-header .debt img:not(active) {
+    filter: opacity(40%);
+}
+
+.box-item-player-content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.box-item-player-content-inventory {
+    flex: 1 1 0;
+    display: flex;
+}
+
+.box-item-player-content-buildings {
+    flex: 3 1 0;
+    display: flex;
+    box-shadow: inset 0px 5px 1px -5px $color-shadow;
+}
+
+.building-column {
+    display: flex;
+    padding: 0;
+    flex: 1 1 0;
+    flex-direction: column;
+    box-shadow: inset 5px 0 1px -5px $color-shadow, inset -5px 0 1px -5px $color-shadow;
+}
+
+.building-column:first-child {
+    box-shadow: inset -5px 0 1px -5px $color-shadow;
+}
+
+.building-column:last-child {
+    box-shadow: inset 5px 0 1px -5px $color-shadow;
+}
+
+.building-row {
+    height: 33%;
+    width: 100%;
+    padding: 6px 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.building-row img {
+    height: 60px;
+    width: 60px;
+    vertical-align: middle;
+}
+
+.building-price {
+    font-family: dragon;
+    font-size: 40px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+/* Box item content boxes END  */
+
+.shadow-top {
+    box-shadow: inset 0px 5px 1px -5px $color-shadow;
+}
+
+.shadow-top-right {
+    box-shadow: inset -5px 0 1px -5px $color-shadow, inset 0px 5px 1px -5px $color-shadow;
+}
+
+.shadow-top-left {
+    box-shadow: inset 5px 0 1px -5px $color-shadow, inset 0px 5px 1px -5px $color-shadow;
+}
+
+.shadow-right {
+    box-shadow: inset -5px 0 1px -5px $color-shadow;
+}
+
+.shadow-left {
+    box-shadow: inset 5px 0 1px -5px $color-shadow;
+}
+
+.shadow-bottom {
+    box-shadow: inset 0px -5px 1px -5px $color-shadow;
+}
+
+.img-container {
+    flex: 1 1 0;
+    position: relative;
+    height: 100%;
+
+    width: 40%;
+    margin-left: 10%;
+    margin-right: 5px;
+}
+
+.img-container > img {
+    position: absolute;
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.box-item--power {
+    background: $color-power;
+}
+
+.box-item--iron {
+    background: $color-iron;
+}
+
+.box-item--aluminium {
+    background: $color-aluminium;
+}
+
+.box-item--carbon {
+    background: $color-carbon;
+}
+
+.box-item--steel {
+    background: $color-steel;
+}
+
+.box-item--lithium {
+    background: $color-lithium;
+}
+
+.box-item--player-red {
+    background: $color-player-red;
+}
+
+.box-item--player-green {
+    background: $color-player-green;
+}
+
+.box-item--player-yellow {
+    background: $color-player-yellow;
+}
+
+.box-item--player-blue {
+    background: $color-player-blue;
+}
+
+.box-header {
+    flex: 0 1 auto;
+    text-align: center;
+    padding: 0;
+    background-color: $color-header-background;
+    box-shadow: inset 0 0 10px $color-shadow;
+}
+
+.box-header > h1 {
+    margin: 0;
+    color: $color-header-text;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    font-weight: bold;
+    font-family: dragon, calibri;
+    font-size: 30px;
+}
+
+.box-content {
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.box-market {
+    flex: 1 1 auto;
+}
+
+.box-players {
+    flex: 3 1 auto;
+}
+
+.box-footer {
+    flex: 0 1 auto;
+    text-align: center;
+    padding: 0;
+    background-color: $color-header-background;
+    box-shadow: inset 0 0 10px $color-shadow;
+}
+
+.box-footer > h1 {
+    margin: 0;
+    color: $color-header-text;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-weight: bold;
+    font-family: dragon, calibri;
+    font-size: 28px;
+}
