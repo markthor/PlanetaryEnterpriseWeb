@@ -519,6 +519,18 @@ function initialize(){
 // UI CODE BELOW
 //
 
+function getPlayer(playerName) {
+    switch(playerName) {
+        case "red": return playerRed;
+        case "blue": return playerBlue;
+        case "green": return playerGreen;
+        case "yellow": return playerYellow;
+        default:
+            console.error("Illegal argument exception. name: " + playerName);
+            break;
+    }
+}
+
 function registerMarketClickListeners() {
     // Power
     $( ".box-item--power .box-item-buttons .plus" ).click(function() {
@@ -599,6 +611,30 @@ function registerPlayerClickListeners() {
 
     $(".box-item--player-yellow .box-item-player-header .debt img").click(function() {
         toggleDebt(playerYellow)
+        renderUI();
+    });
+}
+
+function registerBuildingClickListeners() {
+    $("[data-building]").click(function() {
+        $player_elem = $(this).parents("[data-player]");
+        var player = getPlayer($player_elem.attr("data-player"));
+        addBuilding(player, $(this).attr("data-building"));
+        renderUI();
+    });
+
+    $("[data-upgrade]").click(function() {
+        $player_elem = $(this).parents("[data-player]");
+        var player = getPlayer($player_elem.attr("data-player"));
+        var buildingName = $(this).attr("data-upgrade");
+        switch(building) {
+            case "marketManipulator": toggleMarketManipulator(player); break;
+            case "carbonFabrication": toggleCarbonFabrication(player); break;
+            case "denseConnector": toggleDenseConnector(player); break;
+            default:
+                console.error("Illegal argument exception. name: " + buildingName);
+                break;
+        }
         renderUI();
     });
 }
@@ -731,5 +767,6 @@ $(document).ready(function() {
     initialize();
     registerMarketClickListeners();
     registerPlayerClickListeners();
+    registerBuildingClickListeners();
     renderUI();
 });

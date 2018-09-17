@@ -153,7 +153,7 @@
                 <h1>Players</h1>
             </div>
             <div class="box-content">
-                <div class="box-item box-item--player-red">
+                <div data-player="red" class="box-item box-item--player-red">
                     <div class="box-item-player-header">
                         <div class="name">Player</div>
                         <div class="income">0$</div>
@@ -170,7 +170,7 @@
                     </div>
                 </div>
 
-                <div class="box-item box-item--player-blue">
+                <div data-player="blue" class="box-item box-item--player-blue">
                     <div class="box-item-player-header">
                         <div class="name">Player</div>
                         <div class="income">0$</div>
@@ -185,64 +185,62 @@
                         <div class="box-item-player-content-inventory shadow-bottom">
                             <div class="building-column">
                                 
-                                
-                                
                             </div>
                         </div>
                         <!-- Bottom bar -->
                         <div class="box-item-player-content-buildings">
                             <div class="building-column">
-                                <div class="building-row">
+                                <div data-building="mineIron" class="building-row">
                                     <img src="resources/icons/buildings/Mine.svg">
                                     <div class="building-price">0$</div>
                                 </div>
-                                <div class="building-row">
+                                <div data-building="furnace" class="building-row">
                                     <img src="resources/icons/buildings/Furnace.svg">
                                     <div class="building-price">0$</div>
                                 </div>
-                                <div class="building-row">
+                                <div data-building="lab" class="building-row">
                                     <img src="resources/icons/buildings/Lab.svg">
                                     <div class="building-price">0$</div>
                                 </div>
                                 <!-- Upgrade -->
-                                <div class="building-row shadow-top">
+                                <div data-upgrade="marketManipulator" class="building-row shadow-top">
+                                    <img src="resources/icons/buildings/MarketManipulator.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="windTurbine" class="building-row">
+                                    <img src="resources/icons/buildings/WindTurbine.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="geothermalPlant" class="building-row">
+                                    <img src="resources/icons/buildings/GeothermalPlant.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="fossilPowerPlant" class="building-row">
+                                    <img src="resources/icons/buildings/FossilPowerPlant.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <!-- Upgrade -->
+                                <div data-upgrade="carbonFabrication" class="building-row shadow-top">
                                     <img src="resources/icons/buildings/CarbonFabrication.svg">
                                     <div class="building-price">0$</div>
                                 </div>
                             </div>
                             <div class="building-column">
-                                <div class="building-row">
-                                    <img src="resources/icons/buildings/GeothermalPlant.svg">
-                                    <div class="building-price">0$</div>
-                                </div>
-                                <div class="building-row">
-                                    <img src="resources/icons/buildings/WindTurbine.svg">
-                                    <div class="building-price">0$</div>
-                                </div>
-                                <div class="building-row">
-                                    <img src="resources/icons/buildings/FossilPowerPlant.svg">
-                                    <div class="building-price">0$</div>
-                                </div>
-                                <!-- Upgrade -->
-                                <div class="building-row shadow-top">
-                                    <img src="resources/icons/buildings/DenseConnectors.svg">
-                                    <div class="building-price">0$</div>
-                                </div>
-                            </div>
-                            <div class="building-column">
-                                <div class="building-row">
+                                <div data-building="supplyConnector" class="building-row">
                                     <img src="resources/icons/buildings/SupplyConnector.svg">
                                     <div class="building-price">0$</div>
                                 </div>
-                                <div class="building-row">
+                                <div data-building="constructionSite" class="building-row">
                                     <img src="resources/icons/buildings/ConstructionSite.svg">
                                     <div class="building-price">0$</div>
                                 </div>
                                 <div class="building-row">
                                 </div>
                                 <!-- Upgrade -->
-                                <div class="building-row shadow-top">
-                                    <img src="resources/icons/buildings/MarketManipulator.svg">
+                                <div data-upgrade="denseConnector" class="building-row shadow-top">
+                                    <img src="resources/icons/buildings/DenseConnectors.svg">
                                     <div class="building-price">0$</div>
                                 </div>
                             </div>
@@ -250,7 +248,7 @@
                     </div>
                 </div>
 
-                <div class="box-item box-item--player-green">
+                <div data-player="green" class="box-item box-item--player-green">
                     <div class="box-item-player-header">
                         <div class="name">Player</div>
                         <div class="income">0$</div>
@@ -267,7 +265,7 @@
                     </div>
                 </div>
 
-                <div class="box-item box-item--player-yellow">
+                <div data-player="yellow" class="box-item box-item--player-yellow">
                     <div class="box-item-player-header">
                         <div class="name">Player</div>
                         <div class="income">0$</div>
