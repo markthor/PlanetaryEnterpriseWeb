@@ -144,6 +144,14 @@ p {
   filter: opacity(40%);
 }
 
+[data-upgrade].active {
+  filter: opacity(100%);
+}
+
+[data-upgrade]:not(active) {
+  filter: opacity(40%);
+}
+
 .box-item-player-content {
   flex: 1 1 auto;
   display: flex;

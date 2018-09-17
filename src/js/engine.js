@@ -760,7 +760,30 @@ function renderPlayerDebt() {
 }
 
 function renderUpgrades() {
+    let toggleUpgrades = function(playerName) {
+        let player = getPlayer(playerName);
+        if (player.carbonFabrication) {
+            $("[data-player='" + playerName + "'] [data-upgrade='carbonFabrication']").addClass("active");
+        } else {
+            $("[data-player='" + playerName + "'] [data-upgrade='carbonFabrication']").removeClass("active");
+        }
 
+        if (player.denseConnector) {
+            $("[data-player='" + playerName + "'] [data-upgrade='denseConnector']").addClass("active");
+        } else {
+            $("[data-player='" + playerName + "'] [data-upgrade='denseConnector']").removeClass("active");
+        }
+
+        if (player.marketManipulator) {
+            $("[data-player='" + playerName + "'] [data-upgrade='marketManipulator']").addClass("active");
+        } else {
+            $("[data-player='" + playerName + "'] [data-upgrade='marketManipulator']").removeClass("active");
+        }
+    }
+    toggleUpgrades("red");
+    toggleUpgrades("blue");
+    toggleUpgrades("green");
+    toggleUpgrades("yellow");
 }
 
 function renderUI() {
