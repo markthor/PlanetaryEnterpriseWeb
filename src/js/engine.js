@@ -56,11 +56,11 @@ function resource(name, price, supply) {
 function getPrice(resource, amount){
     if(!amount) amount = 1;
 
-    if(amount > resource.maxSupply) {
+    if(amount > resource.maxSupply * 2) {
         exception = "Illegal argument exception. name: " + resource + "amount: " + amount;
         console.error(exception);
         return exception;
-    } 
+    }
     if(resource.supply >= amount) return amount * resource.price
     else return (amount - resource.supply) * (resource.price + 1) + resource.supply * resource.price;
 }
@@ -231,6 +231,8 @@ function getBuildingPrice(player, buildingName){
                 else return getPrice(aluminium);
             case EBuilding.ConstructionSite:
                 return getPrice(carbon, 2);
+            case ETechnology.CarbonFabrication:
+                return getPrice(lithium) + getPrice(carbon, 3);
             case ETechnology.DenseConnector:
                 return getPrice(steel)
             case ETechnology.MarketManipulator:
