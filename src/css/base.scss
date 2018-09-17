@@ -181,6 +181,7 @@ p {
     flex: 1 1 0;
     flex-direction: column;
     box-shadow: inset 5px 0 1px -5px $color-shadow, inset -5px 0 1px -5px $color-shadow;
+    user-select: none;
 }
 
 .building-column:first-child {

@@ -780,6 +780,10 @@ function renderUpgrades() {
     toggleUpgrades("yellow");
 }
 
+function renderBuildings() {
+    
+}
+
 function renderUI() {
     renderDemand();
     renderPrice();
@@ -787,6 +791,7 @@ function renderUI() {
     renderPlayerIncome();
     renderPlayerDebt();
     renderUpgrades();
+    renderBuildings();
 }
 
 $(document).ready(function() {
