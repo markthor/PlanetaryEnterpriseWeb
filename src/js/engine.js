@@ -25,8 +25,8 @@ var EBuilding = {
     ConstructionSite: "constructionSite",
     properties: {
         "mineIron": { produce: "iron", sortPriority: 0 },
-        "mineCarbon": { produce: "carbon", sortPriority: 1 },
-        "mineAluminium": { produce: "aluminum", sortPriority: 2 },
+        "mineCarbon": { produce: "carbon", sortPriority: 2 },
+        "mineAluminium": { produce: "aluminum", sortPriority: 1 },
         "furnace": { produce: "steel", sortPriority: 3 },
         "lab": { produce: "lithium", sortPriority: 4 },
         "windTurbine": { produce: "power", sortPriority: 5 },
@@ -335,6 +335,15 @@ function sortBuildings(player){
 
         return i - j;
     });
+}
+
+function getMultipleDemand(){
+    cards = [];
+    do{
+        drawn = getDemand();
+        cards.push(drawn);
+    } while(drawn === "interest")
+    return cards;
 }
 
 function getDemand() {
