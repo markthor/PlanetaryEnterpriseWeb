@@ -247,15 +247,15 @@ p {
 }
 
 .box-item--power {
-  background: #98FB98;
+  background: #acfcac;
 }
 
 .box-item--iron {
-  background: #B55A31;
+  background: #AC9069;
 }
 
 .box-item--aluminium {
-  background: #0099FF;
+  background: #9BD8D1;
 }
 
 .box-item--carbon {
@@ -267,7 +267,7 @@ p {
 }
 
 .box-item--lithium {
-  background: #FFEE32;
+  background: #fffac7;
 }
 
 .box-item--player-red {
