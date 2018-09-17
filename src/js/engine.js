@@ -337,6 +337,15 @@ function sortBuildings(player){
     });
 }
 
+function getMultipleDemand(){
+    cards = [];
+    do{
+        drawn = getDemand();
+        cards.push(drawn);
+    } while(drawn === "interest")
+    return cards;
+}
+
 function getDemand() {
     total = getTotal(deck)
     if (total === 0) {
