@@ -337,13 +337,14 @@ function sortBuildings(player){
     });
 }
 
-function getMultipleDemand(){
-    cards = [];
-    do{
-        drawn = getDemand();
-        cards.push(drawn);
-    } while(drawn === "interest")
-    return cards;
+function drawDemandCard(){
+    return getDemand();
+    // cards = [];
+    // do{
+    //     drawn = getDemand();
+    //     cards.push(drawn);
+    // } while(drawn === "interest")
+    // return cards;
 }
 
 function getDemand() {

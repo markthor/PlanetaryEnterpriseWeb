@@ -1,0 +1,5 @@
+Produce:
+1. Kald getIncome for hver spiller, gem værdien og vis det er blevet tjent. Returnerer en int
+2. Kald getProducedResources, gem værdien og vis hvad hver enkelt spiller har produceret. Returnerer et sorteret array af strings. F.eks. [“iron”,”carbon”,”steel”,”power”,”power”]
+Kald produce
+Kald drawDemandCard og hvis hvilket kort det er som blev trukket. Der er ikke længere mulighed for at trække flere kort pr runde, så den returnerer bare en string. F.eks. “iron”, “interest”, “lithium”
