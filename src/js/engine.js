@@ -664,6 +664,20 @@ function registerBuildingClickListeners() {
     });
 }
 
+function registerProduceClickListener() {
+    $(".box-produce").click(function() {
+        produce();
+        renderUI();
+    });
+}
+
+function registerClickListeners() {
+    registerMarketClickListeners();
+    registerPlayerClickListeners();
+    registerBuildingClickListeners();
+    registerProduceClickListener();
+}
+
 function renderDemand() {
     var demandText = function(demand) {
         return "Demand: " + demand;
@@ -860,8 +874,6 @@ function renderUI() {
 
 $(document).ready(function() {
     initialize();
-    registerMarketClickListeners();
-    registerPlayerClickListeners();
-    registerBuildingClickListeners();
+    registerClickListeners();
     renderUI();
 });
