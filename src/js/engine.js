@@ -1,5 +1,4 @@
 var deck;
-// var demandCardsDrawn = 0;
 var power;
 var iron;
 var aluminium;
@@ -339,12 +338,6 @@ function sortBuildings(player){
 
 function drawDemandCard(){
     return getDemand();
-    // cards = [];
-    // do{
-    //     drawn = getDemand();
-    //     cards.push(drawn);
-    // } while(drawn === "interest")
-    // return cards;
 }
 
 function getDemand() {
@@ -352,8 +345,8 @@ function getDemand() {
     if (total === 0) {
         return "nothing"
     }
-    // demandCardsDrawn++;
     deck.cardsDrawn++;
+    deck.debtToBeGained++;
     randomInt = Math.floor(Math.random() * total);
     temp = 0
     temp += deck.steel
@@ -426,7 +419,7 @@ function getDebtToBeAccumulatedThisRound(deck){
     return deck.debtToBeGained;
 }
 
-function toggleDebt(player){d
+function toggleDebt(player){
     player.accumulateDebt = !player.accumulateDebt;
 }
 
