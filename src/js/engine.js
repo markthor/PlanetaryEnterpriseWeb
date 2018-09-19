@@ -1,5 +1,5 @@
 var deck;
-var demandCardsDrawn = 0;
+// var demandCardsDrawn = 0;
 var power;
 var iron;
 var aluminium;
@@ -351,7 +351,8 @@ function getDemand() {
     if (total === 0) {
         return "nothing"
     }
-    demandCardsDrawn++;
+    // demandCardsDrawn++;
+    deck.cardsDrawn++;
     randomInt = Math.floor(Math.random() * total);
     temp = 0
     temp += deck.steel
@@ -396,6 +397,12 @@ function getDemand() {
         interest();
         return "interest"
     }
+    temp += deck.funding
+    if(randomInt < temp) {
+        deck.funding = deck.funding - 1;
+        deck.debtToBeGained = deck.debtToBeGained + 3
+        return "funding"
+    }
     exception = "IllegalStateException. Deck: " + deck
     console.error(exception);
     return exception
@@ -410,10 +417,15 @@ function getTotal(deck) {
     total += deck.aluminium
     total += deck.power
     total += deck.interest
+    total += deck.funding
     return total
 }
 
-function toggleDebt(player){
+function getDebtToBeAccumulatedThisRound(deck){
+    return deck.debtToBeGained;
+}
+
+function toggleDebt(player){d
     player.accumulateDebt = !player.accumulateDebt;
 }
 
@@ -433,7 +445,7 @@ function updateMarket(player, market){
             }
         });
     } else{
-        addDebt(player, demandCardsDrawn);
+        addDebt(player, deck.debtToBeGained);
     }
 }
 
@@ -509,7 +521,7 @@ function initializeResources(){
 }
 
 function initializeDemandDeck() {
-    deck = {};
+    deck = {cardsDrawn: 0, debtToBeGained: 0};
     deck.steel = 3;
     deck.lithium = 4;
     deck.carbon = 4;
@@ -517,6 +529,7 @@ function initializeDemandDeck() {
     deck.aluminium = 4;
     deck.power = 7;
     deck.interest = 6;
+    deck.funding = 4;
     return deck;
 }
 
