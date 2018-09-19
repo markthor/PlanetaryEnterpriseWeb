@@ -149,10 +149,8 @@
             
         </div>
         <div class="flex-box box-players">
-            <div class="box-header">
-                <h1>Players</h1>
-            </div>
             <div class="box-content">
+                <!-- Player start -->
                 <div data-player="red" class="box-item box-item--player-red">
                     <div class="box-item-player-header">
                         <div class="name">Player</div>
@@ -165,10 +163,129 @@
                         </div>
                     </div>
                     <div class="box-item-player-content">
-                        <div class="box-item-player-content-inventory shadow-bottom">d</div>
-                        <div class="box-item-player-content-buildings">e</div>
+                        <div class="box-item-player-content-inventory shadow-bottom">
+                            <div class="building-column">
+                                <div data-building="mineIron" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/MineIron.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="windTurbine" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/WindTurbine.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="mineAluminium" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/MineAluminium.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="geothermalPlant" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/GeothermalPlant.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="mineCarbon" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/MineCarbon.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="fossilPowerPlant" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/FossilPowerPlant.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="furnace" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/Furnace.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="supplyConnector" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/SupplyConnector.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="lab" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/Lab.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="constructionSite" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/ConstructionSite.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Bottom bar -->
+                        <div class="box-item-player-content-buildings">
+                            <div class="building-column">
+                                <div data-building="mineIron" class="building-row">
+                                    <img src="resources/icons/buildings/Mine.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="furnace" class="building-row">
+                                    <img src="resources/icons/buildings/Furnace.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="lab" class="building-row">
+                                    <img src="resources/icons/buildings/Lab.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <!-- Upgrade -->
+                                <div data-upgrade="marketManipulator" class="building-row shadow-top">
+                                    <img src="resources/icons/buildings/MarketManipulator.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="windTurbine" class="building-row">
+                                    <img src="resources/icons/buildings/WindTurbine.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="geothermalPlant" class="building-row">
+                                    <img src="resources/icons/buildings/GeothermalPlant.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="fossilPowerPlant" class="building-row">
+                                    <img src="resources/icons/buildings/FossilPowerPlant.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <!-- Upgrade -->
+                                <div data-upgrade="carbonFabrication" class="building-row shadow-top">
+                                    <img src="resources/icons/buildings/CarbonFabrication.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="supplyConnector" class="building-row">
+                                    <img src="resources/icons/buildings/SupplyConnector.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="constructionSite" class="building-row">
+                                    <img src="resources/icons/buildings/ConstructionSite.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div class="building-row">
+                                </div>
+                                <!-- Upgrade -->
+                                <div data-upgrade="denseConnector" class="building-row shadow-top">
+                                    <img src="resources/icons/buildings/DenseConnectors.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <!-- Player end -->
 
                 <!-- Player start -->
                 <div data-player="blue" class="box-item box-item--player-blue">
@@ -307,6 +424,7 @@
                 </div>
                 <!-- Player end -->
 
+                <!-- Player start -->
                 <div data-player="green" class="box-item box-item--player-green">
                     <div class="box-item-player-header">
                         <div class="name">Player</div>
@@ -319,11 +437,131 @@
                         </div>
                     </div>
                     <div class="box-item-player-content">
-                        <div class="box-item-player-content-inventory shadow-bottom">d</div>
-                        <div class="box-item-player-content-buildings">e</div>
+                        <div class="box-item-player-content-inventory shadow-bottom">
+                            <div class="building-column">
+                                <div data-building="mineIron" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/MineIron.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="windTurbine" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/WindTurbine.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="mineAluminium" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/MineAluminium.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="geothermalPlant" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/GeothermalPlant.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="mineCarbon" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/MineCarbon.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="fossilPowerPlant" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/FossilPowerPlant.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="furnace" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/Furnace.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="supplyConnector" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/SupplyConnector.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="lab" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/Lab.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="constructionSite" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/ConstructionSite.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Bottom bar -->
+                        <div class="box-item-player-content-buildings">
+                            <div class="building-column">
+                                <div data-building="mineIron" class="building-row">
+                                    <img src="resources/icons/buildings/Mine.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="furnace" class="building-row">
+                                    <img src="resources/icons/buildings/Furnace.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="lab" class="building-row">
+                                    <img src="resources/icons/buildings/Lab.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <!-- Upgrade -->
+                                <div data-upgrade="marketManipulator" class="building-row shadow-top">
+                                    <img src="resources/icons/buildings/MarketManipulator.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="windTurbine" class="building-row">
+                                    <img src="resources/icons/buildings/WindTurbine.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="geothermalPlant" class="building-row">
+                                    <img src="resources/icons/buildings/GeothermalPlant.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="fossilPowerPlant" class="building-row">
+                                    <img src="resources/icons/buildings/FossilPowerPlant.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <!-- Upgrade -->
+                                <div data-upgrade="carbonFabrication" class="building-row shadow-top">
+                                    <img src="resources/icons/buildings/CarbonFabrication.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="supplyConnector" class="building-row">
+                                    <img src="resources/icons/buildings/SupplyConnector.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="constructionSite" class="building-row">
+                                    <img src="resources/icons/buildings/ConstructionSite.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div class="building-row">
+                                </div>
+                                <!-- Upgrade -->
+                                <div data-upgrade="denseConnector" class="building-row shadow-top">
+                                    <img src="resources/icons/buildings/DenseConnectors.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <!-- Player end -->
 
+                <!-- Player start -->
                 <div data-player="yellow" class="box-item box-item--player-yellow">
                     <div class="box-item-player-header">
                         <div class="name">Player</div>
@@ -336,12 +574,129 @@
                         </div>
                     </div>
                     <div class="box-item-player-content">
-                        <div class="box-item-player-content-inventory shadow-bottom">d</div>
+                        <div class="box-item-player-content-inventory shadow-bottom">
+                            <div class="building-column">
+                                <div data-building="mineIron" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/MineIron.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="windTurbine" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/WindTurbine.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="mineAluminium" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/MineAluminium.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="geothermalPlant" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/GeothermalPlant.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="mineCarbon" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/MineCarbon.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="fossilPowerPlant" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/FossilPowerPlant.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="furnace" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/Furnace.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="supplyConnector" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/SupplyConnector.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="lab" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/Lab.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                                <div data-building="constructionSite" class="building-row building-row--small">
+                                    <img src="resources/icons/buildings/ConstructionSite.svg">
+                                    <div class="building-multiplier">x</div>
+                                    <div class="building-count">0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Bottom bar -->
                         <div class="box-item-player-content-buildings">
-                            e
+                            <div class="building-column">
+                                <div data-building="mineIron" class="building-row">
+                                    <img src="resources/icons/buildings/Mine.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="furnace" class="building-row">
+                                    <img src="resources/icons/buildings/Furnace.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="lab" class="building-row">
+                                    <img src="resources/icons/buildings/Lab.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <!-- Upgrade -->
+                                <div data-upgrade="marketManipulator" class="building-row shadow-top">
+                                    <img src="resources/icons/buildings/MarketManipulator.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="windTurbine" class="building-row">
+                                    <img src="resources/icons/buildings/WindTurbine.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="geothermalPlant" class="building-row">
+                                    <img src="resources/icons/buildings/GeothermalPlant.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="fossilPowerPlant" class="building-row">
+                                    <img src="resources/icons/buildings/FossilPowerPlant.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <!-- Upgrade -->
+                                <div data-upgrade="carbonFabrication" class="building-row shadow-top">
+                                    <img src="resources/icons/buildings/CarbonFabrication.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                            </div>
+                            <div class="building-column">
+                                <div data-building="supplyConnector" class="building-row">
+                                    <img src="resources/icons/buildings/SupplyConnector.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div data-building="constructionSite" class="building-row">
+                                    <img src="resources/icons/buildings/ConstructionSite.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                                <div class="building-row">
+                                </div>
+                                <!-- Upgrade -->
+                                <div data-upgrade="denseConnector" class="building-row shadow-top">
+                                    <img src="resources/icons/buildings/DenseConnectors.svg">
+                                    <div class="building-price">0$</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- Player end -->
 
             </div>
         </div>

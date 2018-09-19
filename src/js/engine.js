@@ -337,13 +337,14 @@ function sortBuildings(player){
     });
 }
 
-function getMultipleDemand(){
-    cards = [];
-    do{
-        drawn = getDemand();
-        cards.push(drawn);
-    } while(drawn === "interest")
-    return cards;
+function drawDemandCard(){
+    return getDemand();
+    // cards = [];
+    // do{
+    //     drawn = getDemand();
+    //     cards.push(drawn);
+    // } while(drawn === "interest")
+    // return cards;
 }
 
 function getDemand() {
@@ -461,14 +462,16 @@ function getMarket(){
 }
 
 function getProducedResources(player){
-    resources = [];
-    player.buildings.forEach(function(building) {
-        revenue = getBuildingRevenue(building, getMarket());
-        if(revenue > 0){
-            resources = resources.concat(EBuilding.properties[building].produce);
-        }
-    });
-    return resources;
+    if(!player.accumulateDebt){
+        resources = [];
+        player.buildings.forEach(function(building) {
+            revenue = getBuildingRevenue(building, getMarket());
+            if(revenue > 0){
+                resources = resources.concat(EBuilding.properties[building].produce);
+            }
+        });
+        return resources;
+    } else return [];
 }
 
 function getIncome(player){
