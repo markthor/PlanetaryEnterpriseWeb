@@ -326,6 +326,7 @@ define(["jquery", "app/engine"], function($, engine) {
     }
 
     return {
-        initialize: initialize
+        initialize: initialize,
+        render: renderUI
     }
 });

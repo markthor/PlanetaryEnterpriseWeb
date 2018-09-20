@@ -4,4 +4,7 @@ define(function (require) {
 
     engine.initialize();
     ui.initialize();
+
+    window.engine = engine;
+    window.ui = ui;
 });
