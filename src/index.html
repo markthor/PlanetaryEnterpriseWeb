@@ -28,7 +28,7 @@
                 <h1>Market</h1>
             </div>
             <div class="box-content">
-                <div class="box-item box-item--power">
+                <div data-resource="power" class="box-item box-item--power">
                     <div class="box-item-demand">
                         <h2>Power</h2>
                         <p>Demand: 0</p>
@@ -43,11 +43,11 @@
                         <p>Supply: 0</p>
                     </div>
                     <div class="box-item-buttons">
-                        <div class="minus shadow-top-right">-</div>
-                        <div class="plus shadow-top-left">+</div>
+                        <div data-val="-1" class="minus shadow-top-right">-</div>
+                        <div data-val="1" class="plus shadow-top-left">+</div>
                     </div>                  
                 </div>                
-                <div class="box-item box-item--iron">
+                <div data-resource="iron" class="box-item box-item--iron">
                     <div class="box-item-demand">
                         <h2>Iron</h2>
                         <p>Demand: 0</p>
@@ -62,11 +62,11 @@
                         <p>Supply: 0</p>
                     </div>
                     <div class="box-item-buttons">
-                        <div class="minus shadow-top-right">-</div>
-                        <div class="plus shadow-top-left">+</div>
+                        <div data-val="-1" class="minus shadow-top-right">-</div>
+                        <div data-val="1" class="plus shadow-top-left">+</div>
                     </div>
                 </div>
-                <div class="box-item box-item--aluminium">
+                <div data-resource="aluminium" class="box-item box-item--aluminium">
                     <div class="box-item-demand">
                         <h2>Aluminum</h2>
                         <p>Demand: 0</p>
@@ -81,11 +81,11 @@
                         <p>Supply: 0</p>
                     </div>
                     <div class="box-item-buttons">
-                        <div class="minus shadow-top-right">-</div>
-                        <div class="plus shadow-top-left">+</div>
+                        <div data-val="-1" class="minus shadow-top-right">-</div>
+                        <div data-val="1" class="plus shadow-top-left">+</div>
                     </div>
                 </div>
-                <div class="box-item box-item--carbon">
+                <div data-resource="carbon" class="box-item box-item--carbon">
                     <div class="box-item-demand">
                         <h2>Carbon</h2>
                         <p>Demand: 0</p>
@@ -100,11 +100,11 @@
                         <p>Supply: 0</p>
                     </div>
                     <div class="box-item-buttons">
-                        <div class="minus shadow-top-right">-</div>
-                        <div class="plus shadow-top-left">+</div>
+                        <div data-val="-1" class="minus shadow-top-right">-</div>
+                        <div data-val="1" class="plus shadow-top-left">+</div>
                     </div>
                 </div>          
-                <div class="box-item box-item--steel">
+                <div data-resource="steel" class="box-item box-item--steel">
                     <div class="box-item-demand">
                         <h2>Steel</h2>
                         <p>Demand: 0</p>
@@ -119,11 +119,11 @@
                         <p>Supply: 0</p>
                     </div>
                     <div class="box-item-buttons">
-                        <div class="minus shadow-top-right">-</div>
-                        <div class="plus shadow-top-left">+</div>
+                        <div data-val="-1" class="minus shadow-top-right">-</div>
+                        <div data-val="1" class="plus shadow-top-left">+</div>
                     </div>
                 </div>
-                <div class="box-item box-item--lithium">
+                <div data-resource="lithium" class="box-item box-item--lithium">
                     <div class="box-item-demand">
                         <h2>Lithium</h2>
                         <p>Demand: 0</p>
@@ -138,8 +138,8 @@
                         <p>Supply: 0</p>
                     </div>
                     <div class="box-item-buttons">
-                        <div class="minus shadow-top-right">-</div>
-                        <div class="plus shadow-top-left">+</div>
+                        <div data-val="-1" class="minus shadow-top-right">-</div>
+                        <div data-val="1" class="plus shadow-top-left">+</div>
                     </div>
                 </div>                         
             </div>
@@ -237,8 +237,8 @@
                                     <img src="resources/icons/buildings/Lab.svg">
                                     <div class="building-price">0$</div>
                                 </div>
-                                <!-- Upgrade -->
-                                <div data-upgrade="marketManipulator" class="building-row shadow-top">
+                                <!-- Technology -->
+                                <div data-technology="marketManipulator" class="building-row shadow-top">
                                     <img src="resources/icons/buildings/MarketManipulator.svg">
                                     <div class="building-price">0$</div>
                                 </div>
@@ -256,8 +256,8 @@
                                     <img src="resources/icons/buildings/FossilPowerPlant.svg">
                                     <div class="building-price">0$</div>
                                 </div>
-                                <!-- Upgrade -->
-                                <div data-upgrade="carbonFabrication" class="building-row shadow-top">
+                                <!-- Technology -->
+                                <div data-technology="carbonFabrication" class="building-row shadow-top">
                                     <img src="resources/icons/buildings/CarbonFabrication.svg">
                                     <div class="building-price">0$</div>
                                 </div>
@@ -273,8 +273,8 @@
                                 </div>
                                 <div class="building-row">
                                 </div>
-                                <!-- Upgrade -->
-                                <div data-upgrade="denseConnector" class="building-row shadow-top">
+                                <!-- Technology -->
+                                <div data-technology="denseConnector" class="building-row shadow-top">
                                     <img src="resources/icons/buildings/DenseConnectors.svg">
                                     <div class="building-price">0$</div>
                                 </div>
@@ -374,8 +374,8 @@
                                     <img src="resources/icons/buildings/Lab.svg">
                                     <div class="building-price">0$</div>
                                 </div>
-                                <!-- Upgrade -->
-                                <div data-upgrade="marketManipulator" class="building-row shadow-top">
+                                <!-- Technology -->
+                                <div data-technology="marketManipulator" class="building-row shadow-top">
                                     <img src="resources/icons/buildings/MarketManipulator.svg">
                                     <div class="building-price">0$</div>
                                 </div>
@@ -393,8 +393,8 @@
                                     <img src="resources/icons/buildings/FossilPowerPlant.svg">
                                     <div class="building-price">0$</div>
                                 </div>
-                                <!-- Upgrade -->
-                                <div data-upgrade="carbonFabrication" class="building-row shadow-top">
+                                <!-- Technology -->
+                                <div data-technology="carbonFabrication" class="building-row shadow-top">
                                     <img src="resources/icons/buildings/CarbonFabrication.svg">
                                     <div class="building-price">0$</div>
                                 </div>
@@ -410,8 +410,8 @@
                                 </div>
                                 <div class="building-row">
                                 </div>
-                                <!-- Upgrade -->
-                                <div data-upgrade="denseConnector" class="building-row shadow-top">
+                                <!-- Technology -->
+                                <div data-technology="denseConnector" class="building-row shadow-top">
                                     <img src="resources/icons/buildings/DenseConnectors.svg">
                                     <div class="building-price">0$</div>
                                 </div>
@@ -511,8 +511,8 @@
                                     <img src="resources/icons/buildings/Lab.svg">
                                     <div class="building-price">0$</div>
                                 </div>
-                                <!-- Upgrade -->
-                                <div data-upgrade="marketManipulator" class="building-row shadow-top">
+                                <!-- Technology -->
+                                <div data-technology="marketManipulator" class="building-row shadow-top">
                                     <img src="resources/icons/buildings/MarketManipulator.svg">
                                     <div class="building-price">0$</div>
                                 </div>
@@ -530,8 +530,8 @@
                                     <img src="resources/icons/buildings/FossilPowerPlant.svg">
                                     <div class="building-price">0$</div>
                                 </div>
-                                <!-- Upgrade -->
-                                <div data-upgrade="carbonFabrication" class="building-row shadow-top">
+                                <!-- Technology -->
+                                <div data-technology="carbonFabrication" class="building-row shadow-top">
                                     <img src="resources/icons/buildings/CarbonFabrication.svg">
                                     <div class="building-price">0$</div>
                                 </div>
@@ -547,8 +547,8 @@
                                 </div>
                                 <div class="building-row">
                                 </div>
-                                <!-- Upgrade -->
-                                <div data-upgrade="denseConnector" class="building-row shadow-top">
+                                <!-- Technology -->
+                                <div data-technology="denseConnector" class="building-row shadow-top">
                                     <img src="resources/icons/buildings/DenseConnectors.svg">
                                     <div class="building-price">0$</div>
                                 </div>
@@ -648,8 +648,8 @@
                                     <img src="resources/icons/buildings/Lab.svg">
                                     <div class="building-price">0$</div>
                                 </div>
-                                <!-- Upgrade -->
-                                <div data-upgrade="marketManipulator" class="building-row shadow-top">
+                                <!-- Technology -->
+                                <div data-technology="marketManipulator" class="building-row shadow-top">
                                     <img src="resources/icons/buildings/MarketManipulator.svg">
                                     <div class="building-price">0$</div>
                                 </div>
@@ -667,8 +667,8 @@
                                     <img src="resources/icons/buildings/FossilPowerPlant.svg">
                                     <div class="building-price">0$</div>
                                 </div>
-                                <!-- Upgrade -->
-                                <div data-upgrade="carbonFabrication" class="building-row shadow-top">
+                                <!-- Technology -->
+                                <div data-technology="carbonFabrication" class="building-row shadow-top">
                                     <img src="resources/icons/buildings/CarbonFabrication.svg">
                                     <div class="building-price">0$</div>
                                 </div>
@@ -684,8 +684,8 @@
                                 </div>
                                 <div class="building-row">
                                 </div>
-                                <!-- Upgrade -->
-                                <div data-upgrade="denseConnector" class="building-row shadow-top">
+                                <!-- Technology -->
+                                <div data-technology="denseConnector" class="building-row shadow-top">
                                     <img src="resources/icons/buildings/DenseConnectors.svg">
                                     <div class="building-price">0$</div>
                                 </div>
