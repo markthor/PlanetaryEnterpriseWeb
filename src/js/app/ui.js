@@ -170,6 +170,8 @@ define(["jquery", "app/engine"], function($, engine) {
     function renderUI() {
         renderResources();
         renderPlayers();
+
+        $("#marketText").text("Market -- (Possible debt: " + engine.getDeck().debtToBeGained + ")");
     }
 
     function initialize() {

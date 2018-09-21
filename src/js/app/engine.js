@@ -556,6 +556,9 @@ define(["jquery"], function($) {
         toggleDebt: toggleDebt,
         getIncome: getIncome,
         getBuildingPrice: getBuildingPrice,
+        getDeck: function() {
+            return deck;
+        },
         getResource: function(resourceName) {
             switch(resourceName) {
                 case "power": return power;
