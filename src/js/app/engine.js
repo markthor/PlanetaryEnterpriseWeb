@@ -559,6 +559,7 @@ define(["jquery"], function($) {
         getDeck: function() {
             return deck;
         },
+
         getResource: function(resourceName) {
             switch(resourceName) {
                 case "power": return power;
@@ -611,6 +612,18 @@ define(["jquery"], function($) {
                 
             }
         },
+        addDebtRed: function(debt) {
+    		addDebt(playerRed, debt);
+    	},
+    	addDebtBlue: function(debt) {
+    		addDebt(playerBlue, debt);
+    	},
+    	 addDebtGreen: function(debt) {
+    		addDebt(playerGreen, debt);
+    	},
+    	 addDebtYellow: function(debt) {
+    		addDebt(playerYellow, debt);
+    	},
         toggleTechnology: function(player, technology) {
             switch(technology) {
                 case ETechnology.MarketManipulator: toggleMarketManipulator(player); break;
