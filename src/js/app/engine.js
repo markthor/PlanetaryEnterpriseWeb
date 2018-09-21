@@ -519,14 +519,14 @@ define(["jquery"], function($) {
 
     function initializeDemandDeck() {
         deck = {cardsDrawn: 0, debtToBeGained: 0};
-        deck.steel = 3;
+        deck.steel = 4;
         deck.lithium = 4;
         deck.carbon = 4;
         deck.iron = 4;
         deck.aluminium = 4;
-        deck.power = 7;
-        deck.interest = 6;
-        deck.funding = 4;
+        deck.power = 6;
+        deck.interest = 5;
+        deck.funding = 3;
         return deck;
     }
 
