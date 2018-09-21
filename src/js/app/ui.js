@@ -35,10 +35,36 @@ define(["jquery", "app/engine"], function($, engine) {
             let building = engine.getBuilding($(this).attr("data-building"));
 
             if ($(this).parents(".box-item-player-content-buildings").length) {
-                engine.addBuilding(player, building);
+                let $popover_elem = $(this).find(".popover");
+
+                // Show popover instead of adding building if popover exists
+                if ($popover_elem.length) {
+                    $("#overlay").css("display", "block");
+                    $popover_elem.css("display", "flex");
+                } else {
+                    engine.addBuilding(player, building);
+                }
             } else {
                 engine.removeBuilding(player, building);
             }
+            renderUI();
+        });
+
+        // Click listener for overlay
+        $("#overlay").click(function() {
+            $(".popover").css("display", "none");
+            $(this).css("display", "none");
+        });
+
+        // Click listener for custom mine popover
+        $("[data-mine]").click(function(event) {
+            event.stopPropagation();
+            let player = getParentPlayer($(this));
+            let building = engine.getBuilding($(this).attr("data-mine"));
+            engine.addBuilding(player, building);
+
+            $(this).parents(".popover").css("display", "none");
+            $("#overlay").css("display", "none");
             renderUI();
         });
 
