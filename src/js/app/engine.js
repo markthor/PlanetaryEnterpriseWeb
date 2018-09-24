@@ -642,7 +642,7 @@ define(["jquery"], function($) {
         deck.power = 6;
         deck.interest = 5;
         deck.funding = 3;
-        deck.nextCard = drawDemandCard();
+        deck.nextCard = getDemand();
     }
 
     function initializePlayers(){
