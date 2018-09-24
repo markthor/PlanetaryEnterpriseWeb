@@ -445,60 +445,66 @@ define(["jquery"], function($) {
             return "nothing"
         }
         deck.cardsDrawn++;
-        deck.debtToBeGained++;
         randomInt = Math.floor(Math.random() * total);
         temp = 0
         temp += deck.steel
         if(randomInt < temp) {
             deck.steel = deck.steel - 1;
-            steel.demand++;
             return "steel"
         }
         temp += deck.lithium
         if(randomInt < temp) {
             deck.lithium = deck.lithium - 1;
-            lithium.demand++;
             return "lithium"
         }
         temp += deck.carbon
         if(randomInt < temp) {
             deck.carbon = deck.carbon - 1;
-            carbon.demand++;
             return "carbon"
         }
         temp += deck.iron
         if(randomInt < temp) {
             deck.iron = deck.iron - 1;
-            iron.demand++;
             return "iron"
         }
         temp += deck.aluminium
         if(randomInt < temp) {
             deck.aluminium = deck.aluminium - 1;
-            aluminium.demand++;
             return "aluminium"
         }
         temp += deck.power
         if(randomInt < temp) {
             deck.power = deck.power - 1;
-            power.demand++;
             return "power"
         }
         temp += deck.interest
         if(randomInt < temp) {
             deck.interest = deck.interest - 1;
-            interest();
             return "interest"
         }
         temp += deck.funding
         if(randomInt < temp) {
             deck.funding = deck.funding - 1;
-            deck.debtToBeGained = deck.debtToBeGained + 3
             return "funding"
         }
         exception = "IllegalStateException. Deck: " + deck
         console.error(exception);
         return exception
+    }
+
+    function modifyDemandState(card) {
+        deck.debtToBeGained++;
+        switch(card) {
+            case "power": power.demand++; break;
+            case "iron": iron.demand++; break;
+            case "aluminium": aluminium.demand++; break;
+            case "carbon": carbon.demand++; break;
+            case "steel":  steel.demand++; break;
+            case "lithium": lithium.demand++; break;
+            case "interest": interest(); break;
+            case "funding": debtToBeGained += 3; break;
+            default: break;
+        }
     }
 
     function getTotal(deck) {
@@ -582,7 +588,7 @@ define(["jquery"], function($) {
 
     function getIncomeOrDebt(player){
         if(player.accumulateDebt) {
-            return debtToBeGained;
+            return deck.debtToBeGained;
         } else {
             return getIncome(player);
         }
@@ -620,6 +626,7 @@ define(["jquery"], function($) {
         playerGreen.accumulateDebt = false;
         playerYellow.accumulateDebt = false;
 
+        modifyDemandState(drawDemandCard());
         deck.nextCard = getDemand();
     }
 
@@ -642,6 +649,8 @@ define(["jquery"], function($) {
         deck.power = 6;
         deck.interest = 5;
         deck.funding = 3;
+        deck.nextCard = getDemand();
+        modifyDemandState(drawDemandCard());
         deck.nextCard = getDemand();
     }
 
