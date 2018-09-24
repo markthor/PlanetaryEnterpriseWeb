@@ -537,6 +537,9 @@ define(["jquery"], function($) {
                         produceForBuilding(buildingName, player);
                 }
             });
+            if(player.nuclearReactors && doesPowerConsumingBuildingsProduce(player, market)) {
+                adjustSupply(lithium, -1);
+            }
         } else{
             addDebt(player, deck.debtToBeGained);
         }
