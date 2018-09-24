@@ -66,6 +66,14 @@ define(["jquery"], function($) {
     }
 
     function adjustSupply(resource, amount) {
+        adjustSupplyNoRestrictions(resource, amount);
+        correctPrice(resource);
+    }
+
+    /**
+     * Adjust supply of a resource, while allowing the price of the resource to be below one. This function should only be called if the price is corrected afterwards.
+     */
+    function adjustSupplyNoRestrictions(resource, amount) {
         if (amount < 0) {
             if(-amount < resource.supply) {
                 resource.supply += amount;
@@ -79,24 +87,36 @@ define(["jquery"], function($) {
             } else {
                 resource.price -= 1 + Math.floor((amount - (resource.maxSupply - resource.supply)) / resource.maxSupply);
                 resource.supply = (amount - (resource.maxSupply - resource.supply)) % resource.maxSupply;
-                if(resource.price < 1) {
-                    resource.price = 1;
-                    resource.supply = resource.maxSupply;
-                }
             }
+        }
+    }
+
+    function correctAllPrices() {
+        correctPrice(power);
+        correctPrice(iron);
+        correctPrice(aluminium);
+        correctPrice(carbon);
+        correctPrice(steel);
+        correctPrice(lithium);
+    }
+
+    function correctPrice(resource) {
+        if(resource.price < 1) {
+            resource.price = 1;
+            resource.supply = resource.maxSupply;
         }
     }
 
     function produceForBuilding(buildingName){
         switch (buildingName) {
-            case EBuilding.MineIron: adjustSupply(iron, 1); adjustSupply(power, -1); break;
-            case EBuilding.MineAluminium: adjustSupply(aluminium, 1); adjustSupply(power, -1); break;
-            case EBuilding.MineCarbon: adjustSupply(carbon, 1); adjustSupply(power, -1); break;
-            case EBuilding.Furnace:  adjustSupply(steel, 1); adjustSupply(power, -1); adjustSupply(iron, -1); break;
-            case EBuilding.Lab:  adjustSupply(lithium, 1); adjustSupply(aluminium, -1); adjustSupply(carbon, -1); break;
-            case EBuilding.FossilPowerPlant:  adjustSupply(power, 3); adjustSupply(carbon, -1); break;
-            case EBuilding.GeothermalPlant:  adjustSupply(power, 2); break;
-            case EBuilding.WindTurbine:  adjustSupply(power, 1); break;
+            case EBuilding.MineIron: adjustSupplyNoRestrictions(iron, 1); adjustSupplyNoRestrictions(power, -1); break;
+            case EBuilding.MineAluminium: adjustSupplyNoRestrictions(aluminium, 1); adjustSupplyNoRestrictions(power, -1); break;
+            case EBuilding.MineCarbon: adjustSupplyNoRestrictions(carbon, 1); adjustSupplyNoRestrictions(power, -1); break;
+            case EBuilding.Furnace:  adjustSupplyNoRestrictions(steel, 1); adjustSupplyNoRestrictions(power, -1); adjustSupplyNoRestrictions(iron, -1); break;
+            case EBuilding.Lab:  adjustSupplyNoRestrictions(lithium, 1); adjustSupplyNoRestrictions(aluminium, -1); adjustSupplyNoRestrictions(carbon, -1); break;
+            case EBuilding.FossilPowerPlant:  adjustSupplyNoRestrictions(power, 3); adjustSupplyNoRestrictions(carbon, -1); break;
+            case EBuilding.GeothermalPlant:  adjustSupplyNoRestrictions(power, 2); break;
+            case EBuilding.WindTurbine:  adjustSupplyNoRestrictions(power, 1); break;
             default:
                 console.error("Illegal argument exception. name: " + name);
                 break;
@@ -499,6 +519,7 @@ define(["jquery"], function($) {
         updateMarket(playerBlue, market);
         updateMarket(playerGreen, market);
         updateMarket(playerYellow, market);
+        correctAllPrices();
 
         adjustSupplyForDemand();
 
