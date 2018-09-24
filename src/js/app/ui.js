@@ -82,7 +82,6 @@ define(["jquery", "app/engine"], function($, engine) {
 
         $(".box-produce").click(function() {
             var demandCard = engine.drawDemandCard();
-            renderUI();
 
             $(".prod-table__column__content").each(function() {
                 let $player_elem = $(this).parents(".prod-table__column[data-player]");
@@ -95,9 +94,10 @@ define(["jquery", "app/engine"], function($, engine) {
         });
 
         $("#popup .prod-buttons__produce").click(function() {
-            engine.produce();
             $("#popup").css("display", "none");
             $("#overlay").css("display", "none");
+            engine.produce();
+            renderUI();
         });
 
         $("#popup .prod-buttons__cancel").click(function() {
