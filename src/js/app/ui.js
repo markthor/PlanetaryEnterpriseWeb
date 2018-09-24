@@ -2,7 +2,7 @@ define(["jquery", "app/engine"], function($, engine) {
 
     // Get engine player variable from ancestor in DOM
     var getParentPlayer = function($elem) {
-        let $player_elem = $elem.parents("[data-player]");
+        let $player_elem = $elem.parents(".box-item[data-player]");
         return engine.getPlayer($player_elem.attr("data-player"));
     }
 
@@ -50,12 +50,6 @@ define(["jquery", "app/engine"], function($, engine) {
             renderUI();
         });
 
-        // Click listener for overlay
-        $("#overlay").click(function() {
-            $(".popover").css("display", "none");
-            $(this).css("display", "none");
-        });
-
         // Click listener for custom mine popover
         $("[data-mine]").click(function(event) {
             event.stopPropagation();
@@ -78,6 +72,14 @@ define(["jquery", "app/engine"], function($, engine) {
     }
 
     function registerProduceClickListener() {
+
+        // Click listener for overlay
+        $("#overlay").click(function() {
+            $(".popover").css("display", "none");
+            $("#popup").css("display", "none");
+            $(this).css("display", "none");
+        });
+
         $(".box-produce").click(function() {
             var p1i = engine.getIncome(engine.getPlayer("red"));
             var p2i = engine.getIncome(engine.getPlayer("blue"));
@@ -87,7 +89,26 @@ define(["jquery", "app/engine"], function($, engine) {
             engine.produce();
             var demandCard = engine.drawDemandCard();
             renderUI();
-            alert("red: " + p1i + " - blue: " + p2i + " - green: " + p3i + " - yellow: " + p4i + " -- Demand card: " + demandCard);
+
+            $(".prod-table__column__content").each(function() {
+                let $player_elem = $(this).parents(".prod-table__column[data-player]");
+                $(this).text(engine.getIncomeOrDebt(engine.getPlayer($player_elem.attr("data-player"))) + "$");
+            });
+            
+            $("#overlay").css("display", "block");
+            $("#popup").css("display", "flex");
+            $("#popup .prod-demand h1").text("Demand: " + demandCard);
+        });
+
+        $("#popup .prod-buttons__produce").click(function() {
+            engine.produce();
+            $("#popup").css("display", "none");
+            $("#overlay").css("display", "none");
+        });
+
+        $("#popup .prod-buttons__cancel").click(function() {
+            $("#popup").css("display", "none");
+            $("#overlay").css("display", "none");
         });
     }
 

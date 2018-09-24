@@ -5,7 +5,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 2;
 }
 
@@ -15,6 +15,7 @@ div[data-player]:first-child .popover {
   transform: translateY(-50%);
 }
 
+/* Select mine type */
 .popover {
   width: 235px;
   height: 75px;
@@ -35,6 +36,94 @@ div[data-player]:first-child .popover {
   width: 65px;
   height: 65px;
   padding: 5px;
+}
+
+/* Produce window */
+.popup {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  background: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  background: lightgrey;
+  border-radius: 5px;
+  display: none;
+  /* Set to flex when shown */
+  flex-direction: column;
+}
+.popup .prod-demand {
+  box-shadow: inset 0 0 10px 1px #333333;
+}
+.popup .prod-demand > h1 {
+  font-family: dragon, calibri;
+  text-align: center;
+}
+.popup .prod-table {
+  flex: 1 1 auto;
+  display: flex;
+}
+.popup .prod-table__column {
+  box-shadow: inset 0 0 10px #333333;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+}
+.popup .prod-table__column[data-player=red] {
+  background: #FF826B;
+}
+.popup .prod-table__column[data-player=blue] {
+  background: #7492E9;
+}
+.popup .prod-table__column[data-player=green] {
+  background: #92E692;
+}
+.popup .prod-table__column[data-player=yellow] {
+  background: #FFFF9E;
+}
+.popup .prod-table__column__header {
+  display: inline-flex;
+  flex: 0 1 auto;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 8px 0;
+}
+.popup .prod-table__column__header h1 {
+  font-weight: bold;
+  font-family: dragon, calibri;
+  font-size: 36px;
+  margin: 0 auto;
+}
+.popup .prod-table__column__content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-size: 90px;
+  font-weight: bold;
+  font-family: dragon, calibri;
+}
+.popup .prod-buttons {
+  flex: 0 1 auto;
+  box-shadow: inset 0 0 10px #333333;
+  display: flex;
+  justify-content: space-around;
+}
+.popup .prod-buttons > div {
+  display: inline-block;
+  padding: 10px 20px;
+  font-family: dragon, calibri;
+  text-align: center;
+  font-size: 32px;
+  box-shadow: inset 0 0 10px 1px #333333;
+  width: 25%;
+}
+.popup .prod-buttons__produce {
+  background: #28a745;
+}
+.popup .prod-buttons__cancel {
+  background: #dc3545;
 }
 
 body {
