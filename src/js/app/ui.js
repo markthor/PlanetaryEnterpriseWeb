@@ -81,12 +81,6 @@ define(["jquery", "app/engine"], function($, engine) {
         });
 
         $(".box-produce").click(function() {
-            var p1i = engine.getIncome(engine.getPlayer("red"));
-            var p2i = engine.getIncome(engine.getPlayer("blue"));
-            var p3i = engine.getIncome(engine.getPlayer("green"));
-            var p4i = engine.getIncome(engine.getPlayer("yellow"));
-
-            engine.produce();
             var demandCard = engine.drawDemandCard();
             renderUI();
 
