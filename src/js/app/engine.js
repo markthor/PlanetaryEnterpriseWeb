@@ -577,6 +577,14 @@ define(["jquery"], function($) {
         return revenue;
     }
 
+    function getIncomeOrDebt(player){
+        if(player.accumulateDebt) {
+            return debtToBeGained;
+        } else {
+            return getIncome(player);
+        }
+    }
+
     function adjustSupplyForDemand(){
         adjustSupply(power, -power.demand);
         adjustSupply(iron, -iron.demand);
@@ -659,6 +667,7 @@ define(["jquery"], function($) {
         adjustSupply: adjustSupply,
         toggleDebt: toggleDebt,
         getIncome: getIncome,
+        getIncomeOrDebt: getIncomeOrDebt,
         getBuildingPrice: getBuildingPrice,
         getDeck: function() {
             return deck;
