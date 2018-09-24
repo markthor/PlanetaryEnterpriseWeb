@@ -436,7 +436,7 @@ define(["jquery"], function($) {
     }
 
     function drawDemandCard(){
-        return getDemand();
+        return deck.nextCard;
     }
 
     function getDemand() {
@@ -608,6 +608,8 @@ define(["jquery"], function($) {
         playerBlue.accumulateDebt = false;
         playerGreen.accumulateDebt = false;
         playerYellow.accumulateDebt = false;
+
+        deck.nextCard = getDemand();
     }
 
     function initializeResources(){
@@ -629,7 +631,7 @@ define(["jquery"], function($) {
         deck.power = 6;
         deck.interest = 5;
         deck.funding = 3;
-        return deck;
+        deck.nextCard = drawDemandCard();
     }
 
     function initializePlayers(){
