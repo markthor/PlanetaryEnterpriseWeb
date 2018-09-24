@@ -24,23 +24,24 @@ define(["jquery"], function($) {
         SupplyConnector: "supplyConnector",
         ConstructionSite: "constructionSite",
         properties: {
-            "mineIron": { produce: "iron", sortPriority: 0 },
-            "mineCarbon": { produce: "carbon", sortPriority: 2 },
-            "mineAluminium": { produce: "aluminum", sortPriority: 1 },
-            "furnace": { produce: "steel", sortPriority: 3 },
-            "lab": { produce: "lithium", sortPriority: 4 },
-            "windTurbine": { produce: "power", sortPriority: 5 },
-            "geothermalPlant": { produce: ["power", "power"], sortPriority: 6 },
-            "fossilPowerPlant": { produce: ["power", "power", "power"], sortPriority: 7 },
-            "supplyConnector": { produce: "", sortPriority: 8 },
-            "constructionSite": { produce: "", sortPriority: 9 }
+            "mineIron": { produce: "iron", requiresPower: true, sortPriority: 0 },
+            "mineCarbon": { produce: "carbon", requiresPower: true, sortPriority: 2 },
+            "mineAluminium": { produce: "aluminum", requiresPower: true, sortPriority: 1 },
+            "furnace": { produce: "steel", requiresPower: true, sortPriority: 3 },
+            "lab": { produce: "lithium", requiresPower: false, sortPriority: 4 },
+            "windTurbine": { produce: "power", requiresPower: false, sortPriority: 5 },
+            "geothermalPlant": { produce: ["power", "power"], requiresPower: false, sortPriority: 6 },
+            "fossilPowerPlant": { produce: ["power", "power", "power"], requiresPower: false, sortPriority: 7 },
+            "supplyConnector": { produce: "", requiresPower: false, sortPriority: 8 },
+            "constructionSite": { produce: "", requiresPower: false, sortPriority: 9 }
         }
     }
 
     var ETechnology = {
         MarketManipulator: "marketManipulator",
         CarbonFabrication: "carbonFabrication",
-        DenseConnector: "denseConnector"
+        DenseConnector: "denseConnector",
+        NuclearReactors: "nuclearReactors"
     }
 
     function resource(name, price, supply) {
@@ -107,8 +108,23 @@ define(["jquery"], function($) {
         }
     }
 
-    function produceForBuilding(buildingName){
-        switch (buildingName) {
+    function produceForBuilding(buildingName, player){
+        if(player.nuclearReactors) {
+            switch (buildingName) {
+            case EBuilding.MineIron: adjustSupplyNoRestrictions(iron, 1); break;
+            case EBuilding.MineAluminium: adjustSupplyNoRestrictions(aluminium, 1); break;
+            case EBuilding.MineCarbon: adjustSupplyNoRestrictions(carbon, 1); break;
+            case EBuilding.Furnace:  adjustSupplyNoRestrictions(steel, 1); adjustSupplyNoRestrictions(iron, -1); break;
+            case EBuilding.Lab:  adjustSupplyNoRestrictions(lithium, 1); adjustSupplyNoRestrictions(aluminium, -1); adjustSupplyNoRestrictions(carbon, -1); break;
+            case EBuilding.FossilPowerPlant:  adjustSupplyNoRestrictions(power, 3); adjustSupplyNoRestrictions(carbon, -1); break;
+            case EBuilding.GeothermalPlant:  adjustSupplyNoRestrictions(power, 2); break;
+            case EBuilding.WindTurbine:  adjustSupplyNoRestrictions(power, 1); break;
+            default:
+                console.error("Illegal argument exception. name: " + name);
+                break;
+            }
+        } else {
+            switch (buildingName) {
             case EBuilding.MineIron: adjustSupplyNoRestrictions(iron, 1); adjustSupplyNoRestrictions(power, -1); break;
             case EBuilding.MineAluminium: adjustSupplyNoRestrictions(aluminium, 1); adjustSupplyNoRestrictions(power, -1); break;
             case EBuilding.MineCarbon: adjustSupplyNoRestrictions(carbon, 1); adjustSupplyNoRestrictions(power, -1); break;
@@ -120,6 +136,7 @@ define(["jquery"], function($) {
             default:
                 console.error("Illegal argument exception. name: " + name);
                 break;
+            }
         }
     }
 
@@ -152,6 +169,16 @@ define(["jquery"], function($) {
             modifyTechnology(ETechnology.MarketManipulator, true);
         }
     }
+    
+    function toggleNuclearReactor(player){
+        if(player.nuclearReactors){
+            player.nuclearReactors = false;
+            modifyTechnology(ETechnology.NuclearReactors, false);
+        } else {
+            player.nuclearReactors = true;
+            modifyTechnology(ETechnology.NuclearReactors, true);
+        }
+    }
 
     function modifyTechnology(technologyName, add){
         multiplier = -1;
@@ -164,6 +191,9 @@ define(["jquery"], function($) {
                 adjustSupply(steel, 1 * multiplier)
                 break;
             case ETechnology.MarketManipulator:
+                adjustSupply(lithium, 1 * multiplier);
+                break;
+            case ETechnology.NuclearReactors:
                 adjustSupply(lithium, 1 * multiplier);
                 break;
             default:                 
@@ -257,6 +287,8 @@ define(["jquery"], function($) {
                     return getPrice(steel)
                 case ETechnology.MarketManipulator:
                     return getPrice(lithium)
+                case ETechnology.NuclearReactors:
+                    return getPrice(lithium)
                 default:
                     exception ="Illegal argument exception. buildingName: " + buildingName;
                     console.error(exception);
@@ -286,6 +318,8 @@ define(["jquery"], function($) {
                     return getPrice(steel)
                 case ETechnology.MarketManipulator:
                     return getPrice(lithium)
+                case ETechnology.NuclearReactors:
+                    return getPrice(lithium)
                 default:
                     exception = "Illegal argument exception. buildingName: " + buildingName;
                     console.error(exception);
@@ -294,25 +328,68 @@ define(["jquery"], function($) {
         }
     }
 
-    function getBuildingRevenue(buildingName, market){
-        revenue = 0;
-        switch (buildingName) {
-            case EBuilding.MineIron: revenue = getPrice(market.iron) - getPrice(market.power); break;
-            case EBuilding.MineAluminium: revenue = getPrice(market.aluminium) - getPrice(market.power); break;
-            case EBuilding.MineCarbon: revenue = getPrice(market.carbon) - getPrice(market.power); break;
-            case EBuilding.Furnace: revenue = getPrice(market.steel) - getPrice(market.power) - getPrice(iron); break;
-            case EBuilding.Lab: revenue = getPrice(market.lithium) - getPrice(market.carbon) - getPrice(market.aluminium); break;
-            case EBuilding.FossilPowerPlant: revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
-            case EBuilding.GeothermalPlant: revenue = getPrice(market.power) * 2; break;
-            case EBuilding.WindTurbine: revenue = getPrice(market.power); break;
-            case EBuilding.SupplyConnector: revenue = 0; break;
-            case EBuilding.ConstructionSite: revenue = 0; break;
-            default:
-                console.error("Illegal argument exception. name: " + buildingName);
-                break;
+    function getBuildingRevenue(buildingName, market, player){
+        if(EBuilding.properties[buildingName].requiresPower && !doesPowerConsumingBuildingsProduce(player, market)) {
+            return 0;
+        } else {
+            return getBuildingRevenueNoRestrictions(buildingName, market, player);
         }
+    }
+    
+
+    function getBuildingRevenueNoRestrictions(buildingName, market, player){
+        var revenue = 0;
+        if(player.nuclearReactors) {
+            switch (buildingName) {
+                case EBuilding.MineIron: revenue = getPrice(market.iron); break;
+                case EBuilding.MineAluminium: revenue = getPrice(market.aluminium); break;
+                case EBuilding.MineCarbon: revenue = getPrice(market.carbon); break;
+                case EBuilding.Furnace: revenue = getPrice(market.steel) - getPrice(iron); break;
+                case EBuilding.Lab: revenue = getPrice(market.lithium) - getPrice(market.carbon) - getPrice(market.aluminium); break;
+                case EBuilding.FossilPowerPlant: revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
+                case EBuilding.GeothermalPlant: revenue = getPrice(market.power) * 2; break;
+                case EBuilding.WindTurbine: revenue = getPrice(market.power); break;
+                case EBuilding.SupplyConnector: revenue = 0; break;
+                case EBuilding.ConstructionSite: revenue = 0; break;
+                default:
+                    console.error("Illegal argument exception. name: " + buildingName);
+                    break;
+            }
+        } else {
+            switch (buildingName) {
+                case EBuilding.MineIron: revenue = getPrice(market.iron) - getPrice(market.power); break;
+                case EBuilding.MineAluminium: revenue = getPrice(market.aluminium) - getPrice(market.power); break;
+                case EBuilding.MineCarbon: revenue = getPrice(market.carbon) - getPrice(market.power); break;
+                case EBuilding.Furnace: revenue = getPrice(market.steel) - getPrice(market.power) - getPrice(iron); break;
+                case EBuilding.Lab: revenue = getPrice(market.lithium) - getPrice(market.carbon) - getPrice(market.aluminium); break;
+                case EBuilding.FossilPowerPlant: revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
+                case EBuilding.GeothermalPlant: revenue = getPrice(market.power) * 2; break;
+                case EBuilding.WindTurbine: revenue = getPrice(market.power); break;
+                case EBuilding.SupplyConnector: revenue = 0; break;
+                case EBuilding.ConstructionSite: revenue = 0; break;
+                default:
+                    console.error("Illegal argument exception. name: " + buildingName);
+                    break;
+            }
+        }
+        
         if(revenue < 0) return 0;
         return revenue;
+    }
+
+    function doesPowerConsumingBuildingsProduce(player, market) {
+        if(!player.nuclearReactors) {
+            return true;
+        }
+
+        var totalRevenueOfPowerProducingBuildings = 0;
+        player.buildings.forEach(function(building) {
+            if(EBuilding.properties[building].requiresPower) {
+                totalRevenueOfPowerProducingBuildings += getBuildingRevenueNoRestrictions(building, market, player);
+            }
+        });
+
+        return (totalRevenueOfPowerProducingBuildings - getPrice(lithium, 1) > 0);
     }
 
     function player(color){
@@ -323,7 +400,8 @@ define(["jquery"], function($) {
             buildings: [],
             carbonFabrication: false,
             denseConnector: false,
-            marketManipulator: false
+            marketManipulator: false,
+            nuclearReactors: false
         };
     }
 
@@ -454,9 +532,9 @@ define(["jquery"], function($) {
     function updateMarket(player, market){
         if (!player.accumulateDebt){
             player.buildings.forEach(buildingName => {
-                buildingRevenue = getBuildingRevenue(buildingName, market);
-                if(buildingRevenue > 0 ){
-                    produceForBuilding(buildingName);
+                buildingRevenue = getBuildingRevenue(buildingName, market, player);
+                if(buildingRevenue > 0){
+                        produceForBuilding(buildingName, player);
                 }
             });
         } else{
@@ -479,7 +557,7 @@ define(["jquery"], function($) {
         if(!player.accumulateDebt){
             resources = [];
             player.buildings.forEach(function(building) {
-                revenue = getBuildingRevenue(building, getMarket());
+                revenue = getBuildingRevenue(building, getMarket(), player);
                 if(revenue > 0){
                     resources = resources.concat(EBuilding.properties[building].produce);
                 }
@@ -489,10 +567,13 @@ define(["jquery"], function($) {
     }
 
     function getIncome(player){
-        revenue = 0;
+        var revenue = 0;
         player.buildings.forEach(function(building) {
-            revenue += getBuildingRevenue(building, getMarket());
+            revenue += getBuildingRevenue(building, getMarket(), player);
         });
+        if(player.nuclearReactors && doesPowerConsumingBuildingsProduce(player, getMarket())) {
+            revenue -= getPrice(lithium, 1);
+        }
         return revenue;
     }
 
@@ -614,8 +695,9 @@ define(["jquery"], function($) {
         getTechnology: function(technologyName) {
             switch(technologyName) {
                 case "carbonFabrication": return ETechnology.CarbonFabrication;
-                case "denseConnector": return ETechnology.DenseConnector;
+                case "nuclearReactors": return ETechnology.NuclearReactors;
                 case "marketManipulator": return ETechnology.MarketManipulator;
+                case "denseConnectors": return ETechnology.DenseConnector;
                 default:
                     console.error("Illegal argument exception. name: " + technologyName);
                     break;
@@ -649,7 +731,7 @@ define(["jquery"], function($) {
             switch(technology) {
                 case ETechnology.MarketManipulator: toggleMarketManipulator(player); break;
                 case ETechnology.CarbonFabrication: toggleCarbonFabrication(player); break;
-                case ETechnology.DenseConnector: toggleDenseConnector(player); break;
+                case ETechnology.NuclearReactors: toggleNuclearReactor(player); break;
                 default:
                     console.error("Illegal argument exception. name: " + technology);
                     break;
