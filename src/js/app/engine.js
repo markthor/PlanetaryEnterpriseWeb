@@ -502,7 +502,7 @@ define(["jquery"], function($) {
             case "steel":  steel.demand++; break;
             case "lithium": lithium.demand++; break;
             case "interest": interest(); break;
-            case "funding": debtToBeGained += 3; break;
+            case "funding": deck.debtToBeGained += 3; break;
             default: break;
         }
     }
