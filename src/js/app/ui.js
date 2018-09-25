@@ -125,8 +125,17 @@ define(["jquery", "app/engine"], function($, engine) {
         });
 
         // Render supply
-        $(".box-item-supply p").each(function() {
-            $(this).text("Supply: " + getParentResource($(this)).supply);
+        $(".box-item-supply").each(function() {
+            let resource = getParentResource($(this));
+            let $child_elems = $(this).find(".supply-template");
+
+            for (i = 0; i < resource.maxSupply; i++) {
+                if (resource.supply > i) {
+                    $child_elems.eq(i).removeClass("supply-template--inactive");
+                } else {
+                    $child_elems.eq(i).addClass("supply-template--inactive");
+                }
+            }
         });
     }
 
@@ -188,6 +197,19 @@ define(["jquery", "app/engine"], function($, engine) {
         });
     }
 
+    function initializeSupplyTemplates() {
+        $(".supply-template").each(function() {
+            let resource = getParentResource($(this));
+
+            if (resource.maxSupply - 1 > 1) {
+                // Clone template until maxSupply is reached
+                for (i = 0; i < resource.maxSupply - 1; i++) {
+                    $(this).clone().appendTo($(this).parent());
+                }
+            }
+        });
+    }
+
     function renderUI() {
         renderResources();
         renderPlayers();
@@ -198,6 +220,7 @@ define(["jquery", "app/engine"], function($, engine) {
     function initialize() {
         console.log("Initializing UI...");
 
+        initializeSupplyTemplates();
         registerClickListeners();
         renderUI();
     }

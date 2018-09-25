@@ -100,15 +100,19 @@ p {
             }
         }
 
+        &--inactive {
+            > img {
+                filter: grayscale(1);
+                opacity: 0.2;
+            }
+        }
+
         > img {
             padding: 0 1px;
             width: 38px;
             height: 38px;
 
-            &.inactive {
-                filter: grayscale(1);
-                opacity: 0.2;
-            }
+            
         }
     }
 }

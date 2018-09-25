@@ -220,14 +220,14 @@ p {
 .box-item-supply .supply-template--narrow > img {
   margin: 0 -6px;
 }
+.box-item-supply .supply-template--inactive > img {
+  filter: grayscale(1);
+  opacity: 0.2;
+}
 .box-item-supply .supply-template > img {
   padding: 0 1px;
   width: 38px;
   height: 38px;
-}
-.box-item-supply .supply-template > img.inactive {
-  filter: grayscale(1);
-  opacity: 0.2;
 }
 
 .box-item-buttons {
