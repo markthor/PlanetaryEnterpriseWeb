@@ -636,7 +636,7 @@ define(["jquery"], function($) {
         aluminium = resource("aluminium", 2, 5);
         carbon = resource("carbon", 2, 5);
         steel = resource("steel", 4, 7);
-        lithium = resource("lithium", 6, 4);
+        lithium = resource("lithium", 6, 3);
     }
 
     function initializeDemandDeck() {
