@@ -174,30 +174,27 @@ p {
 .box-item-demand {
   flex: 0 1 auto;
 }
-
 .box-item-demand > h2 {
   font-family: dragon, calibri;
   font-size: 42px;
   margin-top: 4px;
   margin-bottom: 6px;
 }
-
 .box-item-demand > p {
   margin-top: 6px;
-  margin-bottom: 6px;
+  margin-bottom: 0px;
+  height: 72px;
 }
 
 .box-item-price {
   display: flex;
   flex: 1 1 0;
 }
-
 .box-item-price > h2 {
   margin-left: 5px;
   display: flex;
   align-items: center;
   width: 40%;
-  vertical-align: middle;
   margin-right: 10%;
   font-size: 86px;
   margin-top: 0;
@@ -208,11 +205,29 @@ p {
 
 .box-item-supply {
   flex: 0 1 auto;
+  height: 72px;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 2px;
+  margin-bottom: 8px;
+  padding: 0 10px;
 }
-
-.box-item-supply p {
-  margin-top: 4px;
-  margin-bottom: 10px;
+.box-item-supply .supply-template {
+  display: inline-flex;
+}
+.box-item-supply .supply-template--narrow > img {
+  margin: 0 -6px;
+}
+.box-item-supply .supply-template > img {
+  padding: 0 1px;
+  width: 38px;
+  height: 38px;
+}
+.box-item-supply .supply-template > img.inactive {
+  filter: grayscale(1);
+  opacity: 0.2;
 }
 
 .box-item-buttons {
@@ -400,7 +415,6 @@ p {
   margin-left: 10%;
   margin-right: 5px;
 }
-
 .img-container > img {
   position: absolute;
   max-height: 100%;
