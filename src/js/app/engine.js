@@ -634,10 +634,13 @@ define(["jquery"], function($) {
     }
 
     function adjustDebtToBeAccumulated() {
-        deck.debtToBeGained++;
         if(didAnyPlayerAccumulateDebt()) {
+        	if(!wasDebtAccumulatedLastRound) {
+        		deck.debtToBeGained++;
+        	}
             wasDebtAccumulatedLastRound = true
         } else {
+        	deck.debtToBeGained++;
             if(!wasDebtAccumulatedLastRound) {
                 deck.debtToBeGained++;
             }
