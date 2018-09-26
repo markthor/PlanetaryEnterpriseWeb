@@ -12,6 +12,8 @@ define(["jquery"], function($) {
     var playerBlue = {};
     var playerYellow = {};
 
+    var wasDebtAccumulatedLastRound = true;
+
     var EBuilding = {
         MineIron: "mineIron",
         MineCarbon: "mineCarbon",
@@ -493,7 +495,6 @@ define(["jquery"], function($) {
     }
 
     function modifyDemandState(card) {
-        deck.debtToBeGained++;
         switch(card) {
             case "power": power.demand++; break;
             case "iron": iron.demand++; break;
@@ -621,6 +622,8 @@ define(["jquery"], function($) {
 
         adjustSupplyForDemand();
 
+        adjustDebtToBeAccumulated();
+
         playerRed.accumulateDebt = false;
         playerBlue.accumulateDebt = false;
         playerGreen.accumulateDebt = false;
@@ -628,6 +631,34 @@ define(["jquery"], function($) {
 
         modifyDemandState(drawDemandCard());
         deck.nextCard = getDemand();
+    }
+
+    function adjustDebtToBeAccumulated() {
+        deck.debtToBeGained++;
+        if(didAnyPlayerAccumulateDebt()) {
+            wasDebtAccumulatedLastRound = true
+        } else {
+            if(!wasDebtAccumulatedLastRound) {
+                deck.debtToBeGained++;
+            }
+            wasDebtAccumulatedLastRound = false;
+        }
+    }
+
+    function didAnyPlayerAccumulateDebt() {
+        if(playerRed.accumulateDebt === true) {
+            return true;
+        }
+        if(playerBlue.accumulateDebt === true) {
+            return true;
+        }
+        if(playerGreen.accumulateDebt === true) {
+            return true;
+        }
+        if(playerYellow.accumulateDebt === true) {
+            return true;
+        }
+        return false;
     }
 
     function initializeResources(){
@@ -648,7 +679,7 @@ define(["jquery"], function($) {
         deck.aluminium = 4;
         deck.power = 6;
         deck.interest = 5;
-        deck.funding = 3;
+        deck.funding = 0;
         deck.nextCard = getDemand();
         modifyDemandState(drawDemandCard());
         deck.nextCard = getDemand();
