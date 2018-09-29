@@ -141,6 +141,11 @@ define(["jquery", "app/engine"], function($, engine) {
 
     function renderPlayers() {
 
+        // Render name
+        $(".box-item-player-header .name").each(function() {
+            $(this).text(getParentPlayer($(this)).name);
+        })
+
         // Render income
         $(".income").each(function() {
             $(this).text(engine.getIncome(getParentPlayer($(this))) + "$");
@@ -217,6 +222,34 @@ define(["jquery", "app/engine"], function($, engine) {
         $("#marketText").text("Loan available: " + engine.getDeck().debtToBeGained + "$");
     }
 
+    function initializePlayers() {
+        var setPlayerName = function(player, text) {
+            var name = prompt("Enter name for player: " + text);
+            if (name && name.trim() != "") {
+                player.name = name;
+            }
+        }
+
+        var setPlayerDebt = function(player) {
+            var debt = prompt("Enter debt for player: " + player.name);
+            if (debt) {
+                player.debt = debt;
+            }
+        }
+
+        setPlayerName(engine.getPlayer("red"), "Red");
+        setPlayerName(engine.getPlayer("blue"), "Blue");
+        setPlayerName(engine.getPlayer("green"), "Green");
+        setPlayerName(engine.getPlayer("yellow"), "Yellow");
+
+        setPlayerDebt(engine.getPlayer("red"));
+        setPlayerDebt(engine.getPlayer("blue"));
+        setPlayerDebt(engine.getPlayer("green"));
+        setPlayerDebt(engine.getPlayer("yellow"));
+
+        ui.render();
+    }
+
     function initialize() {
         console.log("Initializing UI...");
 
@@ -227,6 +260,7 @@ define(["jquery", "app/engine"], function($, engine) {
 
     return {
         initialize: initialize,
+        initializePlayers: initializePlayers,
         render: renderUI
     }
 });

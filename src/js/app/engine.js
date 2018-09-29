@@ -397,6 +397,7 @@ define(["jquery"], function($) {
     function player(color){
         return {
             color: color,
+            name: "Player",
             debt: 0,
             accumulateDebt: false,
             buildings: [],
