@@ -704,6 +704,13 @@ define(["jquery"], function($) {
         initializePlayers();
     }
 
+    function playerHasEnoughConnectors(player) {
+        let connectorCount = player.buildings.filter(name => name === EBuilding.SupplyConnector).length;
+        let buildingCount = player.buildings.filter(name => name !== EBuilding.SupplyConnector).length;
+        
+        return connectorCount >= buildingCount;
+    }
+
 
     return {
         initialize: initialize,
@@ -713,6 +720,7 @@ define(["jquery"], function($) {
         removeBuilding: removeBuilding,
         adjustSupply: adjustSupply,
         toggleDebt: toggleDebt,
+        playerHasEnoughConnectors: playerHasEnoughConnectors,
         getIncome: getIncome,
         getIncomeOrDebt: getIncomeOrDebt,
         getBuildingPrice: getBuildingPrice,

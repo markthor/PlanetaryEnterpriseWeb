@@ -32,9 +32,16 @@ define(["jquery", "app/engine"], function($, engine) {
         // Click listener for buildings
         $("[data-building]").click(function() {
             let player = getParentPlayer($(this));
-            let building = engine.getBuilding($(this).attr("data-building"));
+            let buildingName = $(this).attr("data-building");
+            let building = engine.getBuilding(buildingName);
 
+            // Case for bottom building pane
             if ($(this).parents(".box-item-player-content-buildings").length) {
+                // Disabled if not enough connectors
+                if ($(this).hasClass("disabled")) {
+                    return;
+                }
+
                 let $popover_elem = $(this).find(".popover");
 
                 // Show popover instead of adding building if popover exists
@@ -44,6 +51,7 @@ define(["jquery", "app/engine"], function($, engine) {
                 } else {
                     engine.addBuilding(player, building);
                 }
+            // Case for buildings in player inventory
             } else {
                 engine.removeBuilding(player, building);
             }
@@ -171,7 +179,16 @@ define(["jquery", "app/engine"], function($, engine) {
             let building = engine.getBuilding(buildingName);
             let price = engine.getBuildingPrice(player, building);
 
-            $(this).find(".building-price").text(price + "$");
+            // Applies to buildings in bottom pane that can be purchased
+            $(this).find(".building-price").each(function() {
+                $(this).text(price + "$");
+                if (!engine.playerHasEnoughConnectors(player) && buildingName !== "supplyConnector") {
+                    $(this).parents(".building-row").addClass("disabled");
+                } else {
+                    $(this).parents(".building-row").removeClass("disabled");
+                }
+            });
+            // Applies to buildings that are in player inventories (already purchased)
             $(this).find(".building-count").each(function(){
                 let buildingCount = player.buildings.filter(name => name === buildingName).length;
                 
