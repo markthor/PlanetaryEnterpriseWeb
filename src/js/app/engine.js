@@ -26,16 +26,16 @@ define(["jquery"], function($) {
         SupplyConnector: "supplyConnector",
         ConstructionSite: "constructionSite",
         properties: {
-            "mineIron": { produce: "iron", requiresPower: true, sortPriority: 0 },
-            "mineCarbon": { produce: "carbon", requiresPower: true, sortPriority: 2 },
-            "mineAluminium": { produce: "aluminum", requiresPower: true, sortPriority: 1 },
-            "furnace": { produce: "steel", requiresPower: true, sortPriority: 3 },
-            "lab": { produce: "lithium", requiresPower: false, sortPriority: 4 },
-            "windTurbine": { produce: "power", requiresPower: false, sortPriority: 5 },
-            "geothermalPlant": { produce: ["power", "power"], requiresPower: false, sortPriority: 6 },
-            "fossilPowerPlant": { produce: ["power", "power", "power"], requiresPower: false, sortPriority: 7 },
-            "supplyConnector": { produce: "", requiresPower: false, sortPriority: 8 },
-            "constructionSite": { produce: "", requiresPower: false, sortPriority: 9 }
+            "mineIron": { produce: "iron", consume: ["power"], requiresPower: true, sortPriority: 0 },
+            "mineCarbon": { produce: "carbon", consume: ["power"], requiresPower: true, sortPriority: 2 },
+            "mineAluminium": { produce: "aluminum", consume: ["power"], requiresPower: true, sortPriority: 1 },
+            "furnace": { produce: "steel", consume: ["power", "iron"], requiresPower: true, sortPriority: 3 },
+            "lab": { produce: "lithium", consume: ["aluminium", "carbon"], requiresPower: false, sortPriority: 4 },
+            "windTurbine": { produce: "power", consume: [], requiresPower: false, sortPriority: 5 },
+            "geothermalPlant": { produce: ["power", "power"], consume: [], requiresPower: false, sortPriority: 6 },
+            "fossilPowerPlant": { produce: ["power", "power", "power"], consume: ["carbon"], requiresPower: false, sortPriority: 7 },
+            "supplyConnector": { produce: "", consume: [], requiresPower: false, sortPriority: 8 },
+            "constructionSite": { produce: "", consume: [], requiresPower: false, sortPriority: 9 }
         }
     }
 
@@ -573,8 +573,54 @@ define(["jquery"], function($) {
                     resources = resources.concat(EBuilding.properties[building].produce);
                 }
             });
+            sortResources(resources)
             return resources;
         } else return [];
+    }
+
+    function getConsumedResources(player){
+        if(!player.accumulateDebt){
+            var resources = [];
+            var nuclearReactorActivated = false;
+            player.buildings.forEach(function(building) {
+                revenue = getBuildingRevenue(building, getMarket(), player);
+                if(revenue > 0){
+                    if(player.nuclearReactors && EBuilding.properties[building].requiresPower){
+                        resources = resources.concat(EBuilding.properties[building].consume.filter(resource => resource !== "power"));
+                        nuclearReactorActivated = true;
+                    } else {
+                        resources = resources.concat(EBuilding.properties[building].consume);
+                    }
+                }
+            });
+            if(nuclearReactorActivated){
+                resources.push("lithium")
+            }
+            sortResources(resources)
+            return resources;
+        } else return [];
+    }
+
+    function sortResources(resources){
+        resources.sort(function(a, b){
+            i = getResourceSortOrder(a);
+            j = getResourceSortOrder(b);
+             return i - j;
+        });
+    }
+
+     function getResourceSortOrder(resourceName){
+        switch (resourceName) {
+            case "power": return 1
+            case "iron": return 2
+            case "aluminium": return 3
+            case "carbon": return 4
+            case "steel": return 5
+            case "lithium": return 6
+            default:
+                console.error("Illegal argument exception. name: " + resourceName);
+                break;
+        }
     }
 
     function getIncome(player){
@@ -691,9 +737,13 @@ define(["jquery"], function($) {
 
     function initializePlayers(){
         playerRed = player("red");
-        playerGreen = player("green");
         playerBlue = player("blue");
+        playerGreen = player("green");
         playerYellow = player("yellow");
+        playerRed.buildings.push(EBuilding.SupplyConnector);
+        playerBlue.buildings.push(EBuilding.SupplyConnector);
+        playerGreen.buildings.push(EBuilding.SupplyConnector);
+        playerYellow.buildings.push(EBuilding.SupplyConnector);
     }
 
     function initialize(){
@@ -724,6 +774,8 @@ define(["jquery"], function($) {
         getIncome: getIncome,
         getIncomeOrDebt: getIncomeOrDebt,
         getBuildingPrice: getBuildingPrice,
+        getConsumedResources: getConsumedResources,
+        getProducedResources: getProducedResources,
         getDeck: function() {
             return deck;
         },
