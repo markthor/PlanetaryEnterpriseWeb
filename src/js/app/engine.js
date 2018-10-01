@@ -573,6 +573,7 @@ define(["jquery"], function($) {
                     resources = resources.concat(EBuilding.properties[building].produce);
                 }
             });
+            sortResources(resources)
             return resources;
         } else return [];
     }
@@ -595,8 +596,31 @@ define(["jquery"], function($) {
             if(nuclearReactorActivated){
                 resources.push("lithium")
             }
+            sortResources(resources)
             return resources;
         } else return [];
+    }
+
+    function sortResources(resources){
+        resources.sort(function(a, b){
+            i = getResourceSortOrder(a);
+            j = getResourceSortOrder(b);
+             return i - j;
+        });
+    }
+
+     function getResourceSortOrder(resourceName){
+        switch (resourceName) {
+            case "power": return 1
+            case "iron": return 2
+            case "aluminium": return 3
+            case "carbon": return 4
+            case "steel": return 5
+            case "lithium": return 6
+            default:
+                console.error("Illegal argument exception. name: " + resourceName);
+                break;
+        }
     }
 
     function getIncome(player){
