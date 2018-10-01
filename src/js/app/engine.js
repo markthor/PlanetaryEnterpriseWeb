@@ -26,16 +26,16 @@ define(["jquery"], function($) {
         SupplyConnector: "supplyConnector",
         ConstructionSite: "constructionSite",
         properties: {
-            "mineIron": { produce: "iron", requiresPower: true, sortPriority: 0 },
-            "mineCarbon": { produce: "carbon", requiresPower: true, sortPriority: 2 },
-            "mineAluminium": { produce: "aluminum", requiresPower: true, sortPriority: 1 },
-            "furnace": { produce: "steel", requiresPower: true, sortPriority: 3 },
-            "lab": { produce: "lithium", requiresPower: false, sortPriority: 4 },
-            "windTurbine": { produce: "power", requiresPower: false, sortPriority: 5 },
-            "geothermalPlant": { produce: ["power", "power"], requiresPower: false, sortPriority: 6 },
-            "fossilPowerPlant": { produce: ["power", "power", "power"], requiresPower: false, sortPriority: 7 },
-            "supplyConnector": { produce: "", requiresPower: false, sortPriority: 8 },
-            "constructionSite": { produce: "", requiresPower: false, sortPriority: 9 }
+            "mineIron": { produce: "iron", consume: ["power"], requiresPower: true, sortPriority: 0 },
+            "mineCarbon": { produce: "carbon", consume: ["power"], requiresPower: true, sortPriority: 2 },
+            "mineAluminium": { produce: "aluminum", consume: ["power"], requiresPower: true, sortPriority: 1 },
+            "furnace": { produce: "steel", consume: ["power", "iron"], requiresPower: true, sortPriority: 3 },
+            "lab": { produce: "lithium", consume: ["aluminium", "carbon"], requiresPower: false, sortPriority: 4 },
+            "windTurbine": { produce: "power", consume: [], requiresPower: false, sortPriority: 5 },
+            "geothermalPlant": { produce: ["power", "power"], consume: [], requiresPower: false, sortPriority: 6 },
+            "fossilPowerPlant": { produce: ["power", "power", "power"], consume: ["carbon"], requiresPower: false, sortPriority: 7 },
+            "supplyConnector": { produce: "", consume: [], requiresPower: false, sortPriority: 8 },
+            "constructionSite": { produce: "", consume: [], requiresPower: false, sortPriority: 9 }
         }
     }
 
@@ -577,6 +577,28 @@ define(["jquery"], function($) {
         } else return [];
     }
 
+    function getConsumedResources(player){
+        if(!player.accumulateDebt){
+            var resources = [];
+            var nuclearReactorActivated = false;
+            player.buildings.forEach(function(building) {
+                revenue = getBuildingRevenue(building, getMarket(), player);
+                if(revenue > 0){
+                    if(player.nuclearReactors && EBuilding.properties[building].requiresPower){
+                        resources = resources.concat(EBuilding.properties[building].consume.filter(resource => resource !== "power"));
+                        nuclearReactorActivated = true;
+                    } else {
+                        resources = resources.concat(EBuilding.properties[building].consume);
+                    }
+                }
+            });
+            if(nuclearReactorActivated){
+                resources.push("lithium")
+            }
+            return resources;
+        } else return [];
+    }
+
     function getIncome(player){
         var revenue = 0;
         player.buildings.forEach(function(building) {
@@ -724,6 +746,8 @@ define(["jquery"], function($) {
         getIncome: getIncome,
         getIncomeOrDebt: getIncomeOrDebt,
         getBuildingPrice: getBuildingPrice,
+        getConsumedResources: getConsumedResources,
+        getProducedResources: getProducedResources,
         getDeck: function() {
             return deck;
         },
