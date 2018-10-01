@@ -1,0 +1,32 @@
+.resource-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: inset 0 0 10px $color-shadow;
+
+    &[data-resource="power"] {
+        background: $color-power;
+    }
+
+    &[data-resource="iron"] {
+        background: $color-iron;
+    }
+
+    &[data-resource="aluminium"] {
+        background: $color-aluminium;
+    }
+
+    &[data-resource="carbon"] {
+        background: $color-carbon;
+    }
+
+    &[data-resource="steel"] {
+        background: $color-steel;
+    }
+
+    &[data-resource="lithium"] {
+        background: $color-lithium;
+    }
+}

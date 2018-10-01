@@ -1,3 +1,7 @@
+/*$color-player-red-header: #FFDAD3;
+$color-player-green-header: #DFF8DF;
+$color-player-yellow-header: #FFFFE2;
+$color-player-blue-header: #D6DFF8;*/
 #overlay {
   display: none;
   position: absolute;
@@ -127,6 +131,88 @@ div[data-player]:first-child .popover {
   background: #dc3545;
 }
 
+.resource-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: inset 0 0 10px #333333;
+}
+.resource-container[data-resource=power] {
+  background: #acfcac;
+}
+.resource-container[data-resource=iron] {
+  background: #AC9069;
+}
+.resource-container[data-resource=aluminium] {
+  background: #9BD8D1;
+}
+.resource-container[data-resource=carbon] {
+  background: #646478;
+}
+.resource-container[data-resource=steel] {
+  background: #F0F0F4;
+}
+.resource-container[data-resource=lithium] {
+  background: #fffac7;
+}
+
+.player-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: inset 0 0 10px #333333;
+}
+.player-container[data-player] .header {
+  background: rgba(255, 255, 255, 0.7);
+}
+.player-container[data-player=red] {
+  background: #FF826B;
+}
+.player-container[data-player=blue] {
+  background: #7492E9;
+}
+.player-container[data-player=green] {
+  background: #92E692;
+}
+.player-container[data-player=yellow] {
+  background: #FFFF9E;
+}
+.player-container .header {
+  display: inline-flex;
+  flex: 0 1 auto;
+  padding: 8px 0;
+}
+.player-container .header > div {
+  display: inline-block;
+  width: 33%;
+  font-weight: bold;
+  font-family: dragon, calibri;
+  font-size: 36px;
+}
+.player-container .header .income {
+  color: green;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.player-container .header .debt {
+  color: red;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.player-container .header .debt .center {
+  display: inline-flex;
+}
+.player-container .header .debt .center div {
+  display: inline-block;
+}
+.player-container .header .debt img {
+  height: 30px;
+  padding: 5px 0 5px 10px;
+  display: inline-block;
+}
+
 body {
   height: 100%;
   margin: 0;
@@ -159,15 +245,6 @@ p {
 .flex-box {
   display: flex;
   flex-direction: column;
-}
-
-.box-item {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 0;
-  text-align: center;
-  font-weight: bold;
-  box-shadow: inset 0 0 10px #333333;
 }
 
 /* Box item content boxes START */
@@ -248,46 +325,6 @@ p {
 
 .box-item-buttons > div:hover {
   background: rgba(255, 255, 255, 0.4);
-}
-
-.box-item-player-header {
-  display: inline-flex;
-  flex: 0 1 auto;
-  background: rgba(255, 255, 255, 0.7);
-  /*box-shadow: inset 0 0 2px $color-shadow;*/
-  padding: 8px 0;
-}
-
-.box-item-player-header > div {
-  display: inline-block;
-  width: 33%;
-  font-weight: bold;
-  font-family: dragon, calibri;
-  font-size: 36px;
-}
-
-.box-item-player-header .income {
-  color: green;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-
-.box-item-player-header .debt {
-  color: red;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-
-.box-item-player-header .debt .center {
-  display: inline-flex;
-}
-
-.box-item-player-header .debt .center div {
-  display: inline-block;
-}
-
-.box-item-player-header .debt img {
-  height: 30px;
-  padding: 5px 0 5px 10px;
-  display: inline-block;
 }
 
 .box-item-player-content {
@@ -426,46 +463,6 @@ p {
   bottom: 0;
   left: 0;
   right: 0;
-}
-
-.box-item--power {
-  background: #acfcac;
-}
-
-.box-item--iron {
-  background: #AC9069;
-}
-
-.box-item--aluminium {
-  background: #9BD8D1;
-}
-
-.box-item--carbon {
-  background: #646478;
-}
-
-.box-item--steel {
-  background: #F0F0F4;
-}
-
-.box-item--lithium {
-  background: #fffac7;
-}
-
-.box-item--player-red {
-  background: #FF826B;
-}
-
-.box-item--player-green {
-  background: #92E692;
-}
-
-.box-item--player-yellow {
-  background: #FFFF9E;
-}
-
-.box-item--player-blue {
-  background: #7492E9;
 }
 
 .box-header {

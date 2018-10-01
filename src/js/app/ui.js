@@ -2,13 +2,13 @@ define(["jquery", "app/engine"], function($, engine) {
 
     // Get engine player variable from ancestor in DOM
     var getParentPlayer = function($elem) {
-        let $player_elem = $elem.parents(".box-item[data-player]");
+        let $player_elem = $elem.parents(".player-container[data-player]");
         return engine.getPlayer($player_elem.attr("data-player"));
     }
 
     // Get engine resource variable from ancestor in DOM
     var getParentResource = function($elem) {
-        let $resource_elem = $elem.parents("[data-resource]");
+        let $resource_elem = $elem.parents(".resource-container[data-resource]");
         return engine.getResource($resource_elem.attr("data-resource"));
     }
 
@@ -156,7 +156,7 @@ define(["jquery", "app/engine"], function($, engine) {
     function renderPlayers() {
 
         // Render name
-        $(".box-item-player-header .name").each(function() {
+        $(".player-container .header .name").each(function() {
             $(this).text(getParentPlayer($(this)).name);
         })
 
