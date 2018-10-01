@@ -95,6 +95,12 @@ define(["jquery", "app/engine"], function($, engine) {
                 let $player_elem = $(this).parents(".prod-table__column[data-player]");
                 $(this).text(engine.getIncomeOrDebt(engine.getPlayer($player_elem.attr("data-player"))) + "$");
             });
+
+            // Set player names
+            $(".prod-table__column__header .name").each(function() {
+                let $player_elem = $(this).parents(".prod-table__column[data-player]");
+                $(this).text(engine.getPlayer($player_elem.attr("data-player")).name);
+            });
             
             $("#overlay").css("display", "block");
             $("#popup").css("display", "flex");
@@ -250,7 +256,7 @@ define(["jquery", "app/engine"], function($, engine) {
         var setPlayerDebt = function(player) {
             var debt = prompt("Enter debt for player: " + player.name);
             if (debt) {
-                player.debt = debt;
+                player.debt = parseInt(debt);
             }
         }
 
