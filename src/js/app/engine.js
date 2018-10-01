@@ -737,9 +737,13 @@ define(["jquery"], function($) {
 
     function initializePlayers(){
         playerRed = player("red");
-        playerGreen = player("green");
         playerBlue = player("blue");
+        playerGreen = player("green");
         playerYellow = player("yellow");
+        playerRed.buildings.push(EBuilding.SupplyConnector);
+        playerBlue.buildings.push(EBuilding.SupplyConnector);
+        playerGreen.buildings.push(EBuilding.SupplyConnector);
+        playerYellow.buildings.push(EBuilding.SupplyConnector);
     }
 
     function initialize(){
