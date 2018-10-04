@@ -218,10 +218,10 @@ define(["jquery"], function($) {
                     adjustSupply(carbon, 3 * multiplier);
                     break;
                 case EBuilding.GeothermalPlant: 
-                    adjustSupply(carbon, 6 * multiplier);
+                    adjustSupply(lithium, 2 * multiplier); adjustSupply(carbon, 1 * multiplier);
                     break;
                 case EBuilding.WindTurbine: 
-                    adjustSupply(lithium, 1 * multiplier); adjustSupply(aluminium, 1 * multiplier);
+                    adjustSupply(carbon, 3 * multiplier);
                     break;
                 case EBuilding.SupplyConnector:
                     if(player.denseConnector) adjustSupply(iron, 1 * multiplier)
@@ -245,10 +245,10 @@ define(["jquery"], function($) {
                     adjustSupply(steel, 2 * multiplier);
                     break;
                 case EBuilding.GeothermalPlant: 
-                    adjustSupply(steel, 4 * multiplier);
+                    adjustSupply(lithium, 2 * multiplier); adjustSupply(steel, 1 * multiplier);
                     break;
                 case EBuilding.WindTurbine: 
-                    adjustSupply(lithium, 1 * multiplier); adjustSupply(aluminium, 1 * multiplier);
+                    adjustSupply(steel, 2 * multiplier);
                     break;
                 case EBuilding.SupplyConnector:
                     if(player.denseConnector) adjustSupply(iron, 1 * multiplier)
@@ -275,9 +275,9 @@ define(["jquery"], function($) {
                 case EBuilding.FossilPowerPlant: 
                     return getPrice(carbon, 3);
                 case EBuilding.GeothermalPlant: 
-                    return getPrice(carbon, 6);
+                    return getPrice(lithium, 2) + getPrice(carbon);
                 case EBuilding.WindTurbine: 
-                    return getPrice(lithium) + getPrice(aluminium);
+                    return getPrice(carbon, 3);
                 case EBuilding.SupplyConnector:
                     if(player.denseConnector) return getPrice(iron);
                     else return getPrice(aluminium);
@@ -306,9 +306,9 @@ define(["jquery"], function($) {
                 case EBuilding.FossilPowerPlant: 
                     return getPrice(steel, 2);
                 case EBuilding.GeothermalPlant: 
-                    return getPrice(steel, 4);
+                    return getPrice(lithium, 2) + getPrice(steel);
                 case EBuilding.WindTurbine: 
-                    return getPrice(lithium) + getPrice(aluminium);
+                    return getPrice(steel, 2);
                 case EBuilding.SupplyConnector:
                     if(player.denseConnector) return getPrice(iron);
                     else return getPrice(aluminium);
