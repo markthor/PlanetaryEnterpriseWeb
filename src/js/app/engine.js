@@ -462,11 +462,6 @@ define(["jquery"], function($) {
             deck.interest = deck.interest - 1;
             return "interest"
         }
-        temp += deck.funding
-        if(randomInt < temp) {
-            deck.funding = deck.funding - 1;
-            return "funding"
-        }
         exception = "IllegalStateException. Deck: " + deck
         console.error(exception);
         return exception
@@ -481,7 +476,6 @@ define(["jquery"], function($) {
             case "steel":  steel.demand++; break;
             case "lithium": lithium.demand++; break;
             case "interest": interest(); break;
-            case "funding": deck.debtToBeGained += 3; break;
             default: break;
         }
     }
@@ -495,7 +489,6 @@ define(["jquery"], function($) {
         total += deck.aluminium
         total += deck.power
         total += deck.interest
-        total += deck.funding
         return total
     }
 
@@ -706,7 +699,6 @@ define(["jquery"], function($) {
         deck.aluminium = 4;
         deck.power = 6;
         deck.interest = 5;
-        deck.funding = 0;
         deck.nextCard = getDemand();
         modifyDemandState(drawDemandCard());
         deck.nextCard = getDemand();
