@@ -42,7 +42,6 @@ define(["jquery"], function($) {
     var ETechnology = {
         MarketManipulator: "marketManipulator",
         CarbonFabrication: "carbonFabrication",
-        DenseConnector: "denseConnector",
         NuclearReactors: "nuclearReactors"
     }
 
@@ -152,16 +151,6 @@ define(["jquery"], function($) {
         }
     }
 
-    function toggleDenseConnector(player){
-        if(player.denseConnector){
-            player.denseConnector = false;
-            modifyTechnology(ETechnology.DenseConnector, false);
-        } else {
-            player.denseConnector = true;
-            modifyTechnology(ETechnology.DenseConnector, true);
-        }
-    }
-
     function toggleMarketManipulator(player){
         if(player.marketManipulator){
             player.marketManipulator = false;
@@ -188,9 +177,6 @@ define(["jquery"], function($) {
         switch (technologyName) {
             case ETechnology.CarbonFabrication:
                 adjustSupply(lithium, 1 * multiplier); adjustSupply(carbon, 3 * multiplier);
-                break;
-            case ETechnology.DenseConnector:
-                adjustSupply(steel, 1 * multiplier)
                 break;
             case ETechnology.MarketManipulator:
                 adjustSupply(lithium, 1 * multiplier);
@@ -224,8 +210,7 @@ define(["jquery"], function($) {
                     adjustSupply(carbon, 3 * multiplier);
                     break;
                 case EBuilding.SupplyConnector:
-                    if(player.denseConnector) adjustSupply(iron, 1 * multiplier)
-                    else adjustSupply(aluminium, 1 * multiplier);
+                    adjustSupply(aluminium, 1 * multiplier);
                     break;
                 case EBuilding.ConstructionSite:
                     adjustSupply(carbon, 2 * multiplier);
@@ -251,8 +236,7 @@ define(["jquery"], function($) {
                     adjustSupply(steel, 2 * multiplier);
                     break;
                 case EBuilding.SupplyConnector:
-                    if(player.denseConnector) adjustSupply(iron, 1 * multiplier)
-                    else adjustSupply(aluminium, 1 * multiplier);
+                    adjustSupply(aluminium, 1 * multiplier);
                     break;
                 case EBuilding.ConstructionSite:
                     adjustSupply(steel, 1 * multiplier);
@@ -279,14 +263,11 @@ define(["jquery"], function($) {
                 case EBuilding.WindTurbine: 
                     return getPrice(carbon, 3);
                 case EBuilding.SupplyConnector:
-                    if(player.denseConnector) return getPrice(iron);
-                    else return getPrice(aluminium);
+                    return getPrice(aluminium);
                 case EBuilding.ConstructionSite:
                     return getPrice(carbon, 2);
                 case ETechnology.CarbonFabrication:
                     return getPrice(lithium) + getPrice(carbon, 3);
-                case ETechnology.DenseConnector:
-                    return getPrice(steel)
                 case ETechnology.MarketManipulator:
                     return getPrice(lithium)
                 case ETechnology.NuclearReactors:
@@ -310,14 +291,11 @@ define(["jquery"], function($) {
                 case EBuilding.WindTurbine: 
                     return getPrice(steel, 2);
                 case EBuilding.SupplyConnector:
-                    if(player.denseConnector) return getPrice(iron);
-                    else return getPrice(aluminium);
+                    return getPrice(aluminium);
                 case EBuilding.ConstructionSite:
                     return getPrice(steel);
                 case ETechnology.CarbonFabrication:
                     return getPrice(lithium) + getPrice(carbon, 3);
-                case ETechnology.DenseConnector:
-                    return getPrice(steel)
                 case ETechnology.MarketManipulator:
                     return getPrice(lithium)
                 case ETechnology.NuclearReactors:
@@ -402,7 +380,6 @@ define(["jquery"], function($) {
             accumulateDebt: false,
             buildings: [],
             carbonFabrication: false,
-            denseConnector: false,
             marketManipulator: false,
             nuclearReactors: false
         };
@@ -815,7 +792,6 @@ define(["jquery"], function($) {
                 case "carbonFabrication": return ETechnology.CarbonFabrication;
                 case "nuclearReactors": return ETechnology.NuclearReactors;
                 case "marketManipulator": return ETechnology.MarketManipulator;
-                case "denseConnectors": return ETechnology.DenseConnector;
                 default:
                     console.error("Illegal argument exception. name: " + technologyName);
                     break;
