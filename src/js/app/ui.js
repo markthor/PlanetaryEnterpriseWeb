@@ -242,7 +242,7 @@ define(["jquery", "app/engine"], function($, engine) {
         renderResources();
         renderPlayers();
 
-        $("#marketText").text("Loan available: " + engine.getDeck().debtToBeGained + "$");
+        $("#marketText").text("Loan available: " + engine.getLoanAvailable() + "$");
     }
 
     function initializePlayers() {

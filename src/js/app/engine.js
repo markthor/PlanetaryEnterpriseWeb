@@ -13,6 +13,7 @@ define(["jquery"], function($) {
     var playerYellow = {};
 
     var wasDebtAccumulatedLastRound = true;
+    var loanAvailable;
 
     var EBuilding = {
         MineIron: "mineIron",
@@ -489,11 +490,8 @@ define(["jquery"], function($) {
         total += deck.aluminium
         total += deck.power
         total += deck.interest
-        return total
-    }
 
-    function getDebtToBeAccumulatedThisRound(deck){
-        return deck.debtToBeGained;
+        return total
     }
 
     function toggleDebt(player){
@@ -519,7 +517,7 @@ define(["jquery"], function($) {
                 adjustSupply(lithium, -1);
             }
         } else{
-            addDebt(player, deck.debtToBeGained);
+            addDebt(player, loanAvailable);
         }
     }
 
@@ -606,7 +604,7 @@ define(["jquery"], function($) {
 
     function getIncomeOrDebt(player){
         if(player.accumulateDebt) {
-            return deck.debtToBeGained;
+            return loanAvailable;
         } else {
             return getIncome(player);
         }
@@ -653,13 +651,13 @@ define(["jquery"], function($) {
     function adjustDebtToBeAccumulated() {
         if(didAnyPlayerAccumulateDebt()) {
         	if(!wasDebtAccumulatedLastRound) {
-        		deck.debtToBeGained++;
+        		loanAvailable++;
         	}
             wasDebtAccumulatedLastRound = true
         } else {
-        	deck.debtToBeGained++;
+        	loanAvailable++;
             if(!wasDebtAccumulatedLastRound) {
-                deck.debtToBeGained++;
+                loanAvailable++;
             }
             wasDebtAccumulatedLastRound = false;
         }
@@ -691,7 +689,7 @@ define(["jquery"], function($) {
     }
 
     function initializeDemandDeck() {
-        deck = {cardsDrawn: 0, debtToBeGained: 0};
+        deck = {cardsDrawn: 0};
         deck.steel = 4;
         deck.lithium = 4;
         deck.carbon = 4;
@@ -699,6 +697,7 @@ define(["jquery"], function($) {
         deck.aluminium = 4;
         deck.power = 6;
         deck.interest = 5;
+        deck.funding = 0;
         deck.nextCard = getDemand();
         modifyDemandState(drawDemandCard());
         deck.nextCard = getDemand();
@@ -721,6 +720,8 @@ define(["jquery"], function($) {
         initializeResources();
         initializeDemandDeck();
         initializePlayers();
+
+        loanAvailable = 0;
     }
 
     function playerHasEnoughConnectors(player) {
@@ -730,7 +731,9 @@ define(["jquery"], function($) {
         return connectorCount >= buildingCount;
     }
 
-
+    /**
+     * Returns an object that acts as the interface of the engine to the UI.
+     */
     return {
         initialize: initialize,
         produce: produce,
@@ -745,8 +748,8 @@ define(["jquery"], function($) {
         getBuildingPrice: getBuildingPrice,
         getConsumedResources: getConsumedResources,
         getProducedResources: getProducedResources,
-        getDeck: function() {
-            return deck;
+        getLoanAvailable: function() {
+            return loanAvailable;
         },
 
         getResource: function(resourceName) {
