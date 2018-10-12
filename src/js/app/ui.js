@@ -88,7 +88,7 @@ define(["jquery", "app/engine"], function($, engine) {
             $(this).css("display", "none");
         });
 
-        $(".box-produce").click(function() {
+        $("#produceBtn").click(function() {
             var demandCard = engine.drawDemandCard();
 
             $(".prod-table__column__content").each(function() {
