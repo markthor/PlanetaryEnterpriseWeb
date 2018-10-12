@@ -1,4 +1,4 @@
-define(["jquery"], function($) {
+define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
     var deck;
     var power = {};
     var iron = {};
