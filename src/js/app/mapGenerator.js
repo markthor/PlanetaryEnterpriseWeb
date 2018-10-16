@@ -24,6 +24,14 @@ define(["jquery"], function ($) {
             lithiumTilesSettings = createTilesSettings(1, 1);
             numberOfTiles = 21;
         }
+        if (numberOfPlayers == 3) {
+            geothermalTilesSettings = createTilesSettings(2, 2);
+            ironTilesSettings = createTilesSettings(2, 3);
+            aluminiumTilesSettings = createTilesSettings(2, 3);
+            carbonTilesSettings = createTilesSettings(2, 3);
+            lithiumTilesSettings = createTilesSettings(1, 1);
+            numberOfTiles = 16;
+        }
     }
 
     function getRandomNumberOfTiles(tileSetting) {
