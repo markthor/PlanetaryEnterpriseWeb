@@ -18,17 +18,17 @@ define(["jquery"], function ($) {
     function initializeTileSettings(numberOfPlayers) {
         if (numberOfPlayers == 4) {
             geothermalTilesSettings = createTilesSettings(2, 3);
-            ironTilesSettings = createTilesSettings(2, 4);
-            aluminiumTilesSettings = createTilesSettings(2, 4);
-            carbonTilesSettings = createTilesSettings(2, 4);
+            ironTilesSettings = createTilesSettings(3, 4);
+            aluminiumTilesSettings = createTilesSettings(3, 4);
+            carbonTilesSettings = createTilesSettings(3, 4);
             lithiumTilesSettings = createTilesSettings(1, 1);
             numberOfTiles = 21;
         }
         if (numberOfPlayers == 3) {
             geothermalTilesSettings = createTilesSettings(2, 2);
-            ironTilesSettings = createTilesSettings(2, 3);
-            aluminiumTilesSettings = createTilesSettings(2, 3);
-            carbonTilesSettings = createTilesSettings(2, 3);
+            ironTilesSettings = createTilesSettings(3, 3);
+            aluminiumTilesSettings = createTilesSettings(3, 3);
+            carbonTilesSettings = createTilesSettings(3, 3);
             lithiumTilesSettings = createTilesSettings(1, 1);
             numberOfTiles = 16;
         }
