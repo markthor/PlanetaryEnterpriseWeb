@@ -46,12 +46,15 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         NuclearReactors: "nuclearReactors"
     }
 
-    function resource(name, price, supply) {
+    function resource(name, price, maxSupply, supply) {
+        if(!supply) {
+            supply = maxSupply;
+        }
         return {
             name: name,
             price: price,
             supply: supply,
-            maxSupply: supply,
+            maxSupply: maxSupply,
             demand: 0
         };
     }
@@ -680,11 +683,11 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
     }
 
     function initializeResources(){
-        power = resource("power", 1, 10);
+        power = resource("power", 1, 8, 4);
         iron = resource("iron", 2, 5);
         aluminium = resource("aluminium", 2, 5);
         carbon = resource("carbon", 2, 5);
-        steel = resource("steel", 4, 7);
+        steel = resource("steel", 4, 6);
         lithium = resource("lithium", 6, 3);
     }
 
