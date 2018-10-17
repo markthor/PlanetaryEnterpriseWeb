@@ -683,12 +683,16 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
     }
 
     function initializeResources(){
-        power = resource("power", 1, 8, 4);
-        iron = resource("iron", 2, 5);
-        aluminium = resource("aluminium", 2, 5);
-        carbon = resource("carbon", 2, 5);
-        steel = resource("steel", 4, 6);
-        lithium = resource("lithium", 6, 3);
+        power = resource("power", 1, 8, randomIntInRange(2,6));
+        iron = resource("iron", 2, 5, randomIntInRange(2,4));
+        aluminium = resource("aluminium", 2, 5, randomIntInRange(2,4));
+        carbon = resource("carbon", 2, 5, randomIntInRange(2,4));
+        steel = resource("steel", 4, 6, randomIntInRange(2,5));
+        lithium = resource("lithium", 6, 3, randomIntInRange(1,3));
+    }
+
+    function randomIntInRange(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     function initializeDemandDeck() {
