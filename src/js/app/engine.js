@@ -701,8 +701,6 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         deck.power = 6;
         deck.interest = 5;
         deck.nextCard = getDemand();
-        modifyDemandState(drawDemandCard());
-        deck.nextCard = getDemand();
     }
 
     function initializePlayers(){
