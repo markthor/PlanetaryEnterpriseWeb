@@ -697,7 +697,6 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         deck.aluminium = 4;
         deck.power = 6;
         deck.interest = 5;
-        deck.funding = 0;
         deck.nextCard = getDemand();
         modifyDemandState(drawDemandCard());
         deck.nextCard = getDemand();
