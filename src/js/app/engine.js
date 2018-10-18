@@ -14,6 +14,7 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
 
     var wasDebtAccumulatedLastRound = true;
     var loanAvailable;
+    var roundNumber;
 
     var EBuilding = {
         MineIron: "mineIron",
@@ -419,8 +420,13 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         });
     }
 
-    function drawDemandCard(){
+    function peekDemandCard() {
         return deck.nextCard;
+    }
+
+    function popDemandCard() {
+        modifyDemandState(deck.nextCard);
+        deck.nextCard = getDemand();
     }
 
     function getDemand() {
@@ -482,6 +488,10 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
             case "interest": interest(); break;
             default: break;
         }
+    }
+
+    function drawDemandTwice() {
+        return roundNumber < 4;
     }
 
     function getTotal(deck) {
@@ -647,8 +657,8 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         playerGreen.accumulateDebt = false;
         playerYellow.accumulateDebt = false;
 
-        modifyDemandState(drawDemandCard());
-        deck.nextCard = getDemand();
+        popDemandCard();
+        roundNumber++;
     }
 
     function adjustDebtToBeAccumulated() {
@@ -726,6 +736,7 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         initializePlayers();
 
         loanAvailable = 0;
+        roundNumber = 1;
     }
 
     function playerHasEnoughConnectors(player) {
@@ -741,7 +752,7 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
     return {
         initialize: initialize,
         produce: produce,
-        drawDemandCard, drawDemandCard,
+        peekDemandCard, peekDemandCard,
         addBuilding: addBuilding,
         removeBuilding: removeBuilding,
         adjustSupply: adjustSupply,

@@ -89,7 +89,7 @@ define(["jquery", "app/engine"], function($, engine) {
         });
 
         $("#produceBtn").click(function() {
-            var demandCard = engine.drawDemandCard();
+            var demandCard = engine.peekDemandCard();
 
             $(".prod-table__column__content").each(function() {
                 let $player_elem = $(this).parents(".prod-table__column[data-player]");
