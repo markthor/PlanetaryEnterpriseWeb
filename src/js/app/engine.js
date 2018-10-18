@@ -420,13 +420,18 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         });
     }
 
-    function peekDemandCard() {
-        return deck.nextCard;
+    function peekFirstDemandCard() {
+        return deck.firstCard;
+    }
+
+    function peekSecondDemandCard() {
+        return deck.secondCard;
     }
 
     function popDemandCard() {
-        modifyDemandState(deck.nextCard);
-        deck.nextCard = getDemand();
+        modifyDemandState(deck.firstCard);
+        deck.firstCard = deck.secondCard;
+        deck.secondCard = getDemand();
     }
 
     function getDemand() {
@@ -658,6 +663,9 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         playerYellow.accumulateDebt = false;
 
         popDemandCard();
+        if(drawDemandTwice()) {
+            popDemandCard(); //Again
+        }
         roundNumber++;
     }
 
@@ -714,7 +722,8 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         deck.aluminium = 4;
         deck.power = 6;
         deck.interest = 5;
-        deck.nextCard = getDemand();
+        deck.firstCard = getDemand();
+        deck.secondCard = getDemand();
     }
 
     function initializePlayers(){
@@ -752,7 +761,9 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
     return {
         initialize: initialize,
         produce: produce,
-        peekDemandCard, peekDemandCard,
+        peekFirstDemandCard: peekFirstDemandCard,
+        peekSecondDemandCard: peekSecondDemandCard,
+        drawDemandTwice: drawDemandTwice,
         addBuilding: addBuilding,
         removeBuilding: removeBuilding,
         adjustSupply: adjustSupply,

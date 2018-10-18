@@ -89,7 +89,14 @@ define(["jquery", "app/engine"], function($, engine) {
         });
 
         $("#produceBtn").click(function() {
-            var demandCard = engine.peekDemandCard();
+            var firstDemandCard = engine.peekFirstDemandCard();
+            var secondDemandCard = engine.peekSecondDemandCard();
+            var demandString;
+            if(engine.drawDemandTwice()) {
+                demandString = "Demand: " + firstDemandCard + " and " + secondDemandCard;
+            } else {
+                demandString = "Demand: " + firstDemandCard;
+            }
 
             $(".prod-table__column__content").each(function() {
                 let $player_elem = $(this).parents(".prod-table__column[data-player]");
@@ -104,7 +111,7 @@ define(["jquery", "app/engine"], function($, engine) {
             
             $("#overlay").css("display", "block");
             $("#popup").css("display", "flex");
-            $("#popup .prod-demand h1").text("Demand: " + demandCard);
+            $("#popup .prod-demand h1").text(demandString);
         });
 
         $("#popup .prod-buttons__produce").click(function() {
