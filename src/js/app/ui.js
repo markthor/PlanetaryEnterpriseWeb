@@ -1,4 +1,4 @@
-define(["jquery", "app/engine"], function($, engine) {
+define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
 
     // Get engine player variable from ancestor in DOM
     var getParentPlayer = function($elem) {
@@ -232,6 +232,13 @@ define(["jquery", "app/engine"], function($, engine) {
         });
     }
 
+    function renderUI() {
+        renderResources();
+        renderPlayers();
+
+        $("#marketText").text("Loan available: " + engine.getLoanAvailable() + "$");
+    }
+
     function initializeSupplyTemplates() {
         $(".supply-template").each(function() {
             let resource = getParentResource($(this));
@@ -243,13 +250,6 @@ define(["jquery", "app/engine"], function($, engine) {
                 }
             }
         });
-    }
-
-    function renderUI() {
-        renderResources();
-        renderPlayers();
-
-        $("#marketText").text("Loan available: " + engine.getLoanAvailable() + "$");
     }
 
     function initializePlayers() {
@@ -280,9 +280,22 @@ define(["jquery", "app/engine"], function($, engine) {
         ui.render();
     }
 
-    function initialize() {
-        console.log("Initializing UI...");
+    function initializePartials(mainPartial, partials) {
+        partials.forEach(function(partial) {
+            var html = $.ajax({
+                type: 'GET',
+                url: '/partials/' + partial + '.html?v=' + Math.random() * 10,
+                async: false
+            }).responseText;
+            Handlebars.registerPartial(partial, html);
+        })
+        $('body').html(Handlebars.compile('{{> ' + mainPartial + '}}')());
+    }
 
+    function initialize() {
+        console.log('Initializing UI...');
+
+        initializePartials('app', ['app']);
         initializeSupplyTemplates();
         registerClickListeners();
         renderUI();
