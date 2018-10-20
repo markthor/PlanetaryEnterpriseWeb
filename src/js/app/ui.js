@@ -88,7 +88,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
             $(this).css("display", "none");
         });
 
-        $("#produceBtn").click(function() {
+        $(".js-produce").click(function() {
             var firstDemandCard = engine.peekFirstDemandCard();
             var secondDemandCard = engine.peekSecondDemandCard();
             var demandString;
