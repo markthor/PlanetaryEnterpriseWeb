@@ -295,7 +295,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
     function initialize() {
         console.log('Initializing UI...');
 
-        initializePartials('app', ['app', 'overlay', 'header', 'footer', 'market', 'players', 'player', 'resource']);
+        initializePartials('app', ['app', 'overlay', 'header', 'footer', 'market', 'players', 'player', 'building', 'resource']);
         initializeSupplyTemplates();
         registerClickListeners();
         renderUI();
