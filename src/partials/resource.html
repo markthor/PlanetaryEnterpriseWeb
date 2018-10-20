@@ -1,6 +1,6 @@
 <div data-resource="{{type}}" class="resource-container">
     <div class="box-item-demand">
-        <h2>{{title}}</h2>
+        <h2>{{type}}</h2>
         <p>Demand: 0</p>
     </div>
     <div class="box-item-price">
@@ -11,7 +11,7 @@
     </div>
     <div class="box-item-supply">
         <!-- All occurences of $(".supply-template") will be cloned upon UI initialization (See ui.js) -->
-        <div class="supply-template supply-template--narrow">
+        <div class="supply-template {{#if narrow-icons}}supply-template--narrow{{/if}}">
             <img src="resources/icons/market/{{type}}.png">
         </div>
     </div>
