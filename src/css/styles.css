@@ -223,8 +223,11 @@ body {
   color: black;
 }
 
-p {
+p, div, h1, h2 {
   font-family: dragon, calibri;
+}
+
+p {
   font-size: 34px;
 }
 
@@ -256,7 +259,6 @@ p {
   flex: 0 1 auto;
 }
 .box-item-demand > h2 {
-  font-family: dragon, calibri;
   font-size: 42px;
   margin-top: 4px;
   margin-bottom: 6px;
@@ -279,7 +281,6 @@ p {
   margin-right: 10%;
   font-size: 86px;
   margin-top: 0;
-  font-family: dragon, calibri;
   line-height: 100%;
   margin-bottom: 0;
 }
@@ -315,7 +316,6 @@ p {
   display: inline-flex;
   flex: 0 1 auto;
   font-weight: bold;
-  font-family: dragon;
   font-size: 28px;
 }
 
@@ -401,7 +401,6 @@ p {
 }
 
 .building-price {
-  font-family: dragon;
   font-size: 42px;
   font-weight: bold;
   vertical-align: middle;
@@ -409,7 +408,6 @@ p {
 }
 
 .building-multiplier {
-  font-family: dragon;
   font-size: 26px;
   font-weight: bold;
   vertical-align: middle;
@@ -417,7 +415,6 @@ p {
 }
 
 .building-count {
-  font-family: dragon;
   font-size: 32px;
   font-weight: bold;
   vertical-align: middle;
@@ -497,7 +494,6 @@ p {
   padding-top: 6px;
   padding-bottom: 6px;
   font-weight: bold;
-  font-family: dragon, calibri;
   font-size: 30px;
   user-select: none;
 }
@@ -530,7 +526,6 @@ p {
   padding-top: 8px;
   padding-bottom: 8px;
   font-weight: bold;
-  font-family: dragon, calibri;
   font-size: 28px;
 }
 
