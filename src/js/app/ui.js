@@ -236,7 +236,8 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         renderResources();
         renderPlayers();
 
-        $("#marketText").text("Loan available: " + engine.getLoanAvailable() + "$");
+        $(".js-round-number").text("Round: " + engine.getRoundNumber());
+        $(".js-loan-available").text("Loan available: " + engine.getLoanAvailable() + "$");
     }
 
     function initializeSupplyTemplates() {

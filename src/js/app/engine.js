@@ -774,6 +774,9 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         getBuildingPrice: getBuildingPrice,
         getConsumedResources: getConsumedResources,
         getProducedResources: getProducedResources,
+        getRoundNumber: function() {
+            return roundNumber;
+        },
         getLoanAvailable: function() {
             return loanAvailable;
         },
