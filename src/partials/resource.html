@@ -1,0 +1,22 @@
+<div data-resource="{{type}}" class="resource-container">
+    <div class="box-item-demand">
+        <h2>{{title}}</h2>
+        <p>Demand: 0</p>
+    </div>
+    <div class="box-item-price">
+        <div class="img-container">
+            <img src="resources/icons/market/{{type}}.png">
+        </div>
+        <h2>0$</h2>
+    </div>
+    <div class="box-item-supply">
+        <!-- All occurences of $(".supply-template") will be cloned upon UI initialization (See ui.js) -->
+        <div class="supply-template supply-template--narrow">
+            <img src="resources/icons/market/{{type}}.png">
+        </div>
+    </div>
+    <div class="box-item-buttons">
+        <div data-val="-1" class="minus shadow-top-right">-</div>
+        <div data-val="1" class="plus shadow-top-left">+</div>
+    </div>
+</div>
