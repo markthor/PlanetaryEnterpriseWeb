@@ -3,6 +3,11 @@
 @import 'resource-container';
 @import 'player-container';
 
+@font-face {
+    font-family: "dragon";
+    src: url("../resources/fonts/dragon.ttf") format("truetype");
+}
+
 body {
     height: 100%;
     margin: 0;
