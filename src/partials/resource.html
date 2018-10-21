@@ -1,13 +1,12 @@
 <div data-resource="{{type}}" class="resource">
     <div class="resource__demand">
         <h2>{{type}}</h2>
-        <p class="js-resource-demand">Demand: 0</p>
-        <!--<img src="resources/icons/others/demand.png">
-        <div class="box-item-supply">
-            <div class="supply-template">
+        <div class="resource__flex-container js-resource-demand">
+            <!-- All occurences of $(".js-item-template") will be cloned upon UI initialization (See ui.js) -->
+            <div class="item-template js-item-template">
                 <img src="resources/icons/others/demand.png">
             </div>
-        </div>-->
+        </div>
     </div>
     <div class="resource__price">
         <div class="img-container">
@@ -15,9 +14,9 @@
         </div>
         <h2 class="js-resource-price">0$</h2>
     </div>
-    <div class="resource__supply js-resource-supply">
-        <!-- All occurences of $(".js-supply-template") will be cloned upon UI initialization (See ui.js) -->
-        <div class="supply-template {{#if narrow-icons}}supply-template--narrow{{/if}} js-supply-template">
+    <div class="resource__flex-container resource__flex-container--reverse js-resource-supply">
+        <!-- All occurences of $(".js-item-template") will be cloned upon UI initialization (See ui.js) -->
+        <div class="item-template {{#if narrow-icons}}item-template--narrow{{/if}} js-item-template">
             <img src="resources/icons/market/{{type}}.png">
         </div>
     </div>

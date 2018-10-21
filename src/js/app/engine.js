@@ -56,7 +56,8 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
             price: price,
             supply: supply,
             maxSupply: maxSupply,
-            demand: 0
+            demand: 0,
+            maxDemand: 6
         };
     }
 

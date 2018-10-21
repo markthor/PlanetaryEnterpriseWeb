@@ -148,7 +148,7 @@ div[data-player]:first-child .popover {
   margin-top: 4px;
   margin-bottom: 6px;
 }
-.resource__demand > p {
+.resource__demand > div {
   margin-top: 6px;
   margin-bottom: 0px;
   height: 72px;
@@ -168,28 +168,34 @@ div[data-player]:first-child .popover {
   line-height: 100%;
   margin-bottom: 0;
 }
-.resource__supply {
+.resource__flex-container {
   flex: 0 1 auto;
   height: 72px;
   display: flex;
-  flex-wrap: wrap-reverse;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
   margin-top: 2px;
   margin-bottom: 8px;
   padding: 0 10px;
 }
-.resource__supply .supply-template {
+.resource__flex-container--reverse {
+  flex-wrap: wrap-reverse;
+}
+.resource__flex-container .item-template {
   display: inline-flex;
 }
-.resource__supply .supply-template--narrow > img {
+.resource__flex-container .item-template--narrow > img {
   margin: 0 -6px;
 }
-.resource__supply .supply-template--inactive > img {
+.resource__flex-container .item-template--inactive > img {
   filter: grayscale(1);
   opacity: 0.2;
 }
-.resource__supply .supply-template > img {
+.resource__flex-container .item-template--hidden > img {
+  display: none;
+}
+.resource__flex-container .item-template > img {
   padding: 0 1px;
   width: 38px;
   height: 38px;
@@ -203,7 +209,6 @@ div[data-player]:first-child .popover {
 .resource__buttons > div {
   display: inline-block;
   width: 50%;
-  /*box-shadow: inset 0 0 2px $color-shadow;*/
   padding: 5px 0px;
   user-select: none;
 }

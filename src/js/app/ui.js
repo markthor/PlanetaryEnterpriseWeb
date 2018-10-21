@@ -137,26 +137,35 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
 
         // Render demand
         $(".js-resource-demand").each(function() {
-            $(this).text("Demand: " + getParentResource($(this)).demand);
-        });
+            let resource = getParentResource($(this));
+            let $child_elems = $(this).find(".js-item-template");
 
-        // Render price
-        $(".js-resource-price").each(function() {
-            $(this).text(getParentResource($(this)).price + "$");
+            for (i = 0; i < resource.maxDemand; i++) {
+                if (resource.demand > i) {
+                    $child_elems.eq(i).removeClass("item-template--hidden");
+                } else {
+                    $child_elems.eq(i).addClass("item-template--hidden");
+                }
+            }
         });
 
         // Render supply
         $(".js-resource-supply").each(function() {
             let resource = getParentResource($(this));
-            let $child_elems = $(this).find(".js-supply-template");
+            let $child_elems = $(this).find(".js-item-template");
 
             for (i = 0; i < resource.maxSupply; i++) {
                 if (resource.supply > i) {
-                    $child_elems.eq(i).removeClass("supply-template--inactive");
+                    $child_elems.eq(i).removeClass("item-template--inactive");
                 } else {
-                    $child_elems.eq(i).addClass("supply-template--inactive");
+                    $child_elems.eq(i).addClass("item-template--inactive");
                 }
             }
+        });
+
+        // Render price
+        $(".js-resource-price").each(function() {
+            $(this).text(getParentResource($(this)).price + "$");
         });
     }
 
@@ -240,8 +249,18 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         $(".js-loan-available").text("Loan available: " + engine.getLoanAvailable() + "$");
     }
 
-    function initializeSupplyTemplates() {
-        $(".js-supply-template").each(function() {
+    function initializeTemplates() {
+        $(".js-resource-demand .js-item-template").each(function() {
+            let resource = getParentResource($(this));
+
+            if (resource.maxDemand - 1 > 1) {
+                // Clone template until maxDemand is reached
+                for (i = 0; i < resource.maxDemand - 1; i++) {
+                    $(this).clone().appendTo($(this).parent());
+                }
+            }
+        });
+        $(".js-resource-supply .js-item-template").each(function() {
             let resource = getParentResource($(this));
 
             if (resource.maxSupply - 1 > 1) {
@@ -297,7 +316,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         console.log('Initializing UI...');
 
         initializePartials('app', ['app', 'overlay', 'header', 'footer', 'market', 'players', 'player', 'building', 'resource']);
-        initializeSupplyTemplates();
+        initializeTemplates();
         registerClickListeners();
         renderUI();
     }
