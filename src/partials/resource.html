@@ -1,21 +1,27 @@
-<div data-resource="{{type}}" class="resource-container">
-    <div class="box-item-demand">
+<div data-resource="{{type}}" class="resource">
+    <div class="resource__demand">
         <h2>{{type}}</h2>
-        <p>Demand: 0</p>
+        <p class="js-resource-demand">Demand: 0</p>
+        <!--<img src="resources/icons/others/demand.png">
+        <div class="box-item-supply">
+            <div class="supply-template">
+                <img src="resources/icons/others/demand.png">
+            </div>
+        </div>-->
     </div>
-    <div class="box-item-price">
+    <div class="resource__price">
         <div class="img-container">
             <img src="resources/icons/market/{{type}}.png">
         </div>
-        <h2>0$</h2>
+        <h2 class="js-resource-price">0$</h2>
     </div>
-    <div class="box-item-supply">
-        <!-- All occurences of $(".supply-template") will be cloned upon UI initialization (See ui.js) -->
-        <div class="supply-template {{#if narrow-icons}}supply-template--narrow{{/if}}">
+    <div class="resource__supply js-resource-supply">
+        <!-- All occurences of $(".js-supply-template") will be cloned upon UI initialization (See ui.js) -->
+        <div class="supply-template {{#if narrow-icons}}supply-template--narrow{{/if}} js-supply-template">
             <img src="resources/icons/market/{{type}}.png">
         </div>
     </div>
-    <div class="box-item-buttons">
+    <div class="resource__buttons js-resource-buttons">
         <div data-val="-1" class="minus shadow-top-right">-</div>
         <div data-val="1" class="plus shadow-top-left">+</div>
     </div>

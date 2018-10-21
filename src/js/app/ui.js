@@ -8,14 +8,14 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
 
     // Get engine resource variable from ancestor in DOM
     var getParentResource = function($elem) {
-        let $resource_elem = $elem.parents(".resource-container[data-resource]");
+        let $resource_elem = $elem.parents(".resource[data-resource]");
         return engine.getResource($resource_elem.attr("data-resource"));
     }
 
     function registerResourceClickListeners() {
 
         // Click listener for supply +/- buttons
-        $(".box-item-buttons [data-val]").click(function() {
+        $(".js-resource-buttons [data-val]").click(function() {
             engine.adjustSupply(getParentResource($(this)), $(this).data("val"));
             renderUI();
         });
@@ -136,19 +136,19 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
     function renderResources() {
 
         // Render demand
-        $(".box-item-demand p").each(function() {
+        $(".js-resource-demand").each(function() {
             $(this).text("Demand: " + getParentResource($(this)).demand);
         });
 
         // Render price
-        $(".box-item-price h2").each(function() {
+        $(".js-resource-price").each(function() {
             $(this).text(getParentResource($(this)).price + "$");
         });
 
         // Render supply
-        $(".box-item-supply").each(function() {
+        $(".js-resource-supply").each(function() {
             let resource = getParentResource($(this));
-            let $child_elems = $(this).find(".supply-template");
+            let $child_elems = $(this).find(".js-supply-template");
 
             for (i = 0; i < resource.maxSupply; i++) {
                 if (resource.supply > i) {
@@ -241,7 +241,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
     }
 
     function initializeSupplyTemplates() {
-        $(".supply-template").each(function() {
+        $(".js-supply-template").each(function() {
             let resource = getParentResource($(this));
 
             if (resource.maxSupply - 1 > 1) {

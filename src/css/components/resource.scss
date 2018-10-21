@@ -1,0 +1,122 @@
+.resource {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: inset 0 0 10px $color-shadow;
+
+
+    &__demand {
+        flex: 0 1 auto;
+    
+        > h2 {
+            text-transform: capitalize;
+            font-size: 42px;
+            margin-top: 4px;
+            margin-bottom: 6px;
+        }
+    
+        > p {
+            margin-top: 6px;
+            margin-bottom: 0px;
+            height: 72px;
+        }
+    }
+
+    &__price {
+        display: flex;
+        flex: 1 1 0;
+    
+        > h2 {
+            margin-left: 5px;
+            display: flex;
+            align-items: center;
+            width: 40%;
+            margin-right: 10%;
+            font-size: 86px;
+            margin-top: 0;
+            line-height: 100%;
+            margin-bottom: 0;
+        }
+    }
+
+    &__supply {
+        flex: 0 1 auto;
+        height: 72px;
+        display: flex;
+        flex-wrap: wrap-reverse;
+        justify-content: center;
+        align-items: flex-start;
+        margin-top: 2px;
+        margin-bottom: 8px;
+        padding: 0 10px;
+    
+        .supply-template {
+            display: inline-flex;
+    
+            &--narrow {
+                > img {
+                    margin: 0 -6px;
+                }
+            }
+    
+            &--inactive {
+                > img {
+                    filter: grayscale(1);
+                    opacity: 0.2;
+                }
+            }
+    
+            > img {
+                padding: 0 1px;
+                width: 38px;
+                height: 38px;
+            }
+        }
+    }
+    
+    &__buttons {
+        display: inline-flex;
+        flex: 0 1 auto;
+    
+        font-weight: bold;
+        font-size: 28px;
+
+        > div {
+            display: inline-block;
+            width: 50%;
+            /*box-shadow: inset 0 0 2px $color-shadow;*/
+            padding: 5px 0px;
+            user-select: none;
+
+            &:hover {
+                background: $color-button-hover;
+            }
+        }
+    }
+
+    &[data-resource="power"] {
+        background: $color-power;
+    }
+
+    &[data-resource="iron"] {
+        background: $color-iron;
+    }
+
+    &[data-resource="aluminium"] {
+        background: $color-aluminium;
+    }
+
+    &[data-resource="carbon"] {
+        background: $color-carbon;
+    }
+
+    &[data-resource="steel"] {
+        background: $color-steel;
+    }
+
+    &[data-resource="lithium"] {
+        background: $color-lithium;
+    }
+}
