@@ -2,7 +2,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
 
     // Get engine player variable from ancestor in DOM
     var getParentPlayer = function($elem) {
-        let $player_elem = $elem.parents(".player-container[data-player]");
+        let $player_elem = $elem.parents(".player[data-player]");
         return engine.getPlayer($player_elem.attr("data-player"));
     }
 
@@ -24,7 +24,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
     function registerPlayerClickListeners() {
 
         // Click listener for debt img
-        $(".debt img").click(function() {
+        $(".js-player-debt-toggle").click(function() {
             engine.toggleDebt(getParentPlayer($(this)));
             renderUI();
         });
@@ -36,7 +36,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
             let building = engine.getBuilding(buildingName);
 
             // Case for bottom building pane
-            if ($(this).parents(".box-item-player-content-buildings").length) {
+            if ($(this).parents(".js-player-content-buildings").length) {
                 // Disabled if not enough connectors
                 if ($(this).hasClass("disabled")) {
                     return;
@@ -172,19 +172,19 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
     function renderPlayers() {
 
         // Render name
-        $(".player-container .header .name").each(function() {
+        $(".js-player-name").each(function() {
             $(this).text(getParentPlayer($(this)).name);
         })
 
         // Render income
-        $(".income").each(function() {
+        $(".js-player-income").each(function() {
             $(this).text(engine.getIncome(getParentPlayer($(this))) + "$");
         });
 
         // Render debt
-        $(".debt .center div").each(function() {
+        $(".js-player-debt").each(function() {
             let player = getParentPlayer($(this));
-            let $img_elem = $(this).parents(".debt").find("img");
+            let $img_elem = $(this).parent().find(".js-player-debt-toggle");
 
             $(this).text(player.debt + "$");
             if (player.accumulateDebt) {

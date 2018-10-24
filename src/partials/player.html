@@ -1,16 +1,16 @@
-<div data-player="{{color}}" class="player-container">
-    <div class="header">
-        <div class="name">Player</div>
-        <div class="income">0$</div>
+<div data-player="{{color}}" class="player">
+    <div class="player__header">
+        <div class="name js-player-name">Player</div>
+        <div class="income js-player-income">0$</div>
         <div class="debt">
             <div class="center">
-                <div>0$</div>
-                <img src="resources/icons/others/coin.svg">
+                <div class="js-player-debt">0$</div>
+                <img class="js-player-debt-toggle" src="resources/icons/others/coin.svg">
             </div>
         </div>
     </div>
-    <div class="box-item-player-content">
-        <div class="box-item-player-content-inventory shadow-bottom">
+    <div class="player__content">
+        <div class="player__content__inventory shadow-bottom">
             <div class="building-column">
                 {{> building type="mineIron"}}
                 {{> building type="windTurbine"}}
@@ -33,7 +33,7 @@
             </div>
         </div>
         <!-- Bottom bar -->
-        <div class="box-item-player-content-buildings">
+        <div class="player__content__buildings js-player-content-buildings">
             <div class="building-column">
                 <div data-building="mineIron" class="building-row">
                     <div class="popover">

@@ -44,22 +44,6 @@ p {
 }
 
 /* Box item content boxes START */
-.box-item-player-content {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.box-item-player-content-inventory {
-    flex: 1 1 0;
-    display: flex;
-}
-
-.box-item-player-content-buildings {
-    flex: 3 1 0;
-    display: flex;
-    box-shadow: inset 0px 5px 1px -5px $color-shadow;
-}
 
 .building-column {
     display: flex;

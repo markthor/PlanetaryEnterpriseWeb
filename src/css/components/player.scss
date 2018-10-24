@@ -1,4 +1,4 @@
-.player-container {
+.player {
     display: flex;
     flex-direction: column;
     flex: 1 1 0;
@@ -8,7 +8,7 @@
 
     &[data-player] {
         .header {
-            background: $color-player-header-background;
+            
         }
     }
 
@@ -28,7 +28,8 @@
         background: $color-player-yellow;
     }
 
-    .header {
+    &__header {
+        background: $color-player-header-background;
         display: inline-flex;
         flex: 0 1 auto;
         padding: 8px 0;
@@ -63,6 +64,23 @@
                 padding: 5px 0 5px 10px;
                 display: inline-block;
             }
+        }
+    }
+
+    &__content {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+
+        &__inventory {
+            flex: 1 1 0;
+            display: flex;
+        }
+        
+        &__buildings {
+            flex: 3 1 0;
+            display: flex;
+            box-shadow: inset 0px 5px 1px -5px $color-shadow;
         }
     }
 }
