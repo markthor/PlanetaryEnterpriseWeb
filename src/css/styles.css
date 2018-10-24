@@ -156,6 +156,7 @@ div[data-player]:first-child .popover {
 .resource__price {
   display: flex;
   flex: 1 1 0;
+  margin-top: -14px;
 }
 .resource__price > h2 {
   margin-left: 5px;
