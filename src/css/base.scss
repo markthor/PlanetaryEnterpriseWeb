@@ -50,16 +50,12 @@ p {
     padding: 0;
     flex: 1 1 0;
     flex-direction: column;
-    box-shadow: inset 5px 0 1px -5px $color-shadow, inset -5px 0 1px -5px $color-shadow;
+    outline: 1px solid black;
     user-select: none;
-}
 
-.building-column:first-child {
-    box-shadow: inset -5px 0 1px -5px $color-shadow;
-}
-
-.building-column:last-child {
-    box-shadow: inset 5px 0 1px -5px $color-shadow;
+    &:nth-child(2n) {
+        outline: none;
+    }
 }
 
 .building-container {
@@ -182,4 +178,5 @@ p {
 
 .box-players {
     flex: 3 1 auto;
+    outline: 1px solid black;
 }

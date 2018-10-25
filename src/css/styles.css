@@ -33,8 +33,7 @@ div[data-player]:first-child .popover {
   justify-content: space-evenly;
   z-index: 3;
   background: lightgrey;
-  border-radius: 5px;
-  box-shadow: inset 0 0 10px 1px #333333;
+  outline: 1px solid black;
 }
 .popover img {
   width: 65px;
@@ -58,9 +57,6 @@ div[data-player]:first-child .popover {
   /* Set to flex when shown */
   flex-direction: column;
 }
-.popup .prod-demand {
-  box-shadow: inset 0 0 10px 1px #333333;
-}
 .popup .prod-demand > h1 {
   font-family: dragon, calibri;
   text-align: center;
@@ -70,7 +66,6 @@ div[data-player]:first-child .popover {
   display: flex;
 }
 .popup .prod-table__column {
-  box-shadow: inset 0 0 10px #333333;
   display: flex;
   flex-direction: column;
   flex: 1 1 0;
@@ -110,7 +105,6 @@ div[data-player]:first-child .popover {
 }
 .popup .prod-buttons {
   flex: 0 1 auto;
-  box-shadow: inset 0 0 10px #333333;
   display: flex;
   justify-content: space-around;
 }
@@ -137,7 +131,7 @@ div[data-player]:first-child .popover {
   flex: 1 1 0;
   text-align: center;
   font-weight: bold;
-  box-shadow: inset 0 0 10px #333333;
+  outline: 1px solid black;
 }
 .resource__demand {
   flex: 0 1 auto;
@@ -206,33 +200,56 @@ div[data-player]:first-child .popover {
   flex: 0 1 auto;
   font-weight: bold;
   font-size: 28px;
+  outline: 1px solid black;
+}
+.resource__buttons :nth-child(1) {
+  outline: none;
 }
 .resource__buttons > div {
   display: inline-block;
   width: 50%;
   padding: 5px 0px;
   user-select: none;
+  outline: 1px solid black;
 }
 .resource__buttons > div:hover {
   background: rgba(255, 255, 255, 0.4);
 }
 .resource[data-resource=power] {
   background: #acfcac;
+  background: -webkit-radial-gradient(center, #ADFCAC, #4F734F);
+  background: -moz-radial-gradient(center, #ADFCAC, #4F734F);
+  background: radial-gradient(ellipse at center, #ADFCAC, #4F734F);
 }
 .resource[data-resource=iron] {
   background: #AC9069;
+  background: -webkit-radial-gradient(center, #AC906A, #736044);
+  background: -moz-radial-gradient(center, #AC906A, #736044);
+  background: radial-gradient(ellipse at center, #AC906A, #736044);
 }
 .resource[data-resource=aluminium] {
   background: #9BD8D1;
+  background: -webkit-radial-gradient(center, #98D3CC, #557F7A);
+  background: -moz-radial-gradient(center, #98D3CC, #557F7A);
+  background: radial-gradient(ellipse at center, #98D3CC, #557F7A);
 }
 .resource[data-resource=carbon] {
   background: #646478;
+  background: -webkit-radial-gradient(center, #646478, #464650);
+  background: -moz-radial-gradient(center, #646478, #464650);
+  background: radial-gradient(ellipse at center, #646478, #464650);
 }
 .resource[data-resource=steel] {
   background: #F0F0F4;
+  background: -webkit-radial-gradient(center, #F0F0F4, #838386);
+  background: -moz-radial-gradient(center, #F0F0F4, #838386);
+  background: radial-gradient(ellipse at center, #F0F0F4, #838386);
 }
 .resource[data-resource=lithium] {
   background: #fffac7;
+  background: -webkit-radial-gradient(center, #FFFBC7, #B7B492);
+  background: -moz-radial-gradient(center, #FFFBC7, #B7B492);
+  background: radial-gradient(ellipse at center, #FFFBC7, #B7B492);
 }
 
 .player {
@@ -241,7 +258,7 @@ div[data-player]:first-child .popover {
   flex: 1 1 0;
   text-align: center;
   font-weight: bold;
-  box-shadow: inset 0 0 10px #333333;
+  outline: 1px solid black;
 }
 .player[data-player=red] {
   background: #FF826B;
@@ -295,11 +312,15 @@ div[data-player]:first-child .popover {
 .player__content__inventory {
   flex: 1 1 0;
   display: flex;
+  outline: 1px solid black;
 }
 .player__content__buildings {
   flex: 3 1 0;
   display: flex;
   box-shadow: inset 0px 5px 1px -5px #333333;
+}
+.player__content__buildings > div:nth-child(odd) {
+  margin-top: 1px;
 }
 
 .header {
@@ -308,7 +329,7 @@ div[data-player]:first-child .popover {
   text-align: center;
   padding: 0;
   background-color: lightgrey;
-  box-shadow: inset 0 0 10px #333333;
+  outline: 1px solid black;
 }
 .header :hover {
   background: rgba(255, 255, 255, 0.4);
@@ -338,7 +359,7 @@ div[data-player]:first-child .popover {
   text-align: center;
   padding: 0;
   background-color: lightgrey;
-  box-shadow: inset 0 0 10px #333333;
+  outline: 1px solid black;
   user-select: none;
 }
 .footer > h1 {
@@ -397,16 +418,11 @@ p {
   padding: 0;
   flex: 1 1 0;
   flex-direction: column;
-  box-shadow: inset 5px 0 1px -5px #333333, inset -5px 0 1px -5px #333333;
+  outline: 1px solid black;
   user-select: none;
 }
-
-.building-column:first-child {
-  box-shadow: inset -5px 0 1px -5px #333333;
-}
-
-.building-column:last-child {
-  box-shadow: inset 5px 0 1px -5px #333333;
+.building-column:nth-child(2n) {
+  outline: none;
 }
 
 .building-container {
@@ -521,6 +537,7 @@ p {
 
 .box-players {
   flex: 3 1 auto;
+  outline: 1px solid black;
 }
 
 /*# sourceMappingURL=styles.css.map */

@@ -4,7 +4,7 @@
     flex: 1 1 0;
     text-align: center;
     font-weight: bold;
-    box-shadow: inset 0 0 10px $color-shadow;
+    outline: 1px solid black;
 
     &[data-player="red"] {
         background: $color-player-red;
@@ -69,12 +69,17 @@
         &__inventory {
             flex: 1 1 0;
             display: flex;
+            outline: 1px solid black;
         }
         
         &__buildings {
             flex: 3 1 0;
             display: flex;
             box-shadow: inset 0px 5px 1px -5px $color-shadow;
+
+            > div:nth-child(odd) {
+                margin-top: 1px;
+            }
         }
     }
 }
