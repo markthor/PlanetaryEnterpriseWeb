@@ -219,37 +219,37 @@ div[data-player]:first-child .popover {
   background: #acfcac;
   background: -webkit-radial-gradient(center, #ADFCAC, #4F734F);
   background: -moz-radial-gradient(center, #ADFCAC, #4F734F);
-  background: radial-gradient(ellipse at center, #ADFCAC, #4F734F);
+  background: radial-gradient(circle at center, #ADFCAC, #4F734F);
 }
 .resource[data-resource=iron] {
   background: #AC9069;
   background: -webkit-radial-gradient(center, #AC906A, #736044);
   background: -moz-radial-gradient(center, #AC906A, #736044);
-  background: radial-gradient(ellipse at center, #AC906A, #736044);
+  background: radial-gradient(circle at center, #AC906A, #736044);
 }
 .resource[data-resource=aluminium] {
   background: #9BD8D1;
   background: -webkit-radial-gradient(center, #98D3CC, #557F7A);
   background: -moz-radial-gradient(center, #98D3CC, #557F7A);
-  background: radial-gradient(ellipse at center, #98D3CC, #557F7A);
+  background: radial-gradient(circle at center, #98D3CC, #557F7A);
 }
 .resource[data-resource=carbon] {
   background: #646478;
   background: -webkit-radial-gradient(center, #646478, #464650);
   background: -moz-radial-gradient(center, #646478, #464650);
-  background: radial-gradient(ellipse at center, #646478, #464650);
+  background: radial-gradient(circle at center, #646478, #464650);
 }
 .resource[data-resource=steel] {
   background: #F0F0F4;
   background: -webkit-radial-gradient(center, #F0F0F4, #838386);
   background: -moz-radial-gradient(center, #F0F0F4, #838386);
-  background: radial-gradient(ellipse at center, #F0F0F4, #838386);
+  background: radial-gradient(circle at center, #F0F0F4, #838386);
 }
 .resource[data-resource=lithium] {
   background: #fffac7;
   background: -webkit-radial-gradient(center, #FFFBC7, #B7B492);
   background: -moz-radial-gradient(center, #FFFBC7, #B7B492);
-  background: radial-gradient(ellipse at center, #FFFBC7, #B7B492);
+  background: radial-gradient(circle at center, #FFFBC7, #B7B492);
 }
 
 .player {
