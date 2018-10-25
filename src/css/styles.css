@@ -52,7 +52,7 @@ div[data-player]:first-child .popover {
   transform: translate(-50%, -50%);
   z-index: 4;
   background: lightgrey;
-  border-radius: 5px;
+  outline: 1px solid black;
   display: none;
   /* Set to flex when shown */
   flex-direction: column;
@@ -110,11 +110,11 @@ div[data-player]:first-child .popover {
 }
 .popup .prod-buttons > div {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 14px 20px;
   font-family: dragon, calibri;
   text-align: center;
-  font-size: 32px;
-  box-shadow: inset 0 0 10px 1px #333333;
+  font-size: 34px;
+  outline: 1px solid black;
   width: 25%;
   user-select: none;
 }
@@ -262,15 +262,27 @@ div[data-player]:first-child .popover {
 }
 .player[data-player=red] {
   background: #FF826B;
+  background: -moz-radial-gradient(center, ellipse cover, #ff826b 0%, #d36b58 100%);
+  background: -webkit-radial-gradient(center, ellipse cover, #ff826b 0%, #d36b58 100%);
+  background: radial-gradient(ellipse at center, #ff826b 0%, #d36b58 100%);
 }
 .player[data-player=blue] {
   background: #7492E9;
+  background: -moz-radial-gradient(center, ellipse cover, #7492e9 0%, #5b74b7 100%);
+  background: -webkit-radial-gradient(center, ellipse cover, #7492e9 0%, #5b74b7 100%);
+  background: radial-gradient(ellipse at center, #7492e9 0%, #5b74b7 100%);
 }
 .player[data-player=green] {
   background: #92E692;
+  background: -moz-radial-gradient(center, ellipse cover, #92e692 0%, #80c980 100%);
+  background: -webkit-radial-gradient(center, ellipse cover, #92e692 0%, #80c980 100%);
+  background: radial-gradient(ellipse at center, #92e692 0%, #80c980 100%);
 }
 .player[data-player=yellow] {
   background: #FFFF9E;
+  background: -moz-radial-gradient(center, ellipse cover, #ffff9e 1%, #dbdb87 100%);
+  background: -webkit-radial-gradient(center, ellipse cover, #ffff9e 1%, #dbdb87 100%);
+  background: radial-gradient(ellipse at center, #ffff9e 1%, #dbdb87 100%);
 }
 .player__header {
   background: rgba(255, 255, 255, 0.7);

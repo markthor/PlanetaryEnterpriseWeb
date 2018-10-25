@@ -8,18 +8,30 @@
 
     &[data-player="red"] {
         background: $color-player-red;
+        background: -moz-radial-gradient(center, ellipse cover, #ff826b 0%, #d36b58 100%);
+        background: -webkit-radial-gradient(center, ellipse cover, #ff826b 0%,#d36b58 100%);
+        background: radial-gradient(ellipse at center, #ff826b 0%,#d36b58 100%);
     }
 
     &[data-player="blue"] {
         background: $color-player-blue;
+        background: -moz-radial-gradient(center, ellipse cover, #7492e9 0%, #5b74b7 100%);
+        background: -webkit-radial-gradient(center, ellipse cover, #7492e9 0%,#5b74b7 100%);
+        background: radial-gradient(ellipse at center, #7492e9 0%,#5b74b7 100%);
     }
 
     &[data-player="green"] {
         background: $color-player-green;
+        background: -moz-radial-gradient(center, ellipse cover, #92e692 0%, #80c980 100%);
+        background: -webkit-radial-gradient(center, ellipse cover, #92e692 0%,#80c980 100%);
+        background: radial-gradient(ellipse at center, #92e692 0%,#80c980 100%);
     }
 
     &[data-player="yellow"] {
         background: $color-player-yellow;
+        background: -moz-radial-gradient(center, ellipse cover, #ffff9e 1%, #dbdb87 100%);
+        background: -webkit-radial-gradient(center, ellipse cover, #ffff9e 1%,#dbdb87 100%);
+        background: radial-gradient(ellipse at center, #ffff9e 1%,#dbdb87 100%);
     }
 
     &__header {

@@ -49,7 +49,7 @@ div[data-player]:first-child .popover {
     z-index: 4;
 
     background: $color-header-background;
-    border-radius: 5px;
+    outline: 1px solid black;
 
     display: none; /* Set to flex when shown */
     flex-direction: column;
@@ -120,12 +120,12 @@ div[data-player]:first-child .popover {
 
         > div {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 14px 20px;
             font-family: dragon, calibri;
             text-align: center;
 
-            font-size: 32px;
-            box-shadow: inset 0 0 10px 1px $color-shadow;
+            font-size: 34px;
+            outline: 1px solid black;
             width: 25%;
             user-select: none;
         }
