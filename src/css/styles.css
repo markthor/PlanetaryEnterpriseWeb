@@ -45,7 +45,7 @@ div[data-player]:first-child .popover {
 .popup {
   position: absolute;
   width: 90%;
-  height: 90%;
+  height: 85%;
   background: white;
   top: 50%;
   left: 50%;
@@ -383,11 +383,11 @@ div[data-player]:first-child .popover {
 }
 .footer > h1 {
   display: inline-flex;
-  padding: 8px 12px;
+  padding: 6px 12px;
   margin: 0;
   color: dimgrey;
   font-weight: bold;
-  font-size: 28px;
+  font-size: 30px;
 }
 
 @font-face {
