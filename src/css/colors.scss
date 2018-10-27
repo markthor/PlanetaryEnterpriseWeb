@@ -1,27 +1,38 @@
+/* Resources */
 $color-power: #acfcac;
-$color-iron: #AC9069;
-$color-aluminium: #9BD8D1;
+$color-iron: #ac9069;
+$color-aluminium: #9bd8d1;
 $color-carbon: #646478;
-$color-steel: #F0F0F4;
+$color-steel: #f0f0f4;
 $color-lithium: #fffac7;
 
-$color-player-red: #FF826B;
-$color-player-green: #92E692;
-$color-player-yellow: #FFFF9E;
-$color-player-blue: #7492E9;
+$gradient-power: radial-gradient(circle at center, #adfcac, #4f734f);
+$gradient-iron: radial-gradient(circle at center, #ac906a, #736044);
+$gradient-aluminium: radial-gradient(circle at center, #98d3cc, #557f7a);
+$gradient-carbon: radial-gradient(circle at center, #646478, #464650);
+$gradient-steel: radial-gradient(circle at center, #f0f0f4, #838386);
+$gradient-lithium: radial-gradient(circle at center, #fffbc7, #b7b492);
 
-/*$color-player-red-header: #FFDAD3;
-$color-player-green-header: #DFF8DF;
-$color-player-yellow-header: #FFFFE2;
-$color-player-blue-header: #D6DFF8;*/
+/* Players */
+$color-player-red: #ff826b;
+$color-player-green: #92e692;
+$color-player-yellow: #ffff9e;
+$color-player-blue: #7492e9;
 
+$gradient-player-red: radial-gradient(ellipse at center, #ff826b, #d36b58);
+$gradient-player-green: radial-gradient(ellipse at center, #92e692, #80c980);
+$gradient-player-yellow: radial-gradient(ellipse at center, #ffff9e, #dbdb87);
+$gradient-player-blue: radial-gradient(ellipse at center, #7492e9, #5b74b7);
+
+
+/* Other */
 $color-income: green;
 $color-debt: red;
 
-$color-shadow: #333333;
 
 $color-header-text: dimgrey;
 $color-header-background: lightgrey;
+$gradient-header-background: linear-gradient(135deg, #bfbfbf, #d3d3d3, #bfbfbf);
 
 $color-player-header-background: rgba(255,255,255, 0.7);
 
@@ -31,3 +42,5 @@ $color-overlay-background: rgba(0,0,0, 0.6);
 
 $color-button-produce: #28a745;
 $color-button-cancel: #dc3545;
+
+$outline: 1px solid black;

@@ -4,7 +4,7 @@
     flex: 1 1 0;
     text-align: center;
     font-weight: bold;
-    outline: 1px solid black;
+    outline: $outline;
 
 
     &__demand {
@@ -94,7 +94,7 @@
         font-weight: bold;
         font-size: 28px;
 
-        outline: 1px solid black;
+        outline: $outline;
 
         :nth-child(1) {
             outline: none;
@@ -106,7 +106,7 @@
             padding: 5px 0px;
             user-select: none;
 
-            outline: 1px solid black;
+            outline: $outline;
 
             &:hover {
                 background: $color-button-hover;
@@ -116,43 +116,31 @@
 
     &[data-resource="power"] {
         background: $color-power;
-        background: -webkit-radial-gradient(center, #ADFCAC, #4F734F);
-        background: -moz-radial-gradient(center, #ADFCAC, #4F734F);
-        background: radial-gradient(circle at center, #ADFCAC, #4F734F);        
+        background: $gradient-power;        
     }
 
     &[data-resource="iron"] {
         background: $color-iron;
-        background: -webkit-radial-gradient(center, #AC906A, #736044);
-        background: -moz-radial-gradient(center, #AC906A, #736044);
-        background: radial-gradient(circle at center, #AC906A, #736044);        
+        background: $gradient-iron;        
     }
 
     &[data-resource="aluminium"] {
         background: $color-aluminium;
-        background: -webkit-radial-gradient(center, #98D3CC, #557F7A);
-        background: -moz-radial-gradient(center, #98D3CC, #557F7A);
-        background: radial-gradient(circle at center, #98D3CC, #557F7A);
+        background: $gradient-aluminium;
     }
 
     &[data-resource="carbon"] {
         background: $color-carbon;
-        background: -webkit-radial-gradient(center, #646478, #464650);
-        background: -moz-radial-gradient(center, #646478, #464650);
-        background: radial-gradient(circle at center, #646478, #464650);
+        background: $gradient-carbon;
     }
 
     &[data-resource="steel"] {
         background: $color-steel;
-        background: -webkit-radial-gradient(center, #F0F0F4, #838386);
-        background: -moz-radial-gradient(center, #F0F0F4, #838386);
-        background: radial-gradient(circle at center, #F0F0F4, #838386);        
+        background: $gradient-steel;        
     }
 
     &[data-resource="lithium"] {
         background: $color-lithium;
-        background: -webkit-radial-gradient(center, #FFFBC7, #B7B492);
-        background: -moz-radial-gradient(center, #FFFBC7, #B7B492);
-        background: radial-gradient(circle at center, #FFFBC7, #B7B492);        
+        background: $gradient-lithium;        
     }
 }

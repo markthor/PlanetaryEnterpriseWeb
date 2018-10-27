@@ -2,13 +2,11 @@
     flex: 0 1 auto;
     text-align: center;
     padding: 0;
-    outline: 1px solid black;
+    outline: $outline;
     user-select: none;
 
     background-color: $color-header-background;
-    background: -moz-linear-gradient(-45deg, #bfbfbf 0%, #d3d3d3 50%, #bfbfbf 100%);
-    background: -webkit-linear-gradient(-45deg, #bfbfbf 0%,#d3d3d3 50%,#bfbfbf 100%);
-    background: linear-gradient(135deg, #bfbfbf 0%,#d3d3d3 50%,#bfbfbf 100%);
+    background: $gradient-header-background;
 
     > h1 {
         display: inline-flex;
