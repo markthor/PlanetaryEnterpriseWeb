@@ -79,6 +79,36 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         });
     }
 
+    function registerMenuClickListeners() {
+        $(".js-settings").click(function () {
+            var setPlayerName = function(player, text) {
+                var name = prompt("Enter name for player: " + text);
+                if (name && name.trim() != "") {
+                    player.name = name;
+                }
+            }
+    
+            var setPlayerDebt = function(player) {
+                var debt = prompt("Enter debt for player: " + player.name);
+                if (debt) {
+                    player.debt = parseInt(debt);
+                }
+            }
+    
+            setPlayerName(engine.getPlayer("red"), "Red");
+            setPlayerName(engine.getPlayer("blue"), "Blue");
+            setPlayerName(engine.getPlayer("green"), "Green");
+            setPlayerName(engine.getPlayer("yellow"), "Yellow");
+    
+            setPlayerDebt(engine.getPlayer("red"));
+            setPlayerDebt(engine.getPlayer("blue"));
+            setPlayerDebt(engine.getPlayer("green"));
+            setPlayerDebt(engine.getPlayer("yellow"));
+    
+            ui.render();
+        });
+    }
+
     function registerProduceClickListener() {
 
         // Click listener for overlay
@@ -128,6 +158,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
     }
 
     function registerClickListeners() {
+        registerMenuClickListeners();
         registerResourceClickListeners();
         registerPlayerClickListeners();
         registerProduceClickListener();
@@ -272,34 +303,6 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         });
     }
 
-    function initializePlayers() {
-        var setPlayerName = function(player, text) {
-            var name = prompt("Enter name for player: " + text);
-            if (name && name.trim() != "") {
-                player.name = name;
-            }
-        }
-
-        var setPlayerDebt = function(player) {
-            var debt = prompt("Enter debt for player: " + player.name);
-            if (debt) {
-                player.debt = parseInt(debt);
-            }
-        }
-
-        setPlayerName(engine.getPlayer("red"), "Red");
-        setPlayerName(engine.getPlayer("blue"), "Blue");
-        setPlayerName(engine.getPlayer("green"), "Green");
-        setPlayerName(engine.getPlayer("yellow"), "Yellow");
-
-        setPlayerDebt(engine.getPlayer("red"));
-        setPlayerDebt(engine.getPlayer("blue"));
-        setPlayerDebt(engine.getPlayer("green"));
-        setPlayerDebt(engine.getPlayer("yellow"));
-
-        ui.render();
-    }
-
     function initializePartials(mainPartial, partials) {
         partials.forEach(function(partial) {
             var html = $.ajax({
@@ -323,7 +326,6 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
 
     return {
         initialize: initialize,
-        initializePlayers: initializePlayers,
         render: renderUI
     }
 });
