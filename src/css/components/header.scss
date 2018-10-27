@@ -1,37 +1,48 @@
 .header {
     position: relative;
+    display: flex;
     flex: 0 1 auto;
     text-align: center;
     padding: 0;
     outline: $outline;
     user-select: none;
 
+    height: 44px;
+
     background-color: $color-header-background;
     background: $gradient-header-background;
 
-    :hover {
-        background: $color-button-hover;
-    }
-
-    > h1 {
-        margin: 0;
-        color: $color-header-text;
-        padding-top: 6px;
-        padding-bottom: 6px;
-        font-weight: bold;
-        font-size: 30px;
-        user-select: none;
-    }
-
-    > img {
-        position: absolute;
-        left: 0px;
-        top: 50%;
-        transform: translateY(-50%);
-        padding: 8px 10px;
-        width: 28px;
-        height: 28px;
-        filter: opacity(0.7);
+    &__item {
+        flex: 0 1 auto;
         outline: $outline;
+
+        &:nth-child(odd) {
+            outline: none;
+        }
+
+        &:hover {
+            background: $color-button-hover;
+        }
+
+        &--grow {
+            flex: 1 1 auto;
+        }
+
+        > img {
+            padding: 8px 10px;
+            width: 28px;
+            height: 28px;
+            filter: opacity(0.7);
+        }
+
+        > h1 {
+            margin: 0;
+            color: $color-header-text;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            font-weight: bold;
+            font-size: 30px;
+            user-select: none;
+        }
     }
 }
