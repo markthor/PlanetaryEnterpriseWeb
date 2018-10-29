@@ -35,31 +35,39 @@
         &__item {
             flex: 1 1 0;
             display: flex;
-            justify-content: space-evenly;
+            justify-content: center;
             align-items: center;
             min-width: 0;
 
+            &--fixed {
+                flex: 0 1 auto;
+            }
+
             div {
                 font-weight: bold;
-                font-size: 36px;
+                font-size: 38px;
                 white-space: nowrap;
                 overflow: hidden;
-            }
-
-            .income {
-                color: $color-income;
-                text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-            }
-
-            .debt {
-                color: $color-debt;
-                text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+                padding: 0 4px;
             }
 
             img {
                 height: 30px;
                 display: inline-block;
-                padding: 5px 0;
+                padding: 5px 4px;
+            }
+
+            .income, .debt {
+                text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+                padding: 0 4px;
+            }
+
+            .income {
+                color: $color-income;
+            }
+
+            .debt {
+                color: $color-debt;
             }
         }
 

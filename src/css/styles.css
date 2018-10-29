@@ -82,7 +82,7 @@ div[data-player]:first-child .popover {
 .popup .prod-table__column__header {
   display: inline-flex;
   flex: 0 1 auto;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.73);
   padding: 8px 0;
 }
 .popup .prod-table__column__header h1 {
@@ -259,7 +259,7 @@ div[data-player]:first-child .popover {
   background: radial-gradient(ellipse at center, #ffff9e, #dbdb87);
 }
 .player__header {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.73);
   display: inline-flex;
   flex: 0 1 auto;
   padding: 8px 0;
@@ -267,28 +267,34 @@ div[data-player]:first-child .popover {
 .player__header__item {
   flex: 1 1 0;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   min-width: 0;
 }
+.player__header__item--fixed {
+  flex: 0 1 auto;
+}
 .player__header__item div {
   font-weight: bold;
-  font-size: 36px;
+  font-size: 38px;
   white-space: nowrap;
   overflow: hidden;
-}
-.player__header__item .income {
-  color: green;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-.player__header__item .debt {
-  color: red;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  padding: 0 4px;
 }
 .player__header__item img {
   height: 30px;
   display: inline-block;
-  padding: 5px 0;
+  padding: 5px 4px;
+}
+.player__header__item .income, .player__header__item .debt {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  padding: 0 4px;
+}
+.player__header__item .income {
+  color: green;
+}
+.player__header__item .debt {
+  color: red;
 }
 .player__content {
   flex: 1 1 auto;
