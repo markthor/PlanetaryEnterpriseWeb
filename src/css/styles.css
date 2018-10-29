@@ -264,31 +264,31 @@ div[data-player]:first-child .popover {
   flex: 0 1 auto;
   padding: 8px 0;
 }
-.player__header > div {
-  display: inline-block;
-  width: 33%;
-  font-weight: bold;
-  font-family: dragon, calibri;
-  font-size: 36px;
+.player__header__item {
+  flex: 1 1 0;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  min-width: 0;
 }
-.player__header .income {
+.player__header__item div {
+  font-weight: bold;
+  font-size: 36px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.player__header__item .income {
   color: green;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
-.player__header .debt {
+.player__header__item .debt {
   color: red;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
-.player__header .debt .center {
-  display: inline-flex;
-}
-.player__header .debt .center div {
-  display: inline-block;
-}
-.player__header .debt img {
+.player__header__item img {
   height: 30px;
-  padding: 5px 0 5px 10px;
   display: inline-block;
+  padding: 5px 0;
 }
 .player__content {
   flex: 1 1 auto;
