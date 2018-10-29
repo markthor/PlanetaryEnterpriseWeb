@@ -286,6 +286,9 @@ div[data-player]:first-child .popover {
   display: inline-block;
   padding: 5px 4px;
 }
+.player__header__item .star {
+  padding: 5px 3px;
+}
 .player__header__item .income, .player__header__item .debt {
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   padding: 0 4px;
@@ -392,7 +395,8 @@ p {
 }
 
 .disabled {
-  filter: opacity(30%);
+  filter: grayscale(1);
+  opacity: 0.25;
 }
 
 .hidden {

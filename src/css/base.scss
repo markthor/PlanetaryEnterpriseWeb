@@ -21,7 +21,8 @@ p {
 }
 
 .disabled {
-    filter: opacity(30%);
+    filter: grayscale(1);
+    opacity: 0.25;
 }
 
 .hidden {
