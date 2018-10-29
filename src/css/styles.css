@@ -294,10 +294,10 @@ div[data-player]:first-child .popover {
   padding: 0 4px;
 }
 .player__header__item .income {
-  color: green;
+  color: #28a745;
 }
 .player__header__item .debt {
-  color: red;
+  color: #dc3545;
 }
 .player__content {
   flex: 1 1 auto;
