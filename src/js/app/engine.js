@@ -706,7 +706,7 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         iron = resource("iron", 2, 5, randomIntInRange(2,4));
         aluminium = resource("aluminium", 2, 5, randomIntInRange(2,4));
         carbon = resource("carbon", 2, 5, randomIntInRange(2,4));
-        steel = resource("steel", 4, 6, randomIntInRange(2,5));
+        steel = resource("steel", 4, 5, randomIntInRange(2,5));
         lithium = resource("lithium", 6, 3, randomIntInRange(1,3));
     }
 
