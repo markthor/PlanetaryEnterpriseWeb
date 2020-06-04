@@ -1,41 +1,77 @@
 var weatherState = randomIntInRange(0,2);
 var previousStates = [];
+var cloudSeedingRocketStates = 0;
+var nuclearDetonationState = false;
+
+var c = 0.5
 
 // Public functions
 
+function cloudSeedingRockets() {
+    if(nuclearDetonationState) {
+        nuclearDetonationState = false;
+    }
+    cloudSeedingRocketStates = 3;
+}
+
+function nuclearDetonation() {
+    nuclearDetonationState = true;
+}
+
 function getWeather() {
+    if(nuclearDetonationState) {
+        return 0;
+    }
+    if(cloudSeedingRocketStates > 0) {
+        return 2;
+    }
     return weatherState;
 }
 
 function advanceRound() {
     var previousState = weatherState;
+    var totalZeroes = totalNumberOfPreviousStatesOf(0);
+    var totalTwos = totalNumberOfPreviousStatesOf(2);
+    var diff = Math.abs(totalTwos - totalZeroes);
+    var mostTwos = totalTwos > totalZeroes;
+    var mostZeroes = totalZeroes > totalTwos;
 
-    if(weatherState === 0 || weatherState === 2) {
-        if(changeState(numberOfPreviousStatesOf(weatherState))) {
+    if(weatherState === 0) {
+        var k = numberOfPreviousStatesOf(weatherState)
+        if(mostZeroes) {
+            k = k + (diff * c)
+        }
+        if(roll(k)) {
+            weatherState = 1
+        }
+    }
+    else if(weatherState === 2) {
+        var k = numberOfPreviousStatesOf(weatherState)
+        if(mostTwos) {
+            k = k + (diff * c)
+        }
+        if(roll(k)) {
             weatherState = 1
         }
     }
     else if(weatherState === 1) {
-        if(changeState(numberOfPreviousStatesOf(weatherState))) {
-            var totalZeroes = totalNumberOfPreviousStatesOf(0);
-            var totalTwos = totalNumberOfPreviousStatesOf(2);
-            var diff = Math.abs(totalTwos - totalZeroes)
-            if(totalZeroes > totalTwos) {
-                if(changeState(diff)) {
+        if(roll(numberOfPreviousStatesOf(weatherState))) {
+            if(mostZeroes) {
+                if(roll(diff)) {
                     weatherState = 2;
                 } else {
                     weatherState = 0;
                 }
             }
-            if(totalTwos > totalZeroes) {
-                if(changeState(diff)) {
+            if(mostTwos) {
+                if(roll(diff)) {
                     weatherState = 0;
                 } else {
                     weatherState = 2;
                 }
             }
             if(totalTwos === totalZeroes) {
-                if(changeState(diff)) {
+                if(roll(diff)) {
                     weatherState = 0;
                 } else {
                     weatherState = 2;
@@ -45,9 +81,20 @@ function advanceRound() {
     }
 
     previousStates.push(previousState);
+    if(nuclearDetonationState) {
+        nuclearDetonationState = false;
+    }
+    cloudSeedingRocketStates -= 1
 }
 
 // Private functions
+
+function resetWeather() {
+    var weatherState = randomIntInRange(0,2);
+    var previousStates = [];
+    var cloudSeedingRocketStates = 0;
+    var nuclearDetonation = false;
+}
 
 function printWeatherState() {
     console.log(`Weather state is ${weatherState}`)
@@ -57,7 +104,7 @@ function randomIntInRange(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function changeState(k) {
+function roll(k) {
     var rand = Math.random();
     var threshold = 1 / (2 + k);
     return rand > threshold;
@@ -84,3 +131,13 @@ function totalNumberOfPreviousStatesOf(state) {
     }
     return result;
 }
+
+// for(l = 0; l < 10; l++) {
+//     var track = [0,0,0];
+//     resetWeather();
+//     for(j = 0; j < 25; j++) {
+//         track[weatherState]++;
+//         advanceRound();
+//     }
+//     console.log(track)
+// }
