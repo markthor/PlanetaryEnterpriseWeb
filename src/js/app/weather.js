@@ -97,7 +97,7 @@ function resetWeather() {
 }
 
 function printWeatherState() {
-    console.log(`Weather state is ${weatherState}`)
+    console.log(`Weather state is ${getWeather()}`)
 }
 
 function randomIntInRange(min, max) {
