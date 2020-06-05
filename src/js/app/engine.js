@@ -1,4 +1,4 @@
-define(["jquery"], function($) {
+define(["jquery", "app/weather"], function($, weather) {
     var deck;
     var power = {};
     var iron = {};
@@ -753,6 +753,10 @@ define(["jquery"], function($) {
         return true;
     }
 
+    function getWeather() {
+        return weather.getWeather();
+    }
+
     /**
      * Returns an object that acts as the interface of the engine to the UI.
      */
@@ -772,6 +776,7 @@ define(["jquery"], function($) {
         getBuildingPrice: getBuildingPrice,
         getConsumedResources: getConsumedResources,
         getProducedResources: getProducedResources,
+        getWeather: getWeather,
         getRoundNumber: function() {
             return roundNumber;
         },
