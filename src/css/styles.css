@@ -229,9 +229,9 @@ div[data-player]:first-child .popover {
   background: #f0f0f4;
   background: radial-gradient(circle at center, #f0f0f4, #838386);
 }
-.resource[data-resource=lithium] {
-  background: #fffac7;
-  background: radial-gradient(circle at center, #fffbc7, #b7b492);
+.resource[data-resource=chemicals] {
+  background: #54368d;
+  background: radial-gradient(circle at center, #9b75e3, #5a3e91);
 }
 
 .player {

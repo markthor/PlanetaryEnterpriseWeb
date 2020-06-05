@@ -771,7 +771,7 @@ define(["jquery"], function($) {
                 case "aluminium": return aluminium;
                 case "carbon": return carbon;
                 case "steel": return steel;
-                case "lithium": return lithium;
+                case "chemicals": return lithium;
                 default:
                     console.error("Illegal argument exception. name: " + resourceName);
                     break;
