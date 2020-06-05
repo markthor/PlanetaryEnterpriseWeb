@@ -473,11 +473,6 @@ define(["jquery"], function($) {
             deck.power = deck.power - 1;
             return "power"
         }
-        temp += deck.interest
-        if(randomInt < temp) {
-            deck.interest = deck.interest - 1;
-            return "interest"
-        }
         exception = "IllegalStateException. Deck: " + deck
         console.error(exception);
         return exception
@@ -491,7 +486,6 @@ define(["jquery"], function($) {
             case "carbon": carbon.demand++; break;
             case "steel":  steel.demand++; break;
             case "lithium": lithium.demand++; break;
-            case "interest": interest(); break;
             default: break;
         }
     }
@@ -508,20 +502,12 @@ define(["jquery"], function($) {
         total += deck.iron
         total += deck.aluminium
         total += deck.power
-        total += deck.interest
 
         return total
     }
 
     function toggleDebt(player){
         player.accumulateDebt = !player.accumulateDebt;
-    }
-
-    function interest(){
-        playerRed.debt += Math.floor(playerRed.debt / 5);
-        playerBlue.debt += Math.floor(playerBlue.debt / 5);
-        playerGreen.debt += Math.floor(playerGreen.debt / 5);
-        playerYellow.debt += Math.floor(playerYellow.debt / 5);
     }
 
     function updateMarket(player, market){
@@ -722,7 +708,6 @@ define(["jquery"], function($) {
         deck.iron = 4;
         deck.aluminium = 4;
         deck.power = 6;
-        deck.interest = 5;
         deck.firstCard = getDemand();
         deck.secondCard = getDemand();
     }
@@ -750,10 +735,7 @@ define(["jquery"], function($) {
     }
 
     function playerHasEnoughConnectors(player) {
-        let connectorCount = player.buildings.filter(name => name === EBuilding.SupplyConnector).length;
-        let buildingCount = player.buildings.filter(name => name !== EBuilding.SupplyConnector).length;
-        
-        return connectorCount >= buildingCount;
+        return true;
     }
 
     /**
