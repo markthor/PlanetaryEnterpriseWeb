@@ -241,11 +241,27 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         });
     }
 
+    function renderFooter() {
+        $(".js-round-number").text("Round: " + engine.getRoundNumber());
+
+        var weatherDescription = (function(weatherState) {
+            switch(weatherState) {
+                case 0: return "Cloudy";
+                case 1: return "Partly cloudy";
+                case 2: return "Sunny";
+                default:
+                    console.error("Illegal argument exception. Unexpected weatherState " + weatherState);
+                    break;
+            }
+        })(engine.getWeather());
+        
+        $(".js-weather").text("Weather: " + weatherDescription);
+    }
+
     function renderUI() {
         renderResources();
         renderPlayers();
-
-        $(".js-round-number").text("Round: " + engine.getRoundNumber());
+        renderFooter();
     }
 
     function initializeTemplates() {
