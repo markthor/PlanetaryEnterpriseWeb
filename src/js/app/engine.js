@@ -776,7 +776,7 @@ define(["jquery", "app/weather"], function($, weather) {
                 case "aluminium": return aluminium;
                 case "carbon": return carbon;
                 case "steel": return steel;
-                case "lithium": return lithium;
+                case "chemicals": return lithium;
                 default:
                     console.error("Illegal argument exception. name: " + resourceName);
                     break;
