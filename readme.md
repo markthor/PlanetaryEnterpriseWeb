@@ -1,0 +1,4 @@
+- Unzip sass folder to some directory
+- Add the folder to your system PATH environment variable
+- open CMD, and cd into src/css
+- Run 'sass base.scss styles.css'
