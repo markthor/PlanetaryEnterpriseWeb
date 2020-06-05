@@ -289,15 +289,10 @@ div[data-player]:first-child .popover {
 .player__header__item .star {
   padding: 5px 3px;
 }
-.player__header__item .income, .player__header__item .debt {
+.player__header__item .income {
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   padding: 0 4px;
-}
-.player__header__item .income {
   color: #28a745;
-}
-.player__header__item .debt {
-  color: #dc3545;
 }
 .player__content {
   flex: 1 1 auto;

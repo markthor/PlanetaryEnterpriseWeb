@@ -23,12 +23,6 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
 
     function registerPlayerClickListeners() {
 
-        // Click listener for debt img
-        $(".js-player-debt-toggle").click(function() {
-            engine.toggleDebt(getParentPlayer($(this)));
-            renderUI();
-        });
-
         // Click listener for buildings
         $("[data-building]").click(function() {
             let player = getParentPlayer($(this));
@@ -88,22 +82,10 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
                 }
             }
     
-            var setPlayerDebt = function(player) {
-                var debt = prompt("Enter debt for player: " + player.name);
-                if (debt) {
-                    player.debt = parseInt(debt);
-                }
-            }
-    
             setPlayerName(engine.getPlayer("red"), "Red");
             setPlayerName(engine.getPlayer("blue"), "Blue");
             setPlayerName(engine.getPlayer("green"), "Green");
             setPlayerName(engine.getPlayer("yellow"), "Yellow");
-    
-            setPlayerDebt(engine.getPlayer("red"));
-            setPlayerDebt(engine.getPlayer("blue"));
-            setPlayerDebt(engine.getPlayer("green"));
-            setPlayerDebt(engine.getPlayer("yellow"));
     
             ui.render();
         });
@@ -130,7 +112,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
 
             $(".prod-table__column__content").each(function() {
                 let $player_elem = $(this).parents(".prod-table__column[data-player]");
-                $(this).text(engine.getIncomeOrDebt(engine.getPlayer($player_elem.attr("data-player"))) + "$");
+                $(this).text(engine.getIncome(engine.getPlayer($player_elem.attr("data-player"))) + "$");
             });
 
             // Set player names
@@ -210,19 +192,6 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         // Render income
         $(".js-player-income").each(function() {
             $(this).text(engine.getIncome(getParentPlayer($(this))) + "$");
-        });
-
-        // Render debt
-        $(".js-player-debt").each(function() {
-            let player = getParentPlayer($(this));
-            let $img_elem = $(this).parent().find(".js-player-debt-toggle");
-
-            $(this).text(player.debt + "$");
-            if (player.accumulateDebt) {
-                $img_elem.removeClass("disabled");
-            } else {
-                $img_elem.addClass("disabled");
-            }
         });
 
         // Render buildings
