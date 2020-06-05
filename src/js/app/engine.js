@@ -907,10 +907,10 @@ define(["jquery", "app/weather"], function($, weather) {
                 case "supplyConnector": return EDevelopment.SupplyConnector;
                 case "constructionSite": return EDevelopment.ConstructionSite;
                 case "carbonFabrication": return EDevelopment.CarbonFabrication;
-                case "fustionReactor": return EDevelopment.FusionReactor;
+                case "fusionReactor": return EDevelopment.FusionReactor;
                 case "governmentContracts": return EDevelopment.GovernmentContracts;
                 case "quantumCommunication": return EDevelopment.QuantumCommunication;
-                case "cloudSeedingRocket": return EDevelopment.CloudSeedingRockets;
+                case "cloudSeedingRockets": return EDevelopment.CloudSeedingRockets;
                 case "nuclearDetonation": return EDevelopment.NuclearDetonation;
                 default:
                     console.error("Illegal argument exception. name: " + buildingName);

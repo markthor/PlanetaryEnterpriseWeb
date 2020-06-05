@@ -64,13 +64,6 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
             renderUI();
         });
 
-        // Click listener for technology
-        $("[data-technology]").click(function() {
-            let technology = engine.getTechnology($(this).attr("data-technology"));
-
-            engine.toggleTechnology(getParentPlayer($(this)), technology);
-            renderUI();
-        });
     }
 
     function registerMenuClickListeners() {
@@ -221,6 +214,14 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
                     $(this).parents(".building-row").addClass("disabled");
                 }
             });
+
+            // Applies to buildings that are in player inventories (already purchased)
+            $(this).find(".building-count-new").each(function(){
+                let buildingCount = player.buildings.filter(name => name === buildingName).length;
+                
+                $(this).text(buildingCount);
+            });
+
         });
 
         // Render technology

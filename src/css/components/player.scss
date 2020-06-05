@@ -9,21 +9,37 @@
     &[data-player="red"] {
         background: $color-player-red;
         background: $gradient-player-red;
+
+        .building-count-new {
+            border: 3px solid $color-player-red;
+        }
     }
 
     &[data-player="blue"] {
         background: $color-player-blue;
         background: $gradient-player-blue;
+
+        .building-count-new {
+            border: 3px solid $color-player-blue;
+        }
     }
 
     &[data-player="green"] {
         background: $color-player-green;
         background: $gradient-player-green;
+
+        .building-count-new {
+            border: 3px solid $color-player-green;
+        }
     }
 
     &[data-player="yellow"] {
         background: $color-player-yellow;
         background: $gradient-player-yellow;
+
+        .building-count-new {
+            border: 3px solid $color-player-yellow;
+        }
     }
 
     &__header {
