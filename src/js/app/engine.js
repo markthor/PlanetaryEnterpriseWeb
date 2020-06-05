@@ -12,7 +12,6 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
     var playerBlue = {};
     var playerYellow = {};
 
-    var wasDebtAccumulatedLastRound = true;
     var loanAvailable;
     var roundNumber;
 
@@ -382,17 +381,11 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         return {
             color: color,
             name: "Player",
-            debt: 0,
-            accumulateDebt: false,
             buildings: [],
             carbonFabrication: false,
             marketManipulator: false,
             nuclearReactors: false
         };
-    }
-
-    function addDebt(player, amount){
-        player.debt += amount;
     }
 
     function addBuilding(player, buildingName){
@@ -513,30 +506,15 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         return total
     }
 
-    function toggleDebt(player){
-        player.accumulateDebt = !player.accumulateDebt;
-    }
-
-    function interest(){
-        playerRed.debt += Math.floor(playerRed.debt / 5);
-        playerBlue.debt += Math.floor(playerBlue.debt / 5);
-        playerGreen.debt += Math.floor(playerGreen.debt / 5);
-        playerYellow.debt += Math.floor(playerYellow.debt / 5);
-    }
-
     function updateMarket(player, market){
-        if (!player.accumulateDebt){
-            player.buildings.forEach(buildingName => {
-                buildingRevenue = getBuildingRevenue(buildingName, market, player);
-                if(buildingRevenue > 0){
-                        produceForBuilding(buildingName, player);
-                }
-            });
-            if(player.nuclearReactors && doesPowerConsumingBuildingsProduce(player, market)) {
-                adjustSupply(lithium, -1);
+        player.buildings.forEach(buildingName => {
+            buildingRevenue = getBuildingRevenue(buildingName, market, player);
+            if(buildingRevenue > 0){
+                    produceForBuilding(buildingName, player);
             }
-        } else{
-            addDebt(player, loanAvailable);
+        });
+        if(player.nuclearReactors && doesPowerConsumingBuildingsProduce(player, market)) {
+            adjustSupply(lithium, -1);
         }
     }
 
@@ -552,40 +530,36 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
     }
 
     function getProducedResources(player){
-        if(!player.accumulateDebt){
-            resources = [];
-            player.buildings.forEach(function(building) {
-                revenue = getBuildingRevenue(building, getMarket(), player);
-                if(revenue > 0){
-                    resources = resources.concat(EBuilding.properties[building].produce);
-                }
-            });
-            sortResources(resources)
-            return resources;
-        } else return [];
+        resources = [];
+        player.buildings.forEach(function(building) {
+            revenue = getBuildingRevenue(building, getMarket(), player);
+            if(revenue > 0){
+                resources = resources.concat(EBuilding.properties[building].produce);
+            }
+        });
+        sortResources(resources)
+        return resources;
     }
 
     function getConsumedResources(player){
-        if(!player.accumulateDebt){
-            var resources = [];
-            var nuclearReactorActivated = false;
-            player.buildings.forEach(function(building) {
-                revenue = getBuildingRevenue(building, getMarket(), player);
-                if(revenue > 0){
-                    if(player.nuclearReactors && EBuilding.properties[building].requiresPower){
-                        resources = resources.concat(EBuilding.properties[building].consume.filter(resource => resource !== "power"));
-                        nuclearReactorActivated = true;
-                    } else {
-                        resources = resources.concat(EBuilding.properties[building].consume);
-                    }
+        var resources = [];
+        var nuclearReactorActivated = false;
+        player.buildings.forEach(function(building) {
+            revenue = getBuildingRevenue(building, getMarket(), player);
+            if(revenue > 0){
+                if(player.nuclearReactors && EBuilding.properties[building].requiresPower){
+                    resources = resources.concat(EBuilding.properties[building].consume.filter(resource => resource !== "power"));
+                    nuclearReactorActivated = true;
+                } else {
+                    resources = resources.concat(EBuilding.properties[building].consume);
                 }
-            });
-            if(nuclearReactorActivated){
-                resources.push("lithium")
             }
-            sortResources(resources)
-            return resources;
-        } else return [];
+        });
+        if(nuclearReactorActivated){
+            resources.push("lithium")
+        }
+        sortResources(resources)
+        return resources;
     }
 
     function sortResources(resources){
@@ -621,14 +595,6 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         return revenue;
     }
 
-    function getIncomeOrDebt(player){
-        if(player.accumulateDebt) {
-            return loanAvailable;
-        } else {
-            return getIncome(player);
-        }
-    }
-
     function adjustSupplyForDemand(){
         adjustSupply(power, -power.demand);
         adjustSupply(iron, -iron.demand);
@@ -656,49 +622,11 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
 
         adjustSupplyForDemand();
 
-        adjustDebtToBeAccumulated();
-
-        playerRed.accumulateDebt = false;
-        playerBlue.accumulateDebt = false;
-        playerGreen.accumulateDebt = false;
-        playerYellow.accumulateDebt = false;
-
         popDemandCard();
         if(drawDemandTwice()) {
             popDemandCard(); //Again
         }
         roundNumber++;
-    }
-
-    function adjustDebtToBeAccumulated() {
-        if(didAnyPlayerAccumulateDebt()) {
-        	if(!wasDebtAccumulatedLastRound) {
-        		loanAvailable++;
-        	}
-            wasDebtAccumulatedLastRound = true
-        } else {
-        	loanAvailable++;
-            if(!wasDebtAccumulatedLastRound) {
-                loanAvailable++;
-            }
-            wasDebtAccumulatedLastRound = false;
-        }
-    }
-
-    function didAnyPlayerAccumulateDebt() {
-        if(playerRed.accumulateDebt === true) {
-            return true;
-        }
-        if(playerBlue.accumulateDebt === true) {
-            return true;
-        }
-        if(playerGreen.accumulateDebt === true) {
-            return true;
-        }
-        if(playerYellow.accumulateDebt === true) {
-            return true;
-        }
-        return false;
     }
 
     function initializeResources(){
@@ -768,10 +696,8 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
         addBuilding: addBuilding,
         removeBuilding: removeBuilding,
         adjustSupply: adjustSupply,
-        toggleDebt: toggleDebt,
         playerHasEnoughConnectors: playerHasEnoughConnectors,
         getIncome: getIncome,
-        getIncomeOrDebt: getIncomeOrDebt,
         getBuildingPrice: getBuildingPrice,
         getConsumedResources: getConsumedResources,
         getProducedResources: getProducedResources,
@@ -834,18 +760,7 @@ define(["jquery", "app/mapGenerator"], function($,mapGenerator) {
                 
             }
         },
-        addDebtRed: function(debt) {
-    		addDebt(playerRed, debt);
-    	},
-    	addDebtBlue: function(debt) {
-    		addDebt(playerBlue, debt);
-    	},
-    	 addDebtGreen: function(debt) {
-    		addDebt(playerGreen, debt);
-    	},
-    	 addDebtYellow: function(debt) {
-    		addDebt(playerYellow, debt);
-    	},
+
         toggleTechnology: function(player, technology) {
             switch(technology) {
                 case ETechnology.MarketManipulator: toggleMarketManipulator(player); break;
