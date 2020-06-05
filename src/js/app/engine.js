@@ -16,7 +16,7 @@ define(["jquery", "app/weather"], function($, weather) {
     var loanAvailable;
     var roundNumber;
 
-    var EBuilding = {
+    var EDevelopment = {
         MineIron: "mineIron",
         MineCarbon: "mineCarbon",
         MineAluminium: "mineAluminium",
@@ -27,6 +27,12 @@ define(["jquery", "app/weather"], function($, weather) {
         FossilPowerPlant: "fossilPowerPlant",
         SupplyConnector: "supplyConnector",
         ConstructionSite: "constructionSite",
+        CarbonFabrication: "carbonFabrication",
+        FusionReactor: "fusionReactor",
+        GovernmentContracts: "governmentContracts",
+        QuantumCommunication: "quantumCommunication",
+        CloudSeedingRockets: "cloudSeedingRockets",
+        NuclearDetonation: "nuclearDetonation",
         properties: {
             "mineIron": { produce: "iron", consume: ["power"], requiresPower: true, sortPriority: 0 },
             "mineCarbon": { produce: "carbon", consume: ["power"], requiresPower: true, sortPriority: 2 },
@@ -37,15 +43,21 @@ define(["jquery", "app/weather"], function($, weather) {
             "geothermalPlant": { produce: ["power", "power"], consume: [], requiresPower: false, sortPriority: 6 },
             "fossilPowerPlant": { produce: ["power", "power", "power"], consume: ["carbon"], requiresPower: false, sortPriority: 7 },
             "supplyConnector": { produce: "", consume: [], requiresPower: false, sortPriority: 8 },
-            "constructionSite": { produce: "", consume: [], requiresPower: false, sortPriority: 9 }
+            "constructionSite": { produce: "", consume: [], requiresPower: false, sortPriority: 9 },
+            "carbonFabrication": { produce: "", consume: [], requiresPower: false, sortPriority: 10 },
+            "fusionReactor": { produce: "", consume: [], requiresPower: false, sortPriority: 11 },
+            "governmentContracts": { produce: "", consume: [], requiresPower: false, sortPriority: 12 },
+            "quantumCommunication": { produce: "", consume: [], requiresPower: false, sortPriority: 13},
+            "cloudSeedingRockets": { produce: "", consume: [], requiresPower: false, sortPriority: 14 },
+            "nuclearDetonation": { produce: "", consume: [], requiresPower: false, sortPriority: 15 }
         }
     }
 
-    var ETechnology = {
-        MarketManipulator: "marketManipulator",
-        CarbonFabrication: "carbonFabrication",
-        NuclearReactors: "nuclearReactors"
-    }
+    // var ETechnology = {
+    //     MarketManipulator: "marketManipulator",
+    //     CarbonFabrication: "carbonFabrication",
+    //     NuclearReactors: "nuclearReactors"
+    // }
 
     function resource(name, price, maxSupply, supply) {
         if(!supply) {
@@ -116,30 +128,30 @@ define(["jquery", "app/weather"], function($, weather) {
     }
 
     function produceForBuilding(buildingName, player){
-        if(player.nuclearReactors) {
+        if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor)) {
             switch (buildingName) {
-            case EBuilding.MineIron: adjustSupplyNoRestrictions(iron, 1); break;
-            case EBuilding.MineAluminium: adjustSupplyNoRestrictions(aluminium, 1); break;
-            case EBuilding.MineCarbon: adjustSupplyNoRestrictions(carbon, 1); break;
-            case EBuilding.Furnace:  adjustSupplyNoRestrictions(steel, 1); adjustSupplyNoRestrictions(iron, -1); break;
-            case EBuilding.Lab:  adjustSupplyNoRestrictions(lithium, 1); adjustSupplyNoRestrictions(aluminium, -1); adjustSupplyNoRestrictions(carbon, -1); break;
-            case EBuilding.FossilPowerPlant:  adjustSupplyNoRestrictions(power, 3); adjustSupplyNoRestrictions(carbon, -1); break;
-            case EBuilding.GeothermalPlant:  adjustSupplyNoRestrictions(power, 2); break;
-            case EBuilding.WindTurbine:  adjustSupplyNoRestrictions(power, 1); break;
+            case EDevelopment.MineIron: adjustSupplyNoRestrictions(iron, 1); break;
+            case EDevelopment.MineAluminium: adjustSupplyNoRestrictions(aluminium, 1); break;
+            case EDevelopment.MineCarbon: adjustSupplyNoRestrictions(carbon, 1); break;
+            case EDevelopment.Furnace:  adjustSupplyNoRestrictions(steel, 1); adjustSupplyNoRestrictions(iron, -1); break;
+            case EDevelopment.Lab:  adjustSupplyNoRestrictions(lithium, 1); adjustSupplyNoRestrictions(aluminium, -1); adjustSupplyNoRestrictions(carbon, -1); break;
+            case EDevelopment.FossilPowerPlant:  adjustSupplyNoRestrictions(power, 3); adjustSupplyNoRestrictions(carbon, -1); break;
+            case EDevelopment.GeothermalPlant:  adjustSupplyNoRestrictions(power, 2); break;
+            case EDevelopment.WindTurbine:  adjustSupplyNoRestrictions(power, 1); break;
             default:
                 console.error("Illegal argument exception. name: " + name);
                 break;
             }
         } else {
             switch (buildingName) {
-            case EBuilding.MineIron: adjustSupplyNoRestrictions(iron, 1); adjustSupplyNoRestrictions(power, -1); break;
-            case EBuilding.MineAluminium: adjustSupplyNoRestrictions(aluminium, 1); adjustSupplyNoRestrictions(power, -1); break;
-            case EBuilding.MineCarbon: adjustSupplyNoRestrictions(carbon, 1); adjustSupplyNoRestrictions(power, -1); break;
-            case EBuilding.Furnace:  adjustSupplyNoRestrictions(steel, 1); adjustSupplyNoRestrictions(power, -1); adjustSupplyNoRestrictions(iron, -1); break;
-            case EBuilding.Lab:  adjustSupplyNoRestrictions(lithium, 1); adjustSupplyNoRestrictions(aluminium, -1); adjustSupplyNoRestrictions(carbon, -1); break;
-            case EBuilding.FossilPowerPlant:  adjustSupplyNoRestrictions(power, 3); adjustSupplyNoRestrictions(carbon, -1); break;
-            case EBuilding.GeothermalPlant:  adjustSupplyNoRestrictions(power, 2); break;
-            case EBuilding.WindTurbine:  adjustSupplyNoRestrictions(power, 1); break;
+            case EDevelopment.MineIron: adjustSupplyNoRestrictions(iron, 1); adjustSupplyNoRestrictions(power, -1); break;
+            case EDevelopment.MineAluminium: adjustSupplyNoRestrictions(aluminium, 1); adjustSupplyNoRestrictions(power, -1); break;
+            case EDevelopment.MineCarbon: adjustSupplyNoRestrictions(carbon, 1); adjustSupplyNoRestrictions(power, -1); break;
+            case EDevelopment.Furnace:  adjustSupplyNoRestrictions(steel, 1); adjustSupplyNoRestrictions(power, -1); adjustSupplyNoRestrictions(iron, -1); break;
+            case EDevelopment.Lab:  adjustSupplyNoRestrictions(lithium, 1); adjustSupplyNoRestrictions(aluminium, -1); adjustSupplyNoRestrictions(carbon, -1); break;
+            case EDevelopment.FossilPowerPlant:  adjustSupplyNoRestrictions(power, 3); adjustSupplyNoRestrictions(carbon, -1); break;
+            case EDevelopment.GeothermalPlant:  adjustSupplyNoRestrictions(power, 2); break;
+            case EDevelopment.WindTurbine:  adjustSupplyNoRestrictions(power, 1); break;
             default:
                 console.error("Illegal argument exception. name: " + name);
                 break;
@@ -147,79 +159,97 @@ define(["jquery", "app/weather"], function($, weather) {
         }
     }
 
-    function toggleCarbonFabrication(player){
-        if(player.carbonFabrication){
-            player.carbonFabrication = false;
-            modifyTechnology(ETechnology.CarbonFabrication, false);
-        } else {
-            player.carbonFabrication = true;
-            modifyTechnology(ETechnology.CarbonFabrication, true);
-        }
-    }
+    // function toggleCarbonFabrication(player){
+    //     if(player.carbonFabrication){
+    //         player.carbonFabrication = false;
+    //         modifyTechnology(ETechnology.CarbonFabrication, false);
+    //     } else {
+    //         player.carbonFabrication = true;
+    //         modifyTechnology(ETechnology.CarbonFabrication, true);
+    //     }
+    // }
 
-    function toggleMarketManipulator(player){
-        if(player.marketManipulator){
-            player.marketManipulator = false;
-            modifyTechnology(ETechnology.MarketManipulator, false);
-        } else {
-            player.marketManipulator = true;
-            modifyTechnology(ETechnology.MarketManipulator, true);
-        }
-    }
+    // function toggleMarketManipulator(player){
+    //     if(player.marketManipulator){
+    //         player.marketManipulator = false;
+    //         modifyTechnology(ETechnology.MarketManipulator, false);
+    //     } else {
+    //         player.marketManipulator = true;
+    //         modifyTechnology(ETechnology.MarketManipulator, true);
+    //     }
+    // }
     
-    function toggleNuclearReactor(player){
-        if(player.nuclearReactors){
-            player.nuclearReactors = false;
-            modifyTechnology(ETechnology.NuclearReactors, false);
-        } else {
-            player.nuclearReactors = true;
-            modifyTechnology(ETechnology.NuclearReactors, true);
-        }
-    }
+    // function toggleNuclearReactor(player){
+    //     if(player.nuclearReactors){
+    //         player.nuclearReactors = false;
+    //         modifyTechnology(ETechnology.NuclearReactors, false);
+    //     } else {
+    //         player.nuclearReactors = true;
+    //         modifyTechnology(ETechnology.NuclearReactors, true);
+    //     }
+    // }
 
-    function modifyTechnology(technologyName, add){
-        multiplier = -1;
-        if(!add) multiplier = 1;
-        switch (technologyName) {
-            case ETechnology.CarbonFabrication:
-                adjustSupply(lithium, 1 * multiplier); adjustSupply(carbon, 3 * multiplier);
-                break;
-            case ETechnology.MarketManipulator:
-                adjustSupply(lithium, 1 * multiplier);
-                break;
-            case ETechnology.NuclearReactors:
-                adjustSupply(lithium, 1 * multiplier);
-                break;
-            default:                 
-                console.error("Illegal argument exception. technologyName: " + technologyName);
-                break;
-        }
-    }
+    // function modifyTechnology(technologyName, add){
+    //     multiplier = -1;
+    //     if(!add) multiplier = 1;
+    //     switch (technologyName) {
+    //         case ETechnology.CarbonFabrication:
+    //             adjustSupply(lithium, 1 * multiplier); adjustSupply(carbon, 3 * multiplier);
+    //             break;
+    //         case ETechnology.MarketManipulator:
+    //             adjustSupply(lithium, 1 * multiplier);
+    //             break;
+    //         case ETechnology.NuclearReactors:
+    //             adjustSupply(lithium, 1 * multiplier);
+    //             break;
+    //         default:                 
+    //             console.error("Illegal argument exception. technologyName: " + technologyName);
+    //             break;
+    //     }
+    // }
 
     function modifyBuilding(player, buildingName, add){
         multiplier = -1;
         if(!add) multiplier = 1;
-        if(player.carbonFabrication){
+        if(doesPlayerHaveDevelopment(player, EDevelopment.CarbonFabrication)){
             switch (buildingName) {
-                case EBuilding.MineIron: 
-                case EBuilding.MineAluminium: 
-                case EBuilding.MineCarbon: 
-                case EBuilding.Furnace: 
-                case EBuilding.Lab: 
-                case EBuilding.FossilPowerPlant: 
+                case EDevelopment.MineIron: 
+                case EDevelopment.MineAluminium: 
+                case EDevelopment.MineCarbon: 
+                case EDevelopment.Furnace: 
+                case EDevelopment.Lab: 
+                case EDevelopment.FossilPowerPlant: 
                     adjustSupply(carbon, 3 * multiplier);
                     break;
-                case EBuilding.GeothermalPlant: 
+                case EDevelopment.GeothermalPlant: 
                     adjustSupply(lithium, 2 * multiplier); adjustSupply(carbon, 1 * multiplier);
                     break;
-                case EBuilding.WindTurbine: 
+                case EDevelopment.WindTurbine: 
                     adjustSupply(carbon, 3 * multiplier);
                     break;
-                case EBuilding.SupplyConnector:
+                case EDevelopment.SupplyConnector:
                     adjustSupply(aluminium, 1 * multiplier);
                     break;
-                case EBuilding.ConstructionSite:
+                case EDevelopment.ConstructionSite:
                     adjustSupply(carbon, 2 * multiplier);
+                    break;
+                case EDevelopment.CarbonFabrication:
+                    adjustSupply(lithium, 1 * multiplier); adjustSupply(carbon, 3 * multiplier);
+                    break;
+                case EDevelopment.FusionReactor:
+                    adjustSupply(lithium, 1 * multiplier);
+                    break;
+                case EDevelopment.GovernmentContracts:
+                    adjustSupply(lithium, 1 * multiplier);
+                    break;
+                case EDevelopment.QuantumCommunication:
+                    adjustSupply(lithium, 1 * multiplier);
+                    break;
+                case EDevelopment.CloudSeedingRockets:
+                    adjustSupply(lithium, 1 * multiplier);
+                    break;
+                case EDevelopment.NuclearDetonation:
+                    adjustSupply(lithium, 1 * multiplier);
                     break;
                 default:
                     console.error("Illegal argument exception. buildingName: " + buildingName);
@@ -227,25 +257,43 @@ define(["jquery", "app/weather"], function($, weather) {
             }
         } else {
             switch (buildingName) {
-                case EBuilding.MineIron: 
-                case EBuilding.MineAluminium: 
-                case EBuilding.MineCarbon: 
-                case EBuilding.Furnace: 
-                case EBuilding.Lab: 
-                case EBuilding.FossilPowerPlant: 
+                case EDevelopment.MineIron: 
+                case EDevelopment.MineAluminium: 
+                case EDevelopment.MineCarbon: 
+                case EDevelopment.Furnace: 
+                case EDevelopment.Lab: 
+                case EDevelopment.FossilPowerPlant: 
                     adjustSupply(steel, 2 * multiplier);
                     break;
-                case EBuilding.GeothermalPlant: 
+                case EDevelopment.GeothermalPlant: 
                     adjustSupply(lithium, 2 * multiplier); adjustSupply(steel, 1 * multiplier);
                     break;
-                case EBuilding.WindTurbine: 
+                case EDevelopment.WindTurbine: 
                     adjustSupply(steel, 2 * multiplier);
                     break;
-                case EBuilding.SupplyConnector:
+                case EDevelopment.SupplyConnector:
                     adjustSupply(aluminium, 1 * multiplier);
                     break;
-                case EBuilding.ConstructionSite:
+                case EDevelopment.ConstructionSite:
                     adjustSupply(steel, 1 * multiplier);
+                    break;
+                case EDevelopment.CarbonFabrication:
+                    adjustSupply(lithium, 1 * multiplier); adjustSupply(carbon, 3 * multiplier);
+                    break;
+                case EDevelopment.FusionReactor:
+                    adjustSupply(lithium, 1 * multiplier);
+                    break;
+                case EDevelopment.GovernmentContracts:
+                    adjustSupply(lithium, 1 * multiplier);
+                    break;
+                case EDevelopment.QuantumCommunication:
+                    adjustSupply(lithium, 1 * multiplier);
+                    break;
+                case EDevelopment.CloudSeedingRockets:
+                    adjustSupply(lithium, 1 * multiplier);
+                    break;
+                case EDevelopment.NuclearDetonation:
+                    adjustSupply(lithium, 1 * multiplier);
                     break;
                 default:
                     console.error("Illegal argument exception. buildingName: " + buildingName);
@@ -255,28 +303,34 @@ define(["jquery", "app/weather"], function($, weather) {
     }
 
     function getBuildingPrice(player, buildingName){
-        if(player.carbonFabrication){
+        if(doesPlayerHaveDevelopment(player, EDevelopment.CarbonFabrication)){
             switch (buildingName) {
-                case EBuilding.MineIron: 
-                case EBuilding.MineAluminium: 
-                case EBuilding.MineCarbon: 
-                case EBuilding.Furnace: 
-                case EBuilding.Lab: 
-                case EBuilding.FossilPowerPlant: 
+                case EDevelopment.MineIron:
+                case EDevelopment.MineAluminium:
+                case EDevelopment.MineCarbon:
+                case EDevelopment.Furnace:
+                case EDevelopment.Lab:
+                case EDevelopment.FossilPowerPlant:
                     return getPrice(carbon, 3);
-                case EBuilding.GeothermalPlant: 
+                case EDevelopment.GeothermalPlant:
                     return getPrice(lithium, 2) + getPrice(carbon);
-                case EBuilding.WindTurbine: 
+                case EDevelopment.WindTurbine:
                     return getPrice(carbon, 3);
-                case EBuilding.SupplyConnector:
+                case EDevelopment.SupplyConnector:
                     return getPrice(aluminium);
-                case EBuilding.ConstructionSite:
+                case EDevelopment.ConstructionSite:
                     return getPrice(carbon, 2);
-                case ETechnology.CarbonFabrication:
+                case EDevelopment.CarbonFabrication:
                     return getPrice(lithium) + getPrice(carbon, 3);
-                case ETechnology.MarketManipulator:
+                case EDevelopment.FusionReactor:
                     return getPrice(lithium)
-                case ETechnology.NuclearReactors:
+                case EDevelopment.GovernmentContracts:
+                    return getPrice(lithium)
+                case EDevelopment.QuantumCommunication:
+                    return getPrice(lithium)
+                case EDevelopment.CloudSeedingRockets:
+                    return getPrice(lithium)
+                case EDevelopment.NuclearDetonation:
                     return getPrice(lithium)
                 default:
                     exception ="Illegal argument exception. buildingName: " + buildingName;
@@ -285,26 +339,32 @@ define(["jquery", "app/weather"], function($, weather) {
             }
         } else {
             switch (buildingName) {
-                case EBuilding.MineIron: 
-                case EBuilding.MineAluminium: 
-                case EBuilding.MineCarbon: 
-                case EBuilding.Furnace: 
-                case EBuilding.Lab: 
-                case EBuilding.FossilPowerPlant: 
+                case EDevelopment.MineIron: 
+                case EDevelopment.MineAluminium: 
+                case EDevelopment.MineCarbon: 
+                case EDevelopment.Furnace: 
+                case EDevelopment.Lab: 
+                case EDevelopment.FossilPowerPlant: 
                     return getPrice(steel, 2);
-                case EBuilding.GeothermalPlant: 
+                case EDevelopment.GeothermalPlant: 
                     return getPrice(lithium, 2) + getPrice(steel);
-                case EBuilding.WindTurbine: 
+                case EDevelopment.WindTurbine: 
                     return getPrice(steel, 2);
-                case EBuilding.SupplyConnector:
+                case EDevelopment.SupplyConnector:
                     return getPrice(aluminium);
-                case EBuilding.ConstructionSite:
+                case EDevelopment.ConstructionSite:
                     return getPrice(steel);
-                case ETechnology.CarbonFabrication:
+                case EDevelopment.CarbonFabrication:
                     return getPrice(lithium) + getPrice(carbon, 3);
-                case ETechnology.MarketManipulator:
+                case EDevelopment.FusionReactor:
                     return getPrice(lithium)
-                case ETechnology.NuclearReactors:
+                case EDevelopment.GovernmentContracts:
+                    return getPrice(lithium)
+                case EDevelopment.QuantumCommunication:
+                    return getPrice(lithium)
+                case EDevelopment.CloudSeedingRockets:
+                    return getPrice(lithium)
+                case EDevelopment.NuclearDetonation:
                     return getPrice(lithium)
                 default:
                     exception = "Illegal argument exception. buildingName: " + buildingName;
@@ -315,7 +375,7 @@ define(["jquery", "app/weather"], function($, weather) {
     }
 
     function getBuildingRevenue(buildingName, market, player){
-        if(EBuilding.properties[buildingName].requiresPower && !doesPowerConsumingBuildingsProduce(player, market)) {
+        if(EDevelopment.properties[buildingName].requiresPower && !doesPowerConsumingBuildingsProduce(player, market)) {
             return 0;
         } else {
             return getBuildingRevenueNoRestrictions(buildingName, market, player);
@@ -325,34 +385,46 @@ define(["jquery", "app/weather"], function($, weather) {
 
     function getBuildingRevenueNoRestrictions(buildingName, market, player){
         var revenue = 0;
-        if(player.nuclearReactors) {
+        if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor)) {
             switch (buildingName) {
-                case EBuilding.MineIron: revenue = getPrice(market.iron); break;
-                case EBuilding.MineAluminium: revenue = getPrice(market.aluminium); break;
-                case EBuilding.MineCarbon: revenue = getPrice(market.carbon); break;
-                case EBuilding.Furnace: revenue = getPrice(market.steel) - getPrice(iron); break;
-                case EBuilding.Lab: revenue = getPrice(market.lithium) - getPrice(market.carbon) - getPrice(market.aluminium); break;
-                case EBuilding.FossilPowerPlant: revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
-                case EBuilding.GeothermalPlant: revenue = getPrice(market.power) * 2; break;
-                case EBuilding.WindTurbine: revenue = getPrice(market.power); break;
-                case EBuilding.SupplyConnector: revenue = 0; break;
-                case EBuilding.ConstructionSite: revenue = 0; break;
+                case EDevelopment.MineIron: revenue = getPrice(market.iron); break;
+                case EDevelopment.MineAluminium: revenue = getPrice(market.aluminium); break;
+                case EDevelopment.MineCarbon: revenue = getPrice(market.carbon); break;
+                case EDevelopment.Furnace: revenue = getPrice(market.steel) - getPrice(iron); break;
+                case EDevelopment.Lab: revenue = getPrice(market.lithium) - getPrice(market.carbon) - getPrice(market.aluminium); break;
+                case EDevelopment.FossilPowerPlant: revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
+                case EDevelopment.GeothermalPlant: revenue = getPrice(market.power) * 2; break;
+                case EDevelopment.WindTurbine: revenue = getPrice(market.power); break;
+                case EDevelopment.SupplyConnector: revenue = 0; break;
+                case EDevelopment.ConstructionSite: revenue = 0; break;
+                case EDevelopment.CarbonFabrication: revenue = 0; break;
+                case EDevelopment.FusionReactor: revenue = 0; break;
+                case EDevelopment.GovernmentContracts: revenue = 0; break;
+                case EDevelopment.QuantumCommunication: revenue = 0; break;
+                case EDevelopment.CloudSeedingRockets: revenue = 0; break;
+                case EDevelopment.NuclearDetonation: revenue = 0; break;
                 default:
                     console.error("Illegal argument exception. name: " + buildingName);
                     break;
             }
         } else {
             switch (buildingName) {
-                case EBuilding.MineIron: revenue = getPrice(market.iron) - getPrice(market.power); break;
-                case EBuilding.MineAluminium: revenue = getPrice(market.aluminium) - getPrice(market.power); break;
-                case EBuilding.MineCarbon: revenue = getPrice(market.carbon) - getPrice(market.power); break;
-                case EBuilding.Furnace: revenue = getPrice(market.steel) - getPrice(market.power) - getPrice(iron); break;
-                case EBuilding.Lab: revenue = getPrice(market.lithium) - getPrice(market.carbon) - getPrice(market.aluminium); break;
-                case EBuilding.FossilPowerPlant: revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
-                case EBuilding.GeothermalPlant: revenue = getPrice(market.power) * 2; break;
-                case EBuilding.WindTurbine: revenue = getPrice(market.power); break;
-                case EBuilding.SupplyConnector: revenue = 0; break;
-                case EBuilding.ConstructionSite: revenue = 0; break;
+                case EDevelopment.MineIron: revenue = getPrice(market.iron) - getPrice(market.power); break;
+                case EDevelopment.MineAluminium: revenue = getPrice(market.aluminium) - getPrice(market.power); break;
+                case EDevelopment.MineCarbon: revenue = getPrice(market.carbon) - getPrice(market.power); break;
+                case EDevelopment.Furnace: revenue = getPrice(market.steel) - getPrice(market.power) - getPrice(iron); break;
+                case EDevelopment.Lab: revenue = getPrice(market.lithium) - getPrice(market.carbon) - getPrice(market.aluminium); break;
+                case EDevelopment.FossilPowerPlant: revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
+                case EDevelopment.GeothermalPlant: revenue = getPrice(market.power) * 2; break;
+                case EDevelopment.WindTurbine: revenue = getPrice(market.power); break;
+                case EDevelopment.SupplyConnector: revenue = 0; break;
+                case EDevelopment.ConstructionSite: revenue = 0; break;
+                case EDevelopment.CarbonFabrication: revenue = 0; break;
+                case EDevelopment.FusionReactor: revenue = 0; break;
+                case EDevelopment.GovernmentContracts: revenue = 0; break;
+                case EDevelopment.QuantumCommunication: revenue = 0; break;
+                case EDevelopment.CloudSeedingRockets: revenue = 0; break;
+                case EDevelopment.NuclearDetonation: revenue = 0; break;
                 default:
                     console.error("Illegal argument exception. name: " + buildingName);
                     break;
@@ -363,14 +435,23 @@ define(["jquery", "app/weather"], function($, weather) {
         return revenue;
     }
 
+    function doesPlayerHaveDevelopment(player, development){
+        if(player.buildings.includes(development)){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     function doesPowerConsumingBuildingsProduce(player, market) {
-        if(!player.nuclearReactors) {
+        if(!doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor)) {
             return true;
         }
 
         var totalRevenueOfPowerProducingBuildings = 0;
         player.buildings.forEach(function(building) {
-            if(EBuilding.properties[building].requiresPower) {
+            if(EDevelopment.properties[building].requiresPower) {
                 totalRevenueOfPowerProducingBuildings += getBuildingRevenueNoRestrictions(building, market, player);
             }
         });
@@ -414,8 +495,8 @@ define(["jquery", "app/weather"], function($, weather) {
 
     function sortBuildings(player){
         player.buildings.sort(function(a, b){
-            i = EBuilding.properties[a].sortPriority;
-            j = EBuilding.properties[b].sortPriority;
+            i = EDevelopment.properties[a].sortPriority;
+            j = EDevelopment.properties[b].sortPriority;
 
             return i - j;
         });
@@ -518,7 +599,7 @@ define(["jquery", "app/weather"], function($, weather) {
                         produceForBuilding(buildingName, player);
                 }
             });
-            if(player.nuclearReactors && doesPowerConsumingBuildingsProduce(player, market)) {
+            if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor) && doesPowerConsumingBuildingsProduce(player, market)) {
                 adjustSupply(lithium, -1);
             }
         } else{
@@ -543,7 +624,7 @@ define(["jquery", "app/weather"], function($, weather) {
             player.buildings.forEach(function(building) {
                 revenue = getBuildingRevenue(building, getMarket(), player);
                 if(revenue > 0){
-                    resources = resources.concat(EBuilding.properties[building].produce);
+                    resources = resources.concat(EDevelopment.properties[building].produce);
                 }
             });
             sortResources(resources)
@@ -558,11 +639,11 @@ define(["jquery", "app/weather"], function($, weather) {
             player.buildings.forEach(function(building) {
                 revenue = getBuildingRevenue(building, getMarket(), player);
                 if(revenue > 0){
-                    if(player.nuclearReactors && EBuilding.properties[building].requiresPower){
-                        resources = resources.concat(EBuilding.properties[building].consume.filter(resource => resource !== "power"));
+                    if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor) && EDevelopment.properties[building].requiresPower){
+                        resources = resources.concat(EDevelopment.properties[building].consume.filter(resource => resource !== "power"));
                         nuclearReactorActivated = true;
                     } else {
-                        resources = resources.concat(EBuilding.properties[building].consume);
+                        resources = resources.concat(EDevelopment.properties[building].consume);
                     }
                 }
             });
@@ -601,7 +682,7 @@ define(["jquery", "app/weather"], function($, weather) {
         player.buildings.forEach(function(building) {
             revenue += getBuildingRevenue(building, getMarket(), player);
         });
-        if(player.nuclearReactors && doesPowerConsumingBuildingsProduce(player, getMarket())) {
+        if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor) && doesPowerConsumingBuildingsProduce(player, getMarket())) {
             revenue -= getPrice(lithium, 1);
         }
         return revenue;
@@ -717,10 +798,10 @@ define(["jquery", "app/weather"], function($, weather) {
         playerBlue = player("blue");
         playerGreen = player("green");
         playerYellow = player("yellow");
-        playerRed.buildings.push(EBuilding.SupplyConnector);
-        playerBlue.buildings.push(EBuilding.SupplyConnector);
-        playerGreen.buildings.push(EBuilding.SupplyConnector);
-        playerYellow.buildings.push(EBuilding.SupplyConnector);
+        playerRed.buildings.push(EDevelopment.SupplyConnector);
+        playerBlue.buildings.push(EDevelopment.SupplyConnector);
+        playerGreen.buildings.push(EDevelopment.SupplyConnector);
+        playerYellow.buildings.push(EDevelopment.SupplyConnector);
     }
 
     function initialize(){
@@ -784,31 +865,42 @@ define(["jquery", "app/weather"], function($, weather) {
         },
         getBuilding: function(buildingName) {
             switch(buildingName) {
-                case "mineIron": return EBuilding.MineIron;
-                case "mineCarbon": return EBuilding.MineCarbon;
-                case "mineAluminium": return EBuilding.MineAluminium;
-                case "furnace": return EBuilding.Furnace;
-                case "lab": return EBuilding.Lab;
-                case "windTurbine": return EBuilding.WindTurbine;
-                case "geothermalPlant": return EBuilding.GeothermalPlant;
-                case "fossilPowerPlant": return EBuilding.FossilPowerPlant;
-                case "supplyConnector": return EBuilding.SupplyConnector;
-                case "constructionSite": return EBuilding.ConstructionSite;
+                case "mineIron": return EDevelopment.MineIron;
+                case "mineCarbon": return EDevelopment.MineCarbon;
+                case "mineAluminium": return EDevelopment.MineAluminium;
+                case "furnace": return EDevelopment.Furnace;
+                case "lab": return EDevelopment.Lab;
+                case "windTurbine": return EDevelopment.WindTurbine;
+                case "geothermalPlant": return EDevelopment.GeothermalPlant;
+                case "fossilPowerPlant": return EDevelopment.FossilPowerPlant;
+                case "supplyConnector": return EDevelopment.SupplyConnector;
+                case "constructionSite": return EDevelopment.ConstructionSite;
+                case "carbonFabrication": return EDevelopment.CarbonFabrication;
+                case "fustionReactor": return EDevelopment.FusionReactor;
+                case "governmentContracts": return EDevelopment.GovernmentContracts;
+                case "quantumCommunication": return EDevelopment.QuantumCommunication;
+                case "cloudSeedingRocket": return EDevelopment.CloudSeedingRockets;
+                case "nuclearDetonation": return EDevelopment.NuclearDetonation;
                 default:
                     console.error("Illegal argument exception. name: " + buildingName);
                     break;
             }
         },
-        getTechnology: function(technologyName) {
-            switch(technologyName) {
-                case "carbonFabrication": return ETechnology.CarbonFabrication;
-                case "nuclearReactors": return ETechnology.NuclearReactors;
-                case "marketManipulator": return ETechnology.MarketManipulator;
-                default:
-                    console.error("Illegal argument exception. name: " + technologyName);
-                    break;
-            }
+        // getTechnology: function(technologyName) {
+        //     switch(technologyName) {
+        //         case "carbonFabrication": return ETechnology.CarbonFabrication;
+        //         case "nuclearReactors": return ETechnology.NuclearReactors;
+        //         case "marketManipulator": return ETechnology.MarketManipulator;
+        //         default:
+        //             console.error("Illegal argument exception. name: " + technologyName);
+        //             break;
+        //     }
+        // },
+
+        getTechnology: function(technologyName){
+            return "carbonFabrication";
         },
+
         getPlayer: function(playerName) {
             switch(playerName) {
                 case "red": return playerRed;
@@ -832,17 +924,18 @@ define(["jquery", "app/weather"], function($, weather) {
     	},
     	 addDebtYellow: function(debt) {
     		addDebt(playerYellow, debt);
-    	},
-        toggleTechnology: function(player, technology) {
-            switch(technology) {
-                case ETechnology.MarketManipulator: toggleMarketManipulator(player); break;
-                case ETechnology.CarbonFabrication: toggleCarbonFabrication(player); break;
-                case ETechnology.NuclearReactors: toggleNuclearReactor(player); break;
-                default:
-                    console.error("Illegal argument exception. name: " + technology);
-                    break;
-            }
         }
+        // ,
+        // toggleTechnology: function(player, technology) {
+        //     switch(technology) {
+        //         case ETechnology.MarketManipulator: toggleMarketManipulator(player); break;
+        //         case ETechnology.CarbonFabrication: toggleCarbonFabrication(player); break;
+        //         case ETechnology.NuclearReactors: toggleNuclearReactor(player); break;
+        //         default:
+        //             console.error("Illegal argument exception. name: " + technology);
+        //             break;
+        //     }
+        // }
     };
 
 });
