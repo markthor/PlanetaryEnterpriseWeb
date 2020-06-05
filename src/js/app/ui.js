@@ -245,6 +245,8 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
     function renderFooter() {
         $(".js-round-number").text("Round: " + engine.getRoundNumber());
 
+        weatherState = engine.getWeather();
+
         var weatherDescription = (function(weatherState) {
             switch(weatherState) {
                 case 0: return "Cloudy";
@@ -254,9 +256,9 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
                     console.error("Illegal argument exception. Unexpected weatherState " + weatherState);
                     break;
             }
-        })(engine.getWeather());
+        })(weatherState);
         
-        $(".js-weather").text("Weather: " + weatherDescription);
+        $(".js-weather").text("Weather: " + weatherDescription + " (+" + weatherState + ")");
     }
 
     function renderUI() {
