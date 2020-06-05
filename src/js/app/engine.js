@@ -246,9 +246,11 @@ define(["jquery", "app/weather"], function($, weather) {
                     adjustSupply(lithium, 1 * multiplier);
                     break;
                 case EDevelopment.CloudSeedingRockets:
+                    cloudSeedingRockets();
                     adjustSupply(lithium, 1 * multiplier);
                     break;
                 case EDevelopment.NuclearDetonation:
+                    nuclearDetonation();
                     adjustSupply(lithium, 1 * multiplier);
                     break;
                 default:
