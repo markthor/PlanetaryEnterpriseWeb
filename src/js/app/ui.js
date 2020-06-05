@@ -246,7 +246,6 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         renderPlayers();
 
         $(".js-round-number").text("Round: " + engine.getRoundNumber());
-        $(".js-loan-available").text("Loan available: " + engine.getLoanAvailable() + "$");
     }
 
     function initializeTemplates() {
