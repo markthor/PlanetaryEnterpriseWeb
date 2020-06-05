@@ -33,7 +33,7 @@ define(["jquery", "app/weather"], function($, weather) {
             "mineAluminium": { produce: "aluminum", consume: ["power"], requiresPower: true, sortPriority: 1 },
             "furnace": { produce: "steel", consume: ["power", "iron"], requiresPower: true, sortPriority: 3 },
             "lab": { produce: "lithium", consume: ["aluminium", "carbon"], requiresPower: false, sortPriority: 4 },
-            "windTurbine": { produce: "power", consume: [], requiresPower: false, sortPriority: 5 },
+            "windTurbine": { produce: "", consume: [], requiresPower: false, sortPriority: 5 },
             "geothermalPlant": { produce: ["power", "power"], consume: [], requiresPower: false, sortPriority: 6 },
             "fossilPowerPlant": { produce: ["power", "power", "power"], consume: ["carbon"], requiresPower: false, sortPriority: 7 },
             "supplyConnector": { produce: "", consume: [], requiresPower: false, sortPriority: 8 },
@@ -125,7 +125,7 @@ define(["jquery", "app/weather"], function($, weather) {
             case EBuilding.Lab:  adjustSupplyNoRestrictions(lithium, 1); adjustSupplyNoRestrictions(aluminium, -1); adjustSupplyNoRestrictions(carbon, -1); break;
             case EBuilding.FossilPowerPlant:  adjustSupplyNoRestrictions(power, 3); adjustSupplyNoRestrictions(carbon, -1); break;
             case EBuilding.GeothermalPlant:  adjustSupplyNoRestrictions(power, 2); break;
-            case EBuilding.WindTurbine:  adjustSupplyNoRestrictions(power, 1); break;
+            case EBuilding.WindTurbine:  adjustSupplyNoRestrictions(power, getWeather()); break;
             default:
                 console.error("Illegal argument exception. name: " + name);
                 break;
@@ -139,7 +139,7 @@ define(["jquery", "app/weather"], function($, weather) {
             case EBuilding.Lab:  adjustSupplyNoRestrictions(lithium, 1); adjustSupplyNoRestrictions(aluminium, -1); adjustSupplyNoRestrictions(carbon, -1); break;
             case EBuilding.FossilPowerPlant:  adjustSupplyNoRestrictions(power, 3); adjustSupplyNoRestrictions(carbon, -1); break;
             case EBuilding.GeothermalPlant:  adjustSupplyNoRestrictions(power, 2); break;
-            case EBuilding.WindTurbine:  adjustSupplyNoRestrictions(power, 1); break;
+            case EBuilding.WindTurbine:  adjustSupplyNoRestrictions(power, getWeather()); break;
             default:
                 console.error("Illegal argument exception. name: " + name);
                 break;
@@ -334,7 +334,7 @@ define(["jquery", "app/weather"], function($, weather) {
                 case EBuilding.Lab: revenue = getPrice(market.lithium) - getPrice(market.carbon) - getPrice(market.aluminium); break;
                 case EBuilding.FossilPowerPlant: revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
                 case EBuilding.GeothermalPlant: revenue = getPrice(market.power) * 2; break;
-                case EBuilding.WindTurbine: revenue = getPrice(market.power); break;
+                case EBuilding.WindTurbine: revenue = getPrice(market.power) * getWeather(); break;
                 case EBuilding.SupplyConnector: revenue = 0; break;
                 case EBuilding.ConstructionSite: revenue = 0; break;
                 default:
@@ -350,7 +350,7 @@ define(["jquery", "app/weather"], function($, weather) {
                 case EBuilding.Lab: revenue = getPrice(market.lithium) - getPrice(market.carbon) - getPrice(market.aluminium); break;
                 case EBuilding.FossilPowerPlant: revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
                 case EBuilding.GeothermalPlant: revenue = getPrice(market.power) * 2; break;
-                case EBuilding.WindTurbine: revenue = getPrice(market.power); break;
+                case EBuilding.WindTurbine: revenue = getPrice(market.power) * getWeather(); break;
                 case EBuilding.SupplyConnector: revenue = 0; break;
                 case EBuilding.ConstructionSite: revenue = 0; break;
                 default:
@@ -653,6 +653,10 @@ define(["jquery", "app/weather"], function($, weather) {
         if(drawDemandTwice()) {
             popDemandCard(); //Again
         }
+
+        weather.advanceRound();
+        updateWindTurbineProduction();
+        
         roundNumber++;
     }
 
@@ -730,6 +734,8 @@ define(["jquery", "app/weather"], function($, weather) {
         initializeDemandDeck();
         initializePlayers();
 
+        updateWindTurbineProduction();
+
         loanAvailable = 0;
         roundNumber = 1;
     }
@@ -740,6 +746,29 @@ define(["jquery", "app/weather"], function($, weather) {
 
     function getWeather() {
         return weather.getWeather();
+    }
+
+    function updateWindTurbineProduction() {
+        var currentWeather = getWeather();
+        if(currentWeather === 0) {
+            EBuilding.properties[EBuilding.WindTurbine].produce = "";
+        }
+        else if(currentWeather === 1) {
+            EBuilding.properties[EBuilding.WindTurbine].produce = ["power"];
+        }
+        else if(currentWeather === 2) {
+            EBuilding.properties[EBuilding.WindTurbine].produce = ["power", "power"];
+        }
+    }
+
+    function cloudSeedingRockets() {
+        weather.cloudSeedingRockets();
+        updateWindTurbineProduction();
+    }
+
+    function nuclearDetonation() {
+        weather.nuclearDetonation();
+        updateWindTurbineProduction();
     }
 
     /**
