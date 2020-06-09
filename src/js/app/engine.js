@@ -21,7 +21,7 @@ define(["jquery", "app/weather"], function($, weather) {
         MineAluminium: "mineAluminium",
         Furnace: "furnace",
         Lab: "lab",
-        WindTurbine: "windTurbine",
+        SolarPanels: "solarPanels",
         GeothermalPlant: "geothermalPlant",
         FossilPowerPlant: "fossilPowerPlant",
         SupplyConnector: "supplyConnector",
@@ -38,7 +38,7 @@ define(["jquery", "app/weather"], function($, weather) {
             "mineAluminium": { produce: "aluminum", consume: ["power"], requiresPower: true, sortPriority: 1 },
             "furnace": { produce: "steel", consume: ["power", "iron"], requiresPower: true, sortPriority: 3 },
             "lab": { produce: "chemicals", consume: ["iron", "carbon"], requiresPower: false, sortPriority: 4 },
-            "windTurbine": { produce: "", consume: [], requiresPower: false, sortPriority: 5 },
+            "solarPanels": { produce: "", consume: [], requiresPower: false, sortPriority: 5 },
             "geothermalPlant": { produce: ["power", "power"], consume: [], requiresPower: false, sortPriority: 6 },
             "fossilPowerPlant": { produce: ["power", "power", "power"], consume: ["carbon"], requiresPower: false, sortPriority: 7 },
             "supplyConnector": { produce: "", consume: [], requiresPower: false, sortPriority: 8 },
@@ -130,7 +130,7 @@ define(["jquery", "app/weather"], function($, weather) {
             case EDevelopment.Lab:  adjustSupplyNoRestrictions(chemicals, 1); adjustSupplyNoRestrictions(aluminium, -1); adjustSupplyNoRestrictions(carbon, -1); break;
             case EDevelopment.FossilPowerPlant:  adjustSupplyNoRestrictions(power, 3); adjustSupplyNoRestrictions(carbon, -1); break;
             case EDevelopment.GeothermalPlant:  adjustSupplyNoRestrictions(power, 2); break;
-            case EDevelopment.WindTurbine:  adjustSupplyNoRestrictions(power, getWeather()); break;
+            case EDevelopment.SolarPanels:  adjustSupplyNoRestrictions(power, getWeather()); break;
             default:
                 console.error("Illegal argument exception. name: " + name);
                 break;
@@ -144,7 +144,7 @@ define(["jquery", "app/weather"], function($, weather) {
             case EDevelopment.Lab:  adjustSupplyNoRestrictions(chemicals, 1); adjustSupplyNoRestrictions(aluminium, -1); adjustSupplyNoRestrictions(carbon, -1); break;
             case EDevelopment.FossilPowerPlant:  adjustSupplyNoRestrictions(power, 3); adjustSupplyNoRestrictions(carbon, -1); break;
             case EDevelopment.GeothermalPlant:  adjustSupplyNoRestrictions(power, 2); break;
-            case EDevelopment.WindTurbine:  adjustSupplyNoRestrictions(power, getWeather()); break;
+            case EDevelopment.SolarPanels:  adjustSupplyNoRestrictions(power, getWeather()); break;
             default:
                 console.error("Illegal argument exception. name: " + name);
                 break;
@@ -168,7 +168,7 @@ define(["jquery", "app/weather"], function($, weather) {
                 case EDevelopment.GeothermalPlant: 
                     adjustSupply(chemicals, 2 * multiplier); adjustSupply(carbon, 1 * multiplier);
                     break;
-                case EDevelopment.WindTurbine: 
+                case EDevelopment.SolarPanels: 
                     adjustSupply(carbon, 3 * multiplier);
                     break;
                 case EDevelopment.SupplyConnector:
@@ -214,7 +214,7 @@ define(["jquery", "app/weather"], function($, weather) {
                 case EDevelopment.GeothermalPlant: 
                     adjustSupply(chemicals, 2 * multiplier); adjustSupply(steel, 1 * multiplier);
                     break;
-                case EDevelopment.WindTurbine: 
+                case EDevelopment.SolarPanels: 
                     adjustSupply(steel, 2 * multiplier);
                     break;
                 case EDevelopment.SupplyConnector:
@@ -262,7 +262,7 @@ define(["jquery", "app/weather"], function($, weather) {
                     return getPrice(carbon, 3);
                 case EDevelopment.GeothermalPlant:
                     return getPrice(chemicals, 2) + getPrice(carbon);
-                case EDevelopment.WindTurbine:
+                case EDevelopment.SolarPanels:
                     return getPrice(carbon, 3);
                 case EDevelopment.SupplyConnector:
                     return getPrice(aluminium);
@@ -296,7 +296,7 @@ define(["jquery", "app/weather"], function($, weather) {
                     return getPrice(steel, 2);
                 case EDevelopment.GeothermalPlant: 
                     return getPrice(chemicals, 2) + getPrice(steel);
-                case EDevelopment.WindTurbine: 
+                case EDevelopment.SolarPanels: 
                     return getPrice(steel, 2);
                 case EDevelopment.SupplyConnector:
                     return getPrice(aluminium);
@@ -342,7 +342,7 @@ define(["jquery", "app/weather"], function($, weather) {
                 case EDevelopment.Lab: revenue = getPrice(market.chemicals) - getPrice(market.carbon) - getPrice(market.aluminium); break;
                 case EDevelopment.FossilPowerPlant: revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
                 case EDevelopment.GeothermalPlant: revenue = getPrice(market.power) * 2; break;
-                case EDevelopment.WindTurbine: revenue = getPrice(market.power) * getWeather();; break;
+                case EDevelopment.SolarPanels: revenue = getPrice(market.power) * getWeather();; break;
                 case EDevelopment.SupplyConnector: revenue = 0; break;
                 case EDevelopment.ConstructionSite: revenue = 0; break;
                 case EDevelopment.CarbonFabrication: revenue = 0; break;
@@ -364,7 +364,7 @@ define(["jquery", "app/weather"], function($, weather) {
                 case EDevelopment.Lab: revenue = getPrice(market.chemicals) - getPrice(market.carbon) - getPrice(market.aluminium); break;
                 case EDevelopment.FossilPowerPlant: revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
                 case EDevelopment.GeothermalPlant: revenue = getPrice(market.power) * 2; break;
-                case EDevelopment.WindTurbine: revenue = getPrice(market.power) * getWeather(); break;
+                case EDevelopment.SolarPanels: revenue = getPrice(market.power) * getWeather(); break;
                 case EDevelopment.SupplyConnector: revenue = 0; break;
                 case EDevelopment.ConstructionSite: revenue = 0; break;
                 case EDevelopment.CarbonFabrication: revenue = 0; break;
@@ -651,7 +651,7 @@ define(["jquery", "app/weather"], function($, weather) {
         }
 
         weather.advanceRound();
-        updateWindTurbineProduction();
+        updateSolarPanelsProduction();
         
         roundNumber++;
     }
@@ -695,7 +695,7 @@ define(["jquery", "app/weather"], function($, weather) {
         initializeDemandDeck();
         initializePlayers();
 
-        updateWindTurbineProduction();
+        updateSolarPanelsProduction();
 
         loanAvailable = 0;
         roundNumber = 1;
@@ -705,27 +705,27 @@ define(["jquery", "app/weather"], function($, weather) {
         return weather.getWeather();
     }
 
-    function updateWindTurbineProduction() {
+    function updateSolarPanelsProduction() {
         var currentWeather = getWeather();
         if(currentWeather === 0) {
-            EDevelopment.properties[EDevelopment.WindTurbine].produce = "";
+            EDevelopment.properties[EDevelopment.SolarPanels].produce = "";
         }
         else if(currentWeather === 1) {
-            EDevelopment.properties[EDevelopment.WindTurbine].produce = ["power"];
+            EDevelopment.properties[EDevelopment.SolarPanels].produce = ["power"];
         }
         else if(currentWeather === 2) {
-            EDevelopment.properties[EDevelopment.WindTurbine].produce = ["power", "power"];
+            EDevelopment.properties[EDevelopment.SolarPanels].produce = ["power", "power"];
         }
     }
 
     function cloudSeedingRockets() {
         weather.cloudSeedingRockets();
-        updateWindTurbineProduction();
+        updateSolarPanelsProduction();
     }
 
     function nuclearDetonation() {
         weather.nuclearDetonation();
-        updateWindTurbineProduction();
+        updateSolarPanelsProduction();
     }
 
     /**
@@ -772,7 +772,7 @@ define(["jquery", "app/weather"], function($, weather) {
                 case "mineAluminium": return EDevelopment.MineAluminium;
                 case "furnace": return EDevelopment.Furnace;
                 case "lab": return EDevelopment.Lab;
-                case "windTurbine": return EDevelopment.WindTurbine;
+                case "solarPanels": return EDevelopment.SolarPanels;
                 case "geothermalPlant": return EDevelopment.GeothermalPlant;
                 case "fossilPowerPlant": return EDevelopment.FossilPowerPlant;
                 case "supplyConnector": return EDevelopment.SupplyConnector;
