@@ -701,10 +701,6 @@ define(["jquery", "app/weather"], function($, weather) {
         roundNumber = 1;
     }
 
-    function playerHasEnoughConnectors(player) {
-        return true;
-    }
-
     function getWeather() {
         return weather.getWeather();
     }
@@ -744,7 +740,6 @@ define(["jquery", "app/weather"], function($, weather) {
         addBuilding: addBuilding,
         removeBuilding: removeBuilding,
         adjustSupply: adjustSupply,
-        playerHasEnoughConnectors: playerHasEnoughConnectors,
         getIncome: getIncome,
         getBuildingPrice: getBuildingPrice,
         getConsumedResources: getConsumedResources,

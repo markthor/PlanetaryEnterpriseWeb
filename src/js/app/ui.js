@@ -197,11 +197,6 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
             // Applies to buildings in bottom pane that can be purchased
             $(this).find(".building-price").each(function() {
                 $(this).text(price + "$");
-                if (!engine.playerHasEnoughConnectors(player) && buildingName !== "supplyConnector") {
-                    $(this).parents(".building-row").addClass("disabled");
-                } else {
-                    $(this).parents(".building-row").removeClass("disabled");
-                }
             });
             // Applies to buildings that are in player inventories (already purchased)
             $(this).find(".building-count").each(function(){
