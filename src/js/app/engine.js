@@ -12,7 +12,6 @@ define(["jquery", "app/weather"], function($, weather) {
     var playerBlue = {};
     var playerYellow = {};
 
-    var wasDebtAccumulatedLastRound = true;
     var loanAvailable;
     var roundNumber;
 
@@ -52,12 +51,6 @@ define(["jquery", "app/weather"], function($, weather) {
             "nuclearDetonation": { produce: "", consume: [], requiresPower: false, sortPriority: 15 }
         }
     }
-
-    // var ETechnology = {
-    //     MarketManipulator: "marketManipulator",
-    //     CarbonFabrication: "carbonFabrication",
-    //     NuclearReactors: "nuclearReactors"
-    // }
 
     function resource(name, price, maxSupply, supply) {
         if(!supply) {
@@ -158,55 +151,6 @@ define(["jquery", "app/weather"], function($, weather) {
             }
         }
     }
-
-    // function toggleCarbonFabrication(player){
-    //     if(player.carbonFabrication){
-    //         player.carbonFabrication = false;
-    //         modifyTechnology(ETechnology.CarbonFabrication, false);
-    //     } else {
-    //         player.carbonFabrication = true;
-    //         modifyTechnology(ETechnology.CarbonFabrication, true);
-    //     }
-    // }
-
-    // function toggleMarketManipulator(player){
-    //     if(player.marketManipulator){
-    //         player.marketManipulator = false;
-    //         modifyTechnology(ETechnology.MarketManipulator, false);
-    //     } else {
-    //         player.marketManipulator = true;
-    //         modifyTechnology(ETechnology.MarketManipulator, true);
-    //     }
-    // }
-    
-    // function toggleNuclearReactor(player){
-    //     if(player.nuclearReactors){
-    //         player.nuclearReactors = false;
-    //         modifyTechnology(ETechnology.NuclearReactors, false);
-    //     } else {
-    //         player.nuclearReactors = true;
-    //         modifyTechnology(ETechnology.NuclearReactors, true);
-    //     }
-    // }
-
-    // function modifyTechnology(technologyName, add){
-    //     multiplier = -1;
-    //     if(!add) multiplier = 1;
-    //     switch (technologyName) {
-    //         case ETechnology.CarbonFabrication:
-    //             adjustSupply(lithium, 1 * multiplier); adjustSupply(carbon, 3 * multiplier);
-    //             break;
-    //         case ETechnology.MarketManipulator:
-    //             adjustSupply(lithium, 1 * multiplier);
-    //             break;
-    //         case ETechnology.NuclearReactors:
-    //             adjustSupply(lithium, 1 * multiplier);
-    //             break;
-    //         default:                 
-    //             console.error("Illegal argument exception. technologyName: " + technologyName);
-    //             break;
-    //     }
-    // }
 
     function modifyBuilding(player, buildingName, add){
         multiplier = -1;
@@ -467,17 +411,11 @@ define(["jquery", "app/weather"], function($, weather) {
         return {
             color: color,
             name: "Player",
-            debt: 0,
-            accumulateDebt: false,
             buildings: [],
             carbonFabrication: false,
             marketManipulator: false,
             nuclearReactors: false
         };
-    }
-
-    function addDebt(player, amount){
-        player.debt += amount;
     }
 
     function addBuilding(player, buildingName){
@@ -591,23 +529,15 @@ define(["jquery", "app/weather"], function($, weather) {
         return total
     }
 
-    function toggleDebt(player){
-        player.accumulateDebt = !player.accumulateDebt;
-    }
-
     function updateMarket(player, market){
-        if (!player.accumulateDebt){
-            player.buildings.forEach(buildingName => {
-                buildingRevenue = getBuildingRevenue(buildingName, market, player);
-                if(buildingRevenue > 0){
-                        produceForBuilding(buildingName, player);
-                }
-            });
-            if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor) && doesPowerConsumingBuildingsProduce(player, market)) {
-                adjustSupply(lithium, -1);
+        player.buildings.forEach(buildingName => {
+            buildingRevenue = getBuildingRevenue(buildingName, market, player);
+            if(buildingRevenue > 0){
+                    produceForBuilding(buildingName, player);
             }
-        } else{
-            addDebt(player, loanAvailable);
+        });
+        if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor) && doesPowerConsumingBuildingsProduce(player, market)) {
+            adjustSupply(lithium, -1);
         }
     }
 
@@ -623,40 +553,36 @@ define(["jquery", "app/weather"], function($, weather) {
     }
 
     function getProducedResources(player){
-        if(!player.accumulateDebt){
-            resources = [];
-            player.buildings.forEach(function(building) {
-                revenue = getBuildingRevenue(building, getMarket(), player);
-                if(revenue > 0){
-                    resources = resources.concat(EDevelopment.properties[building].produce);
-                }
-            });
-            sortResources(resources)
-            return resources;
-        } else return [];
+        resources = [];
+        player.buildings.forEach(function(building) {
+            revenue = getBuildingRevenue(building, getMarket(), player);
+            if(revenue > 0){
+                resources = resources.concat(EDevelopment.properties[building].produce);
+            }
+        });
+        sortResources(resources)
+        return resources;
     }
 
     function getConsumedResources(player){
-        if(!player.accumulateDebt){
-            var resources = [];
-            var nuclearReactorActivated = false;
-            player.buildings.forEach(function(building) {
-                revenue = getBuildingRevenue(building, getMarket(), player);
-                if(revenue > 0){
-                    if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor) && EDevelopment.properties[building].requiresPower){
-                        resources = resources.concat(EDevelopment.properties[building].consume.filter(resource => resource !== "power"));
-                        nuclearReactorActivated = true;
-                    } else {
-                        resources = resources.concat(EDevelopment.properties[building].consume);
-                    }
+        var resources = [];
+        var nuclearReactorActivated = false;
+        player.buildings.forEach(function(building) {
+            revenue = getBuildingRevenue(building, getMarket(), player);
+            if(revenue > 0){
+                if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor) && EDevelopment.properties[building].requiresPower){
+                    resources = resources.concat(EDevelopment.properties[building].consume.filter(resource => resource !== "power"));
+                    nuclearReactorActivated = true;
+                } else {
+                    resources = resources.concat(EDevelopment.properties[building].consume);
                 }
-            });
-            if(nuclearReactorActivated){
-                resources.push("lithium")
             }
-            sortResources(resources)
-            return resources;
-        } else return [];
+        });
+        if(nuclearReactorActivated){
+            resources.push("lithium")
+        }
+        sortResources(resources)
+        return resources;
     }
 
     function sortResources(resources){
@@ -692,14 +618,6 @@ define(["jquery", "app/weather"], function($, weather) {
         return revenue;
     }
 
-    function getIncomeOrDebt(player){
-        if(player.accumulateDebt) {
-            return loanAvailable;
-        } else {
-            return getIncome(player);
-        }
-    }
-
     function adjustSupplyForDemand(){
         adjustSupply(power, -power.demand);
         adjustSupply(iron, -iron.demand);
@@ -727,13 +645,6 @@ define(["jquery", "app/weather"], function($, weather) {
 
         adjustSupplyForDemand();
 
-        adjustDebtToBeAccumulated();
-
-        playerRed.accumulateDebt = false;
-        playerBlue.accumulateDebt = false;
-        playerGreen.accumulateDebt = false;
-        playerYellow.accumulateDebt = false;
-
         popDemandCard();
         if(drawDemandTwice()) {
             popDemandCard(); //Again
@@ -743,37 +654,6 @@ define(["jquery", "app/weather"], function($, weather) {
         updateWindTurbineProduction();
         
         roundNumber++;
-    }
-
-    function adjustDebtToBeAccumulated() {
-        if(didAnyPlayerAccumulateDebt()) {
-        	if(!wasDebtAccumulatedLastRound) {
-        		loanAvailable++;
-        	}
-            wasDebtAccumulatedLastRound = true
-        } else {
-        	loanAvailable++;
-            if(!wasDebtAccumulatedLastRound) {
-                loanAvailable++;
-            }
-            wasDebtAccumulatedLastRound = false;
-        }
-    }
-
-    function didAnyPlayerAccumulateDebt() {
-        if(playerRed.accumulateDebt === true) {
-            return true;
-        }
-        if(playerBlue.accumulateDebt === true) {
-            return true;
-        }
-        if(playerGreen.accumulateDebt === true) {
-            return true;
-        }
-        if(playerYellow.accumulateDebt === true) {
-            return true;
-        }
-        return false;
     }
 
     function initializeResources(){
@@ -864,10 +744,8 @@ define(["jquery", "app/weather"], function($, weather) {
         addBuilding: addBuilding,
         removeBuilding: removeBuilding,
         adjustSupply: adjustSupply,
-        toggleDebt: toggleDebt,
         playerHasEnoughConnectors: playerHasEnoughConnectors,
         getIncome: getIncome,
-        getIncomeOrDebt: getIncomeOrDebt,
         getBuildingPrice: getBuildingPrice,
         getConsumedResources: getConsumedResources,
         getProducedResources: getProducedResources,
@@ -915,16 +793,6 @@ define(["jquery", "app/weather"], function($, weather) {
                     break;
             }
         },
-        // getTechnology: function(technologyName) {
-        //     switch(technologyName) {
-        //         case "carbonFabrication": return ETechnology.CarbonFabrication;
-        //         case "nuclearReactors": return ETechnology.NuclearReactors;
-        //         case "marketManipulator": return ETechnology.MarketManipulator;
-        //         default:
-        //             console.error("Illegal argument exception. name: " + technologyName);
-        //             break;
-        //     }
-        // },
 
         getTechnology: function(technologyName){
             return "carbonFabrication";
@@ -941,30 +809,6 @@ define(["jquery", "app/weather"], function($, weather) {
                     break;
                 
             }
-        },
-        addDebtRed: function(debt) {
-    		addDebt(playerRed, debt);
-    	},
-    	addDebtBlue: function(debt) {
-    		addDebt(playerBlue, debt);
-    	},
-    	 addDebtGreen: function(debt) {
-    		addDebt(playerGreen, debt);
-    	},
-    	 addDebtYellow: function(debt) {
-    		addDebt(playerYellow, debt);
         }
-        // ,
-        // toggleTechnology: function(player, technology) {
-        //     switch(technology) {
-        //         case ETechnology.MarketManipulator: toggleMarketManipulator(player); break;
-        //         case ETechnology.CarbonFabrication: toggleCarbonFabrication(player); break;
-        //         case ETechnology.NuclearReactors: toggleNuclearReactor(player); break;
-        //         default:
-        //             console.error("Illegal argument exception. name: " + technology);
-        //             break;
-        //     }
-        // }
     };
-
 });
