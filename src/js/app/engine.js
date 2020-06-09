@@ -37,7 +37,7 @@ define(["jquery", "app/weather"], function($, weather) {
             "mineCarbon": { produce: "carbon", consume: ["power"], requiresPower: true, sortPriority: 2 },
             "mineAluminium": { produce: "aluminum", consume: ["power"], requiresPower: true, sortPriority: 1 },
             "furnace": { produce: "steel", consume: ["power", "iron"], requiresPower: true, sortPriority: 3 },
-            "lab": { produce: "lithium", consume: ["aluminium", "carbon"], requiresPower: false, sortPriority: 4 },
+            "lab": { produce: "lithium", consume: ["iron", "carbon"], requiresPower: false, sortPriority: 4 },
             "windTurbine": { produce: "", consume: [], requiresPower: false, sortPriority: 5 },
             "geothermalPlant": { produce: ["power", "power"], consume: [], requiresPower: false, sortPriority: 6 },
             "fossilPowerPlant": { produce: ["power", "power", "power"], consume: ["carbon"], requiresPower: false, sortPriority: 7 },
