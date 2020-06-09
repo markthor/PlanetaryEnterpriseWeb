@@ -12,7 +12,8 @@ define(["jquery", "app/weather"], function($, weather) {
     var playerBlue = {};
     var playerYellow = {};
 
-    var loanAvailable;
+    var numberOfRoundsWithAdditionalIncome = 6;
+    var additionalIncome = 20;
     var roundNumber;
 
     var EDevelopment = {
@@ -607,13 +608,21 @@ define(["jquery", "app/weather"], function($, weather) {
         }
     }
 
-    function getIncome(player){
+    function getIncomeFromBuildings(player){
         var revenue = 0;
         player.buildings.forEach(function(building) {
             revenue += getBuildingRevenue(building, getMarket(), player);
         });
         if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor) && doesPowerConsumingBuildingsProduce(player, getMarket())) {
             revenue -= getPrice(chemicals, 1);
+        }
+        return revenue;
+    }
+
+    function getIncome(player){
+        var revenue = getIncomeFromBuildings(player);
+        if(roundNumber <= numberOfRoundsWithAdditionalIncome) {
+            revenue += additionalIncome;
         }
         return revenue;
     }
@@ -741,6 +750,7 @@ define(["jquery", "app/weather"], function($, weather) {
         removeBuilding: removeBuilding,
         adjustSupply: adjustSupply,
         getIncome: getIncome,
+        getIncomeFromBuildings: getIncomeFromBuildings,
         getBuildingPrice: getBuildingPrice,
         getConsumedResources: getConsumedResources,
         getProducedResources: getProducedResources,

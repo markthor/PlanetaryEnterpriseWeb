@@ -184,7 +184,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
 
         // Render income
         $(".js-player-income").each(function() {
-            $(this).text(engine.getIncome(getParentPlayer($(this))) + "$");
+            $(this).text(engine.getIncomeFromBuildings(getParentPlayer($(this))) + "$");
         });
 
         // Render buildings
