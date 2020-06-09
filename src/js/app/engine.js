@@ -806,10 +806,6 @@ define(["jquery", "app/weather"], function($, weather) {
         playerBlue = player("blue");
         playerGreen = player("green");
         playerYellow = player("yellow");
-        playerRed.buildings.push(EDevelopment.SupplyConnector);
-        playerBlue.buildings.push(EDevelopment.SupplyConnector);
-        playerGreen.buildings.push(EDevelopment.SupplyConnector);
-        playerYellow.buildings.push(EDevelopment.SupplyConnector);
     }
 
     function initialize(){
