@@ -412,10 +412,7 @@ define(["jquery", "app/weather"], function($, weather) {
         return {
             color: color,
             name: "Player",
-            buildings: [],
-            carbonFabrication: false,
-            marketManipulator: false,
-            nuclearReactors: false
+            buildings: []
         };
     }
 
