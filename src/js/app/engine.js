@@ -16,6 +16,8 @@ define(["jquery", "app/weather"], function($, weather) {
     var additionalIncome = 20;
     var roundNumber;
 
+    var starIncomeRequirement = 40;
+
     var EDevelopment = {
         MineIron: "mineIron",
         MineCarbon: "mineCarbon",
@@ -412,7 +414,8 @@ define(["jquery", "app/weather"], function($, weather) {
         return {
             color: color,
             name: "Player",
-            buildings: []
+            buildings: [],
+            stars: 0
         };
     }
 
@@ -633,7 +636,20 @@ define(["jquery", "app/weather"], function($, weather) {
         adjustSupply(chemicals, -chemicals.demand);
     }
 
+    function calculateStars(){
+        listOfplayerIncome = [[playerRed, getIncomeFromBuildings(playerRed)],[playerBlue, getIncomeFromBuildings(playerBlue)],[playerGreen, getIncomeFromBuildings(playerGreen)],[playerYellow, getIncomeFromBuildings(playerYellow)]]
+        listOfplayerIncome.sort((a, b) => (a[1] > b[1]) ? -1 : 1)
+
+        if(listOfplayerIncome[0][1] != listOfplayerIncome[1][1]){
+            if(listOfplayerIncome[0][1] > starIncomeRequirement){
+                listOfplayerIncome[0][0].stars++
+            }
+        }
+    }
+
     function produce(){
+        calculateStars()
+
         market = {
             power: $.extend(true, {}, power),
             iron: $.extend(true, {}, iron),
