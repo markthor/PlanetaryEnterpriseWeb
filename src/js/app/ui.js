@@ -252,7 +252,14 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         })(weatherState);
         
         $(".js-weather").text("Weather: " + weatherDescription);
-        $(".js-weather-icon").attr("src", "resources/icons/weather/PartlyCloudy.svg");
+
+        switch(weatherState) {
+            case 0: $(".js-weather-icon").attr("src", "resources/icons/weather/Cloudy.svg"); break;
+            case 1: $(".js-weather-icon").attr("src", "resources/icons/weather/PartlyCloudy.svg"); break;
+            case 2: $(".js-weather-icon").attr("src", "resources/icons/weather/Sunny.svg"); break;
+            default:
+                break;
+        }
     }
 
     function renderUI() {
