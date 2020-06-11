@@ -238,8 +238,6 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
     }
 
     function renderFooter() {
-        $(".js-round-number").text("Round: " + engine.getRoundNumber());
-
         weatherState = engine.getWeather();
 
         var weatherDescription = (function(weatherState) {
@@ -253,7 +251,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
             }
         })(weatherState);
         
-        $(".js-weather").text("Weather: " + weatherDescription + " (+" + weatherState + ")");
+        $(".js-weather").text("Weather: " + weatherDescription);
         $(".js-weather-icon").attr("src", "resources/icons/weather/PartlyCloudy.svg");
     }
 
