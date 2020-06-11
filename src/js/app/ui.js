@@ -254,6 +254,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         })(weatherState);
         
         $(".js-weather").text("Weather: " + weatherDescription + " (+" + weatherState + ")");
+        $(".js-weather-icon").attr("src", "resources/icons/weather/PartlyCloudy.svg");
     }
 
     function renderUI() {

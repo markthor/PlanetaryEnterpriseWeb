@@ -374,6 +374,9 @@ div[data-player]:first-child .popover {
   background-color: lightgrey;
   background: linear-gradient(135deg, #bfbfbf, #d3d3d3, #bfbfbf);
 }
+.footer > * {
+  vertical-align: middle;
+}
 .footer > h1 {
   display: inline-flex;
   padding: 6px 12px;
@@ -381,6 +384,13 @@ div[data-player]:first-child .popover {
   color: dimgrey;
   font-weight: bold;
   font-size: 32px;
+}
+.footer > img {
+  margin-left: -4px;
+  width: 46px;
+  height: 46px;
+  padding: 8px 0px;
+  opacity: 0.7;
 }
 
 @font-face {

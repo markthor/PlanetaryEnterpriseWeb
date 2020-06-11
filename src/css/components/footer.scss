@@ -8,6 +8,10 @@
     background-color: $color-header-background;
     background: $gradient-header-background;
 
+    > * {
+        vertical-align: middle;
+    }
+
     > h1 {
         display: inline-flex;
         padding: 6px 12px;
@@ -15,5 +19,13 @@
         color: $color-header-text;
         font-weight: bold;
         font-size: 32px;
+    }
+
+    > img {
+        margin-left: -4px;
+        width: 46px;
+        height: 46px;
+        padding: 8px 0px;
+        opacity: 0.7;
     }
 }
