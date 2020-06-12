@@ -1,4 +1,7 @@
 define(["jquery", "app/weather"], function($, weather) {
+
+    //#region Properties
+
     var deck;
     var power = {};
     var iron = {};
@@ -53,6 +56,63 @@ define(["jquery", "app/weather"], function($, weather) {
         }
     }
 
+    //#endregion
+
+    //#region Initialize
+
+    function initializeResources(){
+        power = resource("power", 3, 8, randomIntInRange(2,6));
+        iron = resource("iron", 6, 5, randomIntInRange(2,4));
+        aluminium = resource("aluminium", 6, 5, randomIntInRange(2,4));
+        carbon = resource("carbon", 6, 5, randomIntInRange(2,4));
+        steel = resource("steel", 12, 5, randomIntInRange(2,5));
+        chemicals = resource("chemicals", 18, 3, randomIntInRange(1,3));
+    }
+
+    function initializeDemandDeck() {
+        deck = {cardsDrawn: 0};
+        deck.steel = 4;
+        deck.chemicals = 4;
+        deck.carbon = 4;
+        deck.iron = 4;
+        deck.aluminium = 4;
+        deck.power = 6;
+        deck.firstCard = getDemand();
+        deck.secondCard = getDemand();
+    }
+
+    function initializePlayers(){
+        playerRed = player("red");
+        playerBlue = player("blue");
+        playerGreen = player("green");
+        playerYellow = player("yellow");
+    }
+
+    function initialize(){
+        console.log("Initializing engine...");
+
+        initializeResources();
+        initializeDemandDeck();
+        initializePlayers();
+
+        updateSolarPanelsProduction();
+
+        loanAvailable = 0;
+        roundNumber = 1;
+    }
+
+    //#endregion
+
+    //#region Models
+
+    function player(color){
+        return {
+            color: color,
+            name: "Player",
+            buildings: []
+        };
+    }
+
     function resource(name, price, maxSupply, supply) {
         if(!supply) {
             supply = maxSupply;
@@ -67,6 +127,40 @@ define(["jquery", "app/weather"], function($, weather) {
         };
     }
 
+    //#endregion
+
+    //#region Logic
+
+    function produce(){
+        market = {
+            power: $.extend(true, {}, power),
+            iron: $.extend(true, {}, iron),
+            aluminium: $.extend(true, {}, aluminium),
+            carbon: $.extend(true, {}, carbon),
+            steel: $.extend(true, {}, steel),
+            chemicals: $.extend(true, {}, chemicals)
+        }
+
+        updateMarket(playerRed, market);
+        updateMarket(playerBlue, market);
+        updateMarket(playerGreen, market);
+        updateMarket(playerYellow, market);
+        correctAllPrices();
+
+        adjustSupplyForDemand();
+
+        popDemandCard();
+        if(drawDemandTwice()) {
+            popDemandCard(); //Again
+        }
+
+        weather.advanceRound();
+        updateSolarPanelsProduction();
+        
+        roundNumber++;
+    }
+
+    //#region Price
     function getPrice(resource, amount){
         if(!amount) amount = 1;
 
@@ -78,6 +172,27 @@ define(["jquery", "app/weather"], function($, weather) {
         if(resource.supply >= amount) return amount * resource.price
         else return (amount - resource.supply) * (resource.price + 1) + resource.supply * resource.price;
     }
+
+    function correctAllPrices() {
+        correctPrice(power);
+        correctPrice(iron);
+        correctPrice(aluminium);
+        correctPrice(carbon);
+        correctPrice(steel);
+        correctPrice(chemicals);
+    }
+
+    function correctPrice(resource) {
+        if(resource.price < 1) {
+            resource.price = 1;
+            resource.supply = resource.maxSupply;
+        }
+    }
+
+
+    //#endregion
+
+    //#region Supply
 
     function adjustSupply(resource, amount) {
         adjustSupplyNoRestrictions(resource, amount);
@@ -105,21 +220,18 @@ define(["jquery", "app/weather"], function($, weather) {
         }
     }
 
-    function correctAllPrices() {
-        correctPrice(power);
-        correctPrice(iron);
-        correctPrice(aluminium);
-        correctPrice(carbon);
-        correctPrice(steel);
-        correctPrice(chemicals);
+    function adjustSupplyForDemand(){
+        adjustSupply(power, -power.demand);
+        adjustSupply(iron, -iron.demand);
+        adjustSupply(carbon, -carbon.demand);
+        adjustSupply(aluminium, -aluminium.demand);
+        adjustSupply(steel, -steel.demand);
+        adjustSupply(chemicals, -chemicals.demand);
     }
 
-    function correctPrice(resource) {
-        if(resource.price < 1) {
-            resource.price = 1;
-            resource.supply = resource.maxSupply;
-        }
-    }
+    //#endregion
+
+    //#region Developments
 
     function produceForBuilding(buildingName, player){
         if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor)) {
@@ -408,13 +520,7 @@ define(["jquery", "app/weather"], function($, weather) {
         return (totalRevenueOfPowerProducingBuildings - getPrice(chemicals, 1) > 0);
     }
 
-    function player(color){
-        return {
-            color: color,
-            name: "Player",
-            buildings: []
-        };
-    }
+
 
     function addBuilding(player, buildingName){
         player.buildings.push(buildingName);
@@ -441,6 +547,156 @@ define(["jquery", "app/weather"], function($, weather) {
             return i - j;
         });
     }
+
+    function getIncomeFromBuildings(player){
+        var revenue = 0;
+        player.buildings.forEach(function(building) {
+            revenue += getBuildingRevenue(building, getMarket(), player);
+        });
+        if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor) && doesPowerConsumingBuildingsProduce(player, getMarket())) {
+            revenue -= getPrice(chemicals, 1);
+        }
+        return revenue;
+    }
+
+    function getIncome(player){
+        var revenue = getIncomeFromBuildings(player);
+        if(roundNumber <= numberOfRoundsWithAdditionalIncome) {
+            revenue += additionalIncome;
+        }
+        return revenue;
+    }
+
+    function cloudSeedingRockets() {
+        weather.cloudSeedingRockets();
+        updateSolarPanelsProduction();
+    }
+
+    function nuclearDetonation() {
+        weather.nuclearDetonation();
+        updateSolarPanelsProduction();
+    }
+
+    //#endregion
+
+    //#region Market
+
+    function updateMarket(player, market){
+        player.buildings.forEach(buildingName => {
+            buildingRevenue = getBuildingRevenue(buildingName, market, player);
+            if(buildingRevenue > 0){
+                    produceForBuilding(buildingName, player);
+            }
+        });
+        if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor) && doesPowerConsumingBuildingsProduce(player, market)) {
+            adjustSupply(chemicals, -1);
+        }
+    }
+
+    function getMarket(){
+        return {
+            power: power,
+            iron: iron,
+            aluminium: aluminium,
+            carbon: carbon,
+            steel: steel,
+            chemicals: chemicals
+        }
+    }
+
+    //#endregion
+
+    //#region Resources
+
+    function getProducedResources(player){
+        resources = [];
+        player.buildings.forEach(function(building) {
+            revenue = getBuildingRevenue(building, getMarket(), player);
+            if(revenue > 0){
+                resources = resources.concat(EDevelopment.properties[building].produce);
+            }
+        });
+        sortResources(resources)
+        return resources;
+    }
+
+    function getConsumedResources(player){
+        var resources = [];
+        var nuclearReactorActivated = false;
+        player.buildings.forEach(function(building) {
+            revenue = getBuildingRevenue(building, getMarket(), player);
+            if(revenue > 0){
+                if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor) && EDevelopment.properties[building].requiresPower){
+                    resources = resources.concat(EDevelopment.properties[building].consume.filter(resource => resource !== "power"));
+                    nuclearReactorActivated = true;
+                } else {
+                    resources = resources.concat(EDevelopment.properties[building].consume);
+                }
+            }
+        });
+        if(nuclearReactorActivated){
+            resources.push("chemicals")
+        }
+        sortResources(resources)
+        return resources;
+    }
+
+    function sortResources(resources){
+        resources.sort(function(a, b){
+            i = getResourceSortOrder(a);
+            j = getResourceSortOrder(b);
+             return i - j;
+        });
+    }
+
+     function getResourceSortOrder(resourceName){
+        switch (resourceName) {
+            case "power": return 1
+            case "iron": return 2
+            case "aluminium": return 3
+            case "carbon": return 4
+            case "steel": return 5
+            case "chemicals": return 6
+            default:
+                console.error("Illegal argument exception. name: " + resourceName);
+                break;
+        }
+    }
+
+    //#endregion
+
+    //#region Weather
+
+    function getWeather() {
+        return weather.getWeather();
+    }
+
+    function updateSolarPanelsProduction() {
+        var currentWeather = getWeather();
+        if(currentWeather === 0) {
+            EDevelopment.properties[EDevelopment.SolarPanels].produce = "";
+        }
+        else if(currentWeather === 1) {
+            EDevelopment.properties[EDevelopment.SolarPanels].produce = ["power"];
+        }
+        else if(currentWeather === 2) {
+            EDevelopment.properties[EDevelopment.SolarPanels].produce = ["power", "power"];
+        }
+    }
+
+    //#endregion
+
+    //#region Auxiliary
+
+    function randomIntInRange(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    //#endregion
+
+    //#endregion
+
+    //#region Demand
 
     function peekFirstDemandCard() {
         return deck.firstCard;
@@ -527,212 +783,9 @@ define(["jquery", "app/weather"], function($, weather) {
         return total
     }
 
-    function updateMarket(player, market){
-        player.buildings.forEach(buildingName => {
-            buildingRevenue = getBuildingRevenue(buildingName, market, player);
-            if(buildingRevenue > 0){
-                    produceForBuilding(buildingName, player);
-            }
-        });
-        if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor) && doesPowerConsumingBuildingsProduce(player, market)) {
-            adjustSupply(chemicals, -1);
-        }
-    }
+    //#endregion
 
-    function getMarket(){
-        return {
-            power: power,
-            iron: iron,
-            aluminium: aluminium,
-            carbon: carbon,
-            steel: steel,
-            chemicals: chemicals
-        }
-    }
-
-    function getProducedResources(player){
-        resources = [];
-        player.buildings.forEach(function(building) {
-            revenue = getBuildingRevenue(building, getMarket(), player);
-            if(revenue > 0){
-                resources = resources.concat(EDevelopment.properties[building].produce);
-            }
-        });
-        sortResources(resources)
-        return resources;
-    }
-
-    function getConsumedResources(player){
-        var resources = [];
-        var nuclearReactorActivated = false;
-        player.buildings.forEach(function(building) {
-            revenue = getBuildingRevenue(building, getMarket(), player);
-            if(revenue > 0){
-                if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor) && EDevelopment.properties[building].requiresPower){
-                    resources = resources.concat(EDevelopment.properties[building].consume.filter(resource => resource !== "power"));
-                    nuclearReactorActivated = true;
-                } else {
-                    resources = resources.concat(EDevelopment.properties[building].consume);
-                }
-            }
-        });
-        if(nuclearReactorActivated){
-            resources.push("chemicals")
-        }
-        sortResources(resources)
-        return resources;
-    }
-
-    function sortResources(resources){
-        resources.sort(function(a, b){
-            i = getResourceSortOrder(a);
-            j = getResourceSortOrder(b);
-             return i - j;
-        });
-    }
-
-     function getResourceSortOrder(resourceName){
-        switch (resourceName) {
-            case "power": return 1
-            case "iron": return 2
-            case "aluminium": return 3
-            case "carbon": return 4
-            case "steel": return 5
-            case "chemicals": return 6
-            default:
-                console.error("Illegal argument exception. name: " + resourceName);
-                break;
-        }
-    }
-
-    function getIncomeFromBuildings(player){
-        var revenue = 0;
-        player.buildings.forEach(function(building) {
-            revenue += getBuildingRevenue(building, getMarket(), player);
-        });
-        if(doesPlayerHaveDevelopment(player, EDevelopment.FusionReactor) && doesPowerConsumingBuildingsProduce(player, getMarket())) {
-            revenue -= getPrice(chemicals, 1);
-        }
-        return revenue;
-    }
-
-    function getIncome(player){
-        var revenue = getIncomeFromBuildings(player);
-        if(roundNumber <= numberOfRoundsWithAdditionalIncome) {
-            revenue += additionalIncome;
-        }
-        return revenue;
-    }
-
-    function adjustSupplyForDemand(){
-        adjustSupply(power, -power.demand);
-        adjustSupply(iron, -iron.demand);
-        adjustSupply(carbon, -carbon.demand);
-        adjustSupply(aluminium, -aluminium.demand);
-        adjustSupply(steel, -steel.demand);
-        adjustSupply(chemicals, -chemicals.demand);
-    }
-
-    function produce(){
-        market = {
-            power: $.extend(true, {}, power),
-            iron: $.extend(true, {}, iron),
-            aluminium: $.extend(true, {}, aluminium),
-            carbon: $.extend(true, {}, carbon),
-            steel: $.extend(true, {}, steel),
-            chemicals: $.extend(true, {}, chemicals)
-        }
-
-        updateMarket(playerRed, market);
-        updateMarket(playerBlue, market);
-        updateMarket(playerGreen, market);
-        updateMarket(playerYellow, market);
-        correctAllPrices();
-
-        adjustSupplyForDemand();
-
-        popDemandCard();
-        if(drawDemandTwice()) {
-            popDemandCard(); //Again
-        }
-
-        weather.advanceRound();
-        updateSolarPanelsProduction();
-        
-        roundNumber++;
-    }
-
-    function initializeResources(){
-        power = resource("power", 3, 8, randomIntInRange(2,6));
-        iron = resource("iron", 6, 5, randomIntInRange(2,4));
-        aluminium = resource("aluminium", 6, 5, randomIntInRange(2,4));
-        carbon = resource("carbon", 6, 5, randomIntInRange(2,4));
-        steel = resource("steel", 12, 5, randomIntInRange(2,5));
-        chemicals = resource("chemicals", 18, 3, randomIntInRange(1,3));
-    }
-
-    function randomIntInRange(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function initializeDemandDeck() {
-        deck = {cardsDrawn: 0};
-        deck.steel = 4;
-        deck.chemicals = 4;
-        deck.carbon = 4;
-        deck.iron = 4;
-        deck.aluminium = 4;
-        deck.power = 6;
-        deck.firstCard = getDemand();
-        deck.secondCard = getDemand();
-    }
-
-    function initializePlayers(){
-        playerRed = player("red");
-        playerBlue = player("blue");
-        playerGreen = player("green");
-        playerYellow = player("yellow");
-    }
-
-    function initialize(){
-        console.log("Initializing engine...");
-
-        initializeResources();
-        initializeDemandDeck();
-        initializePlayers();
-
-        updateSolarPanelsProduction();
-
-        loanAvailable = 0;
-        roundNumber = 1;
-    }
-
-    function getWeather() {
-        return weather.getWeather();
-    }
-
-    function updateSolarPanelsProduction() {
-        var currentWeather = getWeather();
-        if(currentWeather === 0) {
-            EDevelopment.properties[EDevelopment.SolarPanels].produce = "";
-        }
-        else if(currentWeather === 1) {
-            EDevelopment.properties[EDevelopment.SolarPanels].produce = ["power"];
-        }
-        else if(currentWeather === 2) {
-            EDevelopment.properties[EDevelopment.SolarPanels].produce = ["power", "power"];
-        }
-    }
-
-    function cloudSeedingRockets() {
-        weather.cloudSeedingRockets();
-        updateSolarPanelsProduction();
-    }
-
-    function nuclearDetonation() {
-        weather.nuclearDetonation();
-        updateSolarPanelsProduction();
-    }
+    //#region API Layer
 
     /**
      * Returns an object that acts as the interface of the engine to the UI.
@@ -813,4 +866,6 @@ define(["jquery", "app/weather"], function($, weather) {
             }
         }
     };
+
+    //#endregion
 });
