@@ -15,8 +15,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
     var playerBlue = {};
     var playerYellow = {};
 
-    // var numberOfRoundsWithAdditionalIncome = 6;
-    // var additionalIncome = 20;
     var roundNumber;
 
     var EDevelopment = {
