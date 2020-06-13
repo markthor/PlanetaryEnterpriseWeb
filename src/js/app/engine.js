@@ -686,6 +686,10 @@ define(["jquery", "app/weather"], function($, weather) {
         return weather.getWeather();
     }
 
+    function peakWeather() {
+        return weather.peakWeather();
+    }
+
     function updateSolarPanelsProduction() {
         var currentWeather = getWeather();
         if(currentWeather === 0) {
@@ -820,6 +824,7 @@ define(["jquery", "app/weather"], function($, weather) {
         getConsumedResources: getConsumedResources,
         getProducedResources: getProducedResources,
         getWeather: getWeather,
+        peakWeather: peakWeather,
         getRoundNumber: function() {
             return roundNumber;
         },

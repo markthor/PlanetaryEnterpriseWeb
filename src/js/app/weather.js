@@ -3,6 +3,7 @@ define(["jquery"], function($) {
     var previousStates = [];
     var cloudSeedingRocketStates = 0;
     var nuclearDetonationState = false;
+    var peakWeatherState = -1;
 
     var c = 0.5
 
@@ -20,16 +21,30 @@ define(["jquery"], function($) {
     }
 
     function getWeather() {
-        if(nuclearDetonationState) {
-            return 0;
-        }
-        if(cloudSeedingRocketStates > 0) {
-            return 2;
-        }
         return weatherState;
     }
 
+    function peakWeather(){
+        if (peakWeatherState != -1){
+            return peakWeatherState
+        } else {
+            var peak = getNextWeatherState();
+            peakWeatherState = peak
+            return peak;
+        }
+    }
+
     function advanceRound() {
+        if (peakWeatherState != -1){
+            weatherState = peakWeatherState
+            peakWeatherState = -1
+            return weatherState
+        } else {
+            weatherState = getNextWeatherState();
+        }
+    }
+
+    function getNextWeatherState() {
         var previousState = weatherState;
         var totalZeroes = totalNumberOfPreviousStatesOf(0);
         var totalTwos = totalNumberOfPreviousStatesOf(2);
@@ -43,7 +58,7 @@ define(["jquery"], function($) {
                 k = k + (diff * c)
             }
             if(roll(k)) {
-                weatherState = 1
+                return 1
             }
         }
         else if(weatherState === 2) {
@@ -52,40 +67,55 @@ define(["jquery"], function($) {
                 k = k + (diff * c)
             }
             if(roll(k)) {
-                weatherState = 1
+                return 1
             }
         }
         else if(weatherState === 1) {
             if(roll(numberOfPreviousStatesOf(weatherState))) {
                 if(mostZeroes) {
                     if(roll(diff)) {
-                        weatherState = 2;
+                        return 2;
                     } else {
-                        weatherState = 0;
+                        return 0;
                     }
                 }
                 if(mostTwos) {
                     if(roll(diff)) {
-                        weatherState = 0;
+                        return 0;
                     } else {
-                        weatherState = 2;
+                        return 2;
                     }
                 }
                 if(totalTwos === totalZeroes) {
                     if(roll(diff)) {
-                        weatherState = 0;
+                        return 0;
                     } else {
-                        weatherState = 2;
+                        return 2;
                     }
                 }
             }
         }
 
         previousStates.push(previousState);
+
+        var externalWeather = handleExternalEffects()
+        if (externalWeather != -1){
+            return externalWeather
+        }
+
+        return previousState;
+    }
+
+    function handleExternalEffects(){
         if(nuclearDetonationState) {
             nuclearDetonationState = false;
+            return 0;
+        } else if(cloudSeedingRocketStates > 0) {
+            cloudSeedingRocketStates -= 1
+            return 2;
+        } else {
+            return -1
         }
-        cloudSeedingRocketStates -= 1
     }
 
     // Private functions
@@ -150,6 +180,7 @@ define(["jquery"], function($) {
         cloudSeedingRockets: cloudSeedingRockets,
         nuclearDetonation: nuclearDetonation,
         getWeather: getWeather,
-        advanceRound: advanceRound
+        advanceRound: advanceRound,
+        peakWeather: peakWeather
     };
 });
