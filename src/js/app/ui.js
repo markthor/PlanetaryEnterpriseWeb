@@ -176,7 +176,22 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         // Render name
         $(".js-player-name").each(function() {
             $(this).text(getParentPlayer($(this)).name);
-        })
+        });
+
+        // Render stars
+        $(".player[data-player]").each(function() {
+            let player = engine.getPlayer($(this).attr("data-player"));
+            let shown_stars = 0;
+
+            $(this).find(".js-player-star").each(function() {
+                if (player.stars > shown_stars) {
+                    $(this).removeClass("disabled");
+                } else {
+                    $(this).addClass("disabled");
+                }
+                shown_stars += 1;
+            });
+        });
 
         // Render income
         $(".js-player-income").each(function() {

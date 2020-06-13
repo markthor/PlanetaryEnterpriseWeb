@@ -17,6 +17,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
 
     var roundNumber;
 
+    var starIncomeRequirement = 40;
+
     var EDevelopment = {
         MineIron: "mineIron",
         MineCarbon: "mineCarbon",
@@ -107,7 +109,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         return {
             color: color,
             name: "Player",
-            buildings: []
+            buildings: [],
+            stars: 0
         };
     }
 
@@ -130,6 +133,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
     //#region Logic
 
     function produce(){
+        calculateStars()
+
         market = {
             power: $.extend(true, {}, power),
             iron: $.extend(true, {}, iron),
@@ -519,7 +524,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
     }
 
 
-
     function addBuilding(player, buildingName){
         player.buildings.push(buildingName);
         modifyBuilding(player, buildingName, true);
@@ -573,6 +577,17 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
     function nuclearDetonation() {
         weather.nuclearDetonation();
         updateSolarPanelsProduction();
+    }
+
+    function calculateStars(){
+        listOfplayerIncome = [[playerRed, getIncomeFromBuildings(playerRed)],[playerBlue, getIncomeFromBuildings(playerBlue)],[playerGreen, getIncomeFromBuildings(playerGreen)],[playerYellow, getIncomeFromBuildings(playerYellow)]]
+        listOfplayerIncome.sort((a, b) => (a[1] > b[1]) ? -1 : 1)
+
+        if(listOfplayerIncome[0][1] != listOfplayerIncome[1][1]){
+            if(listOfplayerIncome[0][1] > starIncomeRequirement){
+                listOfplayerIncome[0][0].stars++
+            }
+        }
     }
 
     //#endregion
