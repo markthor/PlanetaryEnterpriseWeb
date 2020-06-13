@@ -1,4 +1,4 @@
-define(["jquery", "app/weather"], function($, weather) {
+define(["jquery", "app/weather", "app/configuration"], function($, weather, _configuration) {
 
     //#region Properties
 
@@ -15,8 +15,8 @@ define(["jquery", "app/weather"], function($, weather) {
     var playerBlue = {};
     var playerYellow = {};
 
-    var numberOfRoundsWithAdditionalIncome = 6;
-    var additionalIncome = 20;
+    // var numberOfRoundsWithAdditionalIncome = 6;
+    // var additionalIncome = 20;
     var roundNumber;
 
     var EDevelopment = {
@@ -561,8 +561,8 @@ define(["jquery", "app/weather"], function($, weather) {
 
     function getIncome(player){
         var revenue = getIncomeFromBuildings(player);
-        if(roundNumber <= numberOfRoundsWithAdditionalIncome) {
-            revenue += additionalIncome;
+        if(roundNumber <= _configuration.numberOfRoundsWithAdditionalIncome) {
+            revenue += _configuration.additionalIncome;
         }
         return revenue;
     }
