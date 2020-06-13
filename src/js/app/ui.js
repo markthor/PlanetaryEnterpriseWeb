@@ -25,49 +25,28 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
 
         // Click listener for buildings
         $("[data-building]").click(function() {
-            let player = getParentPlayer($(this));
-            let buildingName = $(this).attr("data-building");
+            let $building_elem = $(this);
+            let player = getParentPlayer($building_elem);
+            let buildingName = $building_elem.attr("data-building");
             let building = engine.getBuilding(buildingName);
 
-            // Case for bottom building pane
-            if ($(this).parents(".js-player-content-buildings").length) {
-                // Disabled if not enough connectors
-                if ($(this).hasClass("disabled")) {
-                    return;
-                }
-
-                let $popover_elem = $(this).find(".popover");
-
-                // Show popover instead of adding building if popover exists
-                if ($popover_elem.length) {
-                    $("#overlay").css("display", "block");
-                    $popover_elem.css("display", "flex");
-                } else {
-                    engine.addBuilding(player, building);
-                }
-            // Case for buildings in player inventory
-            } else {
-                engine.removeBuilding(player, building);
+            if (($building_elem).hasClass("disabled")) {
+                return;
             }
+
+            // Check if remove mode is active
+            if ($building_elem.find(".remove-mode").length) {
+                engine.removeBuilding(player, building);
+            } else {
+                engine.addBuilding(player, building);
+            }
+
             renderUI();
         });
-
-        // Click listener for custom mine popover
-        $("[data-mine]").click(function(event) {
-            event.stopPropagation();
-            let player = getParentPlayer($(this));
-            let building = engine.getBuilding($(this).attr("data-mine"));
-            engine.addBuilding(player, building);
-
-            $(this).parents(".popover").css("display", "none");
-            $("#overlay").css("display", "none");
-            renderUI();
-        });
-
     }
 
     function registerMenuClickListeners() {
-        $(".js-settings").click(function () {
+        $(".js-settings").click(function() {
             var setPlayerName = function(player, text) {
                 var name = prompt("Enter name for player: " + text);
                 if (name && name.trim() != "") {
@@ -82,6 +61,23 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
     
             ui.render();
         });
+
+        // Toggle button for "remove mode"
+        $(".js-remove-mode-toggle").click(function() {
+            $(this).toggleClass("remove-mode");
+
+            let removeModeActive = $(this).hasClass("remove-mode");
+
+            $(".building-count").each(function(){
+                if (removeModeActive) {
+                    $(this).addClass("remove-mode");
+                } else {
+                    $(this).removeClass("remove-mode");
+                }
+            });
+
+            ui.render();
+        })
     }
 
     function registerProduceClickListener() {
@@ -189,52 +185,38 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
 
         // Render buildings
         $("[data-building]").each(function() {
-            let player = getParentPlayer($(this));
-            let buildingName = $(this).attr("data-building");
+            let $building_elem = $(this);
+            let player = getParentPlayer($building_elem);
+            let buildingName = $building_elem.attr("data-building");
             let building = engine.getBuilding(buildingName);
             let price = engine.getBuildingPrice(player, building);
+            let count = player.buildings.filter(name => name === buildingName).length;
 
-            // Applies to buildings in bottom pane that can be purchased
-            $(this).find(".building-price").each(function() {
+            // Update building prices
+            $building_elem.find(".building-price").each(function() {
                 $(this).text(price + "$");
             });
-            // Applies to buildings that are in player inventories (already purchased)
-            $(this).find(".building-count").each(function(){
-                let buildingCount = player.buildings.filter(name => name === buildingName).length;
-                
-                $(this).text(buildingCount);
-                if (buildingCount > 0) {
-                    $(this).parents(".building-row").removeClass("disabled");
+
+            // Update building counts
+            $building_elem.find(".building-count").each(function(){
+                $count_elem = $(this);
+                $count_elem.text(count);
+
+                if (count == 0) {
+                    $count_elem.addClass("hidden");
+
+                    // Disable non-existent buildings when remove mode is active
+                    if ($count_elem.hasClass("remove-mode")) {
+                        $building_elem.addClass("disabled");
+                    } else {
+                        $building_elem.removeClass("disabled");
+                    }
                 } else {
-                    $(this).parents(".building-row").addClass("disabled");
+                    $count_elem.removeClass("hidden");
                 }
             });
-
-            // Applies to buildings that are in player inventories (already purchased)
-            $(this).find(".building-count-new").each(function(){
-                let buildingCount = player.buildings.filter(name => name === buildingName).length;
-                
-                $(this).text(buildingCount);
-            });
-
         });
 
-        // Render technology
-        $("[data-technology]").each(function() {
-            let player = getParentPlayer($(this));
-            let technology = engine.getTechnology($(this).attr("data-technology"));
-            let price = engine.getBuildingPrice(player, technology);
-            let $price_elem = $(this).find(".building-price");
-
-            $price_elem.text(price + "$");
-            if (player[technology]) {
-                $(this).removeClass("disabled");
-                $price_elem.addClass("hidden");
-            } else {
-                $(this).addClass("disabled");
-                $price_elem.removeClass("hidden");
-            }
-        });
     }
 
     function renderFooter() {

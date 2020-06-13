@@ -246,28 +246,28 @@ div[data-player]:first-child .popover {
   background: #ff826b;
   background: radial-gradient(ellipse at center, #ff826b, #d36b58);
 }
-.player[data-player=red] .building-count-new {
+.player[data-player=red] .building-count {
   border: 3px solid #ff826b;
 }
 .player[data-player=blue] {
   background: #7492e9;
   background: radial-gradient(ellipse at center, #7492e9, #5b74b7);
 }
-.player[data-player=blue] .building-count-new {
+.player[data-player=blue] .building-count {
   border: 3px solid #7492e9;
 }
 .player[data-player=green] {
   background: #92e692;
   background: radial-gradient(ellipse at center, #92e692, #80c980);
 }
-.player[data-player=green] .building-count-new {
+.player[data-player=green] .building-count {
   border: 3px solid #92e692;
 }
 .player[data-player=yellow] {
   background: #ffff9e;
   background: radial-gradient(ellipse at center, #ffff9e, #dbdb87);
 }
-.player[data-player=yellow] .building-count-new {
+.player[data-player=yellow] .building-count {
   border: 3px solid #ffff9e;
 }
 .player__header {
@@ -306,22 +306,58 @@ div[data-player]:first-child .popover {
   padding: 0 4px;
   color: #28a745;
 }
-.player__content {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-}
-.player__content__inventory {
-  flex: 1 1 0;
+.player__buildings {
+  flex: 3 1 0;
   display: flex;
   outline: 1px solid black;
 }
-.player__content__buildings {
-  flex: 3 1 0;
+.player__buildings .building-column {
   display: flex;
+  padding: 0;
+  flex: 1 1 0;
+  flex-direction: column;
+  outline: 1px solid black;
+  user-select: none;
 }
-.player__content__buildings > div:nth-child(odd) {
-  margin-top: 1px;
+.player__buildings .building-column:nth-child(2n) {
+  outline: none;
+}
+.player__buildings .building-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /*for .popover*/
+  height: 20%;
+  width: 100%;
+  padding: 6px 0;
+}
+.player__buildings .building-row img {
+  height: 60px;
+  width: 60px;
+  vertical-align: middle;
+}
+.player__buildings .building-price {
+  font-size: 42px;
+  font-weight: bold;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+.player__buildings .building-count {
+  height: 38px;
+  width: 38px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  background-color: black;
+  font-size: 35px;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  border-radius: 50%;
+}
+.player__buildings .building-count.remove-mode {
+  color: red;
 }
 
 .header {
@@ -354,6 +390,9 @@ div[data-player]:first-child .popover {
   width: 28px;
   height: 28px;
   filter: opacity(0.7);
+}
+.header__item > img.remove-mode {
+  background: red;
 }
 .header__item > h1 {
   margin: 0;
@@ -435,89 +474,6 @@ p {
   flex-direction: column;
 }
 
-/* Box item content boxes START */
-.building-column {
-  display: flex;
-  padding: 0;
-  flex: 1 1 0;
-  flex-direction: column;
-  outline: 1px solid black;
-  user-select: none;
-}
-.building-column:nth-child(2n) {
-  outline: none;
-}
-
-.building-container {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 10px;
-}
-.building-container img {
-  margin: 0 3px;
-  height: 40px;
-  width: 40px;
-}
-
-.building-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  /*for .popover*/
-  height: 25%;
-  width: 100%;
-  padding: 6px 0;
-}
-.building-row img {
-  height: 60px;
-  width: 60px;
-  vertical-align: middle;
-}
-.building-row--small {
-  height: 50%;
-  padding: 3px 0;
-}
-.building-row--small img {
-  height: 34px;
-  width: 34px;
-}
-
-.building-price {
-  font-size: 42px;
-  font-weight: bold;
-  vertical-align: middle;
-  margin-left: 6px;
-}
-
-.building-multiplier {
-  font-size: 26px;
-  font-weight: bold;
-  vertical-align: middle;
-  margin-left: 2px;
-}
-
-.building-count {
-  font-size: 32px;
-  font-weight: bold;
-  vertical-align: middle;
-}
-
-.building-count-new {
-  height: 38px;
-  width: 38px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 2;
-  background-color: black;
-  font-size: 35px;
-  color: white;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  border-radius: 50%;
-}
-
-/* Box item content boxes END  */
 .img-container {
   flex: 1 1 0;
   position: relative;
