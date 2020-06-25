@@ -33,7 +33,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         CarbonFabrication: "carbonFabrication",
         FusionReactor: "fusionReactor",
         GovernmentContracts: "governmentContracts",
-        QuantumCommunication: "quantumCommunication",
         CloudSeedingRockets: "cloudSeedingRockets",
         NuclearDetonation: "nuclearDetonation",
         properties: {
@@ -50,9 +49,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
             "carbonFabrication": { produce: "", consume: [], requiresPower: false, sortPriority: 10 },
             "fusionReactor": { produce: "", consume: [], requiresPower: false, sortPriority: 11 },
             "governmentContracts": { produce: "", consume: [], requiresPower: false, sortPriority: 12 },
-            "quantumCommunication": { produce: "", consume: [], requiresPower: false, sortPriority: 13},
-            "cloudSeedingRockets": { produce: "", consume: [], requiresPower: false, sortPriority: 14 },
-            "nuclearDetonation": { produce: "", consume: [], requiresPower: false, sortPriority: 15 }
+            "cloudSeedingRockets": { produce: "", consume: [], requiresPower: false, sortPriority: 13 },
+            "nuclearDetonation": { produce: "", consume: [], requiresPower: false, sortPriority: 14 }
         }
     }
 
@@ -302,9 +300,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.GovernmentContracts:
                     adjustSupply(chemicals, 1 * multiplier);
                     break;
-                case EDevelopment.QuantumCommunication:
-                    adjustSupply(chemicals, 1 * multiplier);
-                    break;
                 case EDevelopment.CloudSeedingRockets:
                     cloudSeedingRockets();
                     adjustSupply(chemicals, 1 * multiplier);
@@ -348,9 +343,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.GovernmentContracts:
                     adjustSupply(chemicals, 1 * multiplier);
                     break;
-                case EDevelopment.QuantumCommunication:
-                    adjustSupply(chemicals, 1 * multiplier);
-                    break;
                 case EDevelopment.CloudSeedingRockets:
                     cloudSeedingRockets();
                     adjustSupply(chemicals, 1 * multiplier);
@@ -390,8 +382,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                     return getPrice(chemicals)
                 case EDevelopment.GovernmentContracts:
                     return getPrice(chemicals)
-                case EDevelopment.QuantumCommunication:
-                    return getPrice(chemicals)
                 case EDevelopment.CloudSeedingRockets:
                     return getPrice(chemicals)
                 case EDevelopment.NuclearDetonation:
@@ -423,8 +413,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.FusionReactor:
                     return getPrice(chemicals)
                 case EDevelopment.GovernmentContracts:
-                    return getPrice(chemicals)
-                case EDevelopment.QuantumCommunication:
                     return getPrice(chemicals)
                 case EDevelopment.CloudSeedingRockets:
                     return getPrice(chemicals)
@@ -464,7 +452,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.CarbonFabrication: revenue = 0; break;
                 case EDevelopment.FusionReactor: revenue = 0; break;
                 case EDevelopment.GovernmentContracts: revenue = 0; break;
-                case EDevelopment.QuantumCommunication: revenue = 0; break;
                 case EDevelopment.CloudSeedingRockets: revenue = 0; break;
                 case EDevelopment.NuclearDetonation: revenue = 0; break;
                 default:
@@ -486,7 +473,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.CarbonFabrication: revenue = 0; break;
                 case EDevelopment.FusionReactor: revenue = 0; break;
                 case EDevelopment.GovernmentContracts: revenue = 0; break;
-                case EDevelopment.QuantumCommunication: revenue = 0; break;
                 case EDevelopment.CloudSeedingRockets: revenue = 0; break;
                 case EDevelopment.NuclearDetonation: revenue = 0; break;
                 default:
@@ -853,7 +839,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case "carbonFabrication": return EDevelopment.CarbonFabrication;
                 case "fusionReactor": return EDevelopment.FusionReactor;
                 case "governmentContracts": return EDevelopment.GovernmentContracts;
-                case "quantumCommunication": return EDevelopment.QuantumCommunication;
                 case "cloudSeedingRockets": return EDevelopment.CloudSeedingRockets;
                 case "nuclearDetonation": return EDevelopment.NuclearDetonation;
                 default:
