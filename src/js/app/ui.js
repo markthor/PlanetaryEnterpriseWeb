@@ -12,15 +12,6 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         return engine.getResource($resource_elem.attr("data-resource"));
     }
 
-    function registerResourceClickListeners() {
-
-        // Click listener for supply +/- buttons
-        $(".js-resource-buttons [data-val]").click(function() {
-            engine.adjustSupply(getParentResource($(this)), $(this).data("val"));
-            renderUI();
-        });
-    }
-
     function registerPlayerClickListeners() {
 
         // Click listener for buildings
@@ -130,7 +121,6 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
 
     function registerClickListeners() {
         registerMenuClickListeners();
-        registerResourceClickListeners();
         registerPlayerClickListeners();
         registerProduceClickListener();
     }
