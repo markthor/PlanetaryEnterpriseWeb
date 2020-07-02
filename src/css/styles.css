@@ -20,8 +20,8 @@ div[data-player]:first-child .popover {
 
 /* Select mine type */
 .popover {
-  width: 235px;
-  height: 75px;
+  height: 85px;
+  padding: 0px 5px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -34,9 +34,34 @@ div[data-player]:first-child .popover {
   background: lightgrey;
   outline: 1px solid black;
 }
-.popover img {
-  width: 65px;
-  height: 65px;
+.popover__option {
+  width: 85px;
+  height: 85px;
+  position: relative;
+}
+.popover__option .building-demand {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin-top: -20px;
+  z-index: 2;
+  background-color: black;
+  font-size: 35px;
+  color: white;
+  border-radius: 50%;
+}
+.popover__option .building-demand > img {
+  position: absolute;
+  width: 32px !important;
+  height: 32px !important;
+  left: 5px;
+  top: 6px;
+}
+.popover__option > img {
+  width: 75px !important;
+  height: 75px !important;
   padding: 5px;
 }
 
@@ -163,7 +188,7 @@ div[data-player]:first-child .popover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   margin-top: 2px;
   margin-bottom: 8px;
   padding: 0 10px;
@@ -195,6 +220,7 @@ div[data-player]:first-child .popover {
   font-weight: bold;
   font-size: 28px;
   outline: 1px solid black;
+  display: none;
 }
 .resource__buttons :nth-child(1) {
   outline: none;
@@ -246,28 +272,28 @@ div[data-player]:first-child .popover {
   background: #ff826b;
   background: radial-gradient(ellipse at center, #ff826b, #d36b58);
 }
-.player[data-player=red] .building-count {
+.player[data-player=red] .building-count, .player[data-player=red] .building-demand {
   border: 3px solid #ff826b;
 }
 .player[data-player=blue] {
   background: #7492e9;
   background: radial-gradient(ellipse at center, #7492e9, #5b74b7);
 }
-.player[data-player=blue] .building-count {
+.player[data-player=blue] .building-count, .player[data-player=blue] .building-demand {
   border: 3px solid #7492e9;
 }
 .player[data-player=green] {
   background: #92e692;
   background: radial-gradient(ellipse at center, #92e692, #80c980);
 }
-.player[data-player=green] .building-count {
+.player[data-player=green] .building-count, .player[data-player=green] .building-demand {
   border: 3px solid #92e692;
 }
 .player[data-player=yellow] {
   background: #ffff9e;
   background: radial-gradient(ellipse at center, #ffff9e, #dbdb87);
 }
-.player[data-player=yellow] .building-count {
+.player[data-player=yellow] .building-count, .player[data-player=yellow] .building-demand {
   border: 3px solid #ffff9e;
 }
 .player__header {

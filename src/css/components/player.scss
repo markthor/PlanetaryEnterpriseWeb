@@ -10,7 +10,7 @@
         background: $color-player-red;
         background: $gradient-player-red;
 
-        .building-count {
+        .building-count, .building-demand {
             border: 3px solid $color-player-red;
         }
     }
@@ -19,7 +19,7 @@
         background: $color-player-blue;
         background: $gradient-player-blue;
 
-        .building-count {
+        .building-count, .building-demand {
             border: 3px solid $color-player-blue;
         }
     }
@@ -28,7 +28,7 @@
         background: $color-player-green;
         background: $gradient-player-green;
 
-        .building-count {
+        .building-count, .building-demand {
             border: 3px solid $color-player-green;
         }
     }
@@ -37,7 +37,7 @@
         background: $color-player-yellow;
         background: $gradient-player-yellow;
 
-        .building-count {
+        .building-count, .building-demand {
             border: 3px solid $color-player-yellow;
         }
     }

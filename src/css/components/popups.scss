@@ -17,8 +17,8 @@ div[data-player]:first-child .popover {
 
 /* Select mine type */
 .popover {
-    width: 235px;
-    height: 75px;
+    height: 85px;
+    padding: 0px 5px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -30,10 +30,38 @@ div[data-player]:first-child .popover {
     background: $color-header-background;
     outline: $outline;
 
-    img {
-        width: 65px;
-        height: 65px;
-        padding: 5px;
+    &__option {
+        width: 85px;
+        height: 85px;
+        position: relative;
+
+        .building-demand {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin-top: -20px;
+            z-index: 2;
+            background-color: black;
+            font-size: 35px;
+            color: white;
+            border-radius: 50%;
+
+            > img {
+                position: absolute;
+                width: 32px !important;
+                height: 32px !important;
+                left: 5px;
+                top: 6px;
+            }
+        }
+
+        > img {
+            width: 75px !important;
+            height: 75px !important;
+            padding: 5px;
+        }
     }
 }
 

@@ -38,7 +38,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         properties: {
             "mineIron": { produce: "iron", consume: ["power"], requiresPower: true, sortPriority: 0 },
             "mineCarbon": { produce: "carbon", consume: ["power"], requiresPower: true, sortPriority: 2 },
-            "mineAluminium": { produce: "aluminum", consume: ["power"], requiresPower: true, sortPriority: 1 },
+            "mineAluminium": { produce: "aluminium", consume: ["power"], requiresPower: true, sortPriority: 1 },
             "furnace": { produce: "steel", consume: ["power", "iron"], requiresPower: true, sortPriority: 3 },
             "lab": { produce: "chemicals", consume: ["iron", "carbon"], requiresPower: false, sortPriority: 4 },
             "solarPanels": { produce: "", consume: [], requiresPower: false, sortPriority: 5 },
@@ -86,6 +86,20 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         playerYellow = player("yellow");
     }
 
+    function initializePlayerGovernmentContracts(){
+        let obj = {};
+        let resources = ["power", "iron", "aluminium", "carbon", "steel", "chemicals"];
+
+        resources.forEach(function(resource) {
+            obj[resource] = {
+                "enabled": false,
+                "modifier": 0 // How much effect the contract had on demand
+            }
+        });
+
+        return obj;
+    }
+
     function initialize(){
         console.log("Initializing engine...");
 
@@ -108,7 +122,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
             color: color,
             name: "Player",
             buildings: [],
-            stars: 0
+            stars: 0,
+            governmentContracts: initializePlayerGovernmentContracts(),
         };
     }
 
@@ -301,11 +316,9 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                     adjustSupply(chemicals, 1 * multiplier);
                     break;
                 case EDevelopment.CloudSeedingRockets:
-                    cloudSeedingRockets();
                     adjustSupply(chemicals, 1 * multiplier);
                     break;
                 case EDevelopment.NuclearDetonation:
-                    nuclearDetonation();
                     adjustSupply(chemicals, 1 * multiplier);
                     break;
                 default:
@@ -344,11 +357,9 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                     adjustSupply(chemicals, 1 * multiplier);
                     break;
                 case EDevelopment.CloudSeedingRockets:
-                    cloudSeedingRockets();
                     adjustSupply(chemicals, 1 * multiplier);
                     break;
                 case EDevelopment.NuclearDetonation:
-                    nuclearDetonation();
                     adjustSupply(chemicals, 1 * multiplier);
                     break;
                 default:
@@ -514,6 +525,55 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         player.buildings.push(buildingName);
         modifyBuilding(player, buildingName, true);
         sortBuildings(player);
+
+        //Handle developments with other effects when bought. higher order function maybe? Or specific buy methods for those developments, like for government contracts
+        switch (buildingName) {
+            case EDevelopment.CloudSeedingRockets:
+                cloudSeedingRockets();
+                break;
+            case EDevelopment.NuclearDetonation:
+                nuclearDetonation();
+                break;
+        }
+    }
+
+    function buyGovernmentContract(player, resource){
+        // Ensure player has not already bought contract for given resource
+        if (player.governmentContracts[resource.name].enabled) {
+            console.log("Player " + player.name + " already has a govContract for " + resource.name);
+            return;
+        }
+
+        var demandToAdd = 3;
+        console.log("Current demand: " + resource.demand);
+        resource.demand += 3
+        console.log("New demand: " + resource.demand);
+
+        // Keep track of which resource(s) contracts have been bought for
+        player.governmentContracts[resource.name].enabled = true;
+
+        // Keep track of how much the contract modified demand (for removal)
+        player.governmentContracts[resource.name].modifier = demandToAdd;
+
+        addBuilding(player, "governmentContracts")
+    }
+
+    function removeGovernmentContract(player, resource){
+        let contract = player.governmentContracts[resource.name];
+        if (!contract.enabled) {
+            console.log("Player " + player.name + " does not have a govContract for " + resource.name);
+            return;
+        }
+
+        // Disable gov contract
+        contract.enabled = false;
+
+        // Remove the previously created demand and reset modifier
+        resource.demand -= contract.modifier;
+        contract.modifier = 0;
+
+        // Remove building
+        removeBuilding(player, "governmentContracts")
     }
 
     function removeBuilding(player, buildingName){
@@ -804,6 +864,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         getConsumedResources: getConsumedResources,
         getProducedResources: getProducedResources,
         getWeather: getWeather,
+        buyGovernmentContract: buyGovernmentContract,
+        removeGovernmentContract: removeGovernmentContract,
         getRoundNumber: function() {
             return roundNumber;
         },

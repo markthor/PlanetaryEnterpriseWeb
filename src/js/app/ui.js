@@ -12,6 +12,15 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         return engine.getResource($resource_elem.attr("data-resource"));
     }
 
+    function registerResourceClickListeners() {
+
+        // Click listener for supply +/- buttons
+        $(".js-resource-buttons [data-val]").click(function() {
+            engine.adjustSupply(getParentResource($(this)), $(this).data("val"));
+            renderUI();
+        });
+    }
+
     function registerPlayerClickListeners() {
 
         // Click listener for buildings
@@ -25,13 +34,42 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
                 return;
             }
 
-            // Check if remove mode is active
-            if ($building_elem.find(".remove-mode").length) {
-                engine.removeBuilding(player, building);
+            let $popover_elem = $building_elem.find(".popover");
+
+            // Show popover instead of adding building if popover exists
+            if ($popover_elem.length) {
+                $("#overlay").css("display", "block");
+                $popover_elem.css("display", "flex");
             } else {
-                engine.addBuilding(player, building);
+                // Check if remove mode is active
+                if ($building_elem.find(".remove-mode").length) {
+                    engine.removeBuilding(player, building);
+                } else {
+                    engine.addBuilding(player, building);
+                }
             }
 
+            renderUI();
+        });
+
+        // Click listener for custom mine popover
+        $("[data-contract-resource]").click(function(event) {
+            event.stopPropagation();
+
+            let $resource_elem = $(this);
+            let player = getParentPlayer($resource_elem);
+            let resource = engine.getResource($resource_elem.attr("data-contract-resource"));
+
+            let removeModeActive = $(".js-remove-mode-toggle").hasClass("remove-mode");
+
+            if (removeModeActive) {
+                engine.removeGovernmentContract(player, resource);
+            } else {
+                engine.buyGovernmentContract(player, resource);
+            }
+
+            $resource_elem.closest(".popover").css("display", "none");
+            $("#overlay").css("display", "none");
             renderUI();
         });
     }
@@ -121,6 +159,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
 
     function registerClickListeners() {
         registerMenuClickListeners();
+        registerResourceClickListeners();
         registerPlayerClickListeners();
         registerProduceClickListener();
     }
@@ -222,6 +261,22 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
             });
         });
 
+        // Render government contracts
+        $("[data-contract-resource]").each(function() {
+            let $resource_elem = $(this);
+            let $checkmark_elem = $resource_elem.parent().find(".building-demand");
+            let resource_name =$resource_elem.attr("data-contract-resource");
+            let player = getParentPlayer($resource_elem);
+
+            // Show or hide checkmark depending on whether it's been bought or not
+            if (player.governmentContracts[resource_name]["enabled"]) {
+                $checkmark_elem.removeClass("hidden");
+            } else {
+                $checkmark_elem.addClass("hidden");
+            }
+
+        });
+
     }
 
     function renderFooter() {
@@ -293,7 +348,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
     function initialize() {
         console.log('Initializing UI...');
 
-        initializePartials('app', ['app', 'overlay', 'header', 'footer', 'market', 'players', 'player', 'building', 'resource']);
+        initializePartials('app', ['app', 'overlay', 'header', 'footer', 'market', 'players', 'player', 'building', 'resource', 'gov_contract']);
         initializeTemplates();
         registerClickListeners();
         renderUI();

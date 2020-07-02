@@ -48,7 +48,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        align-items: flex-start;
+        align-items: center;
         margin-top: 2px;
         margin-bottom: 8px;
         padding: 0 10px;
@@ -95,6 +95,8 @@
         font-size: 28px;
 
         outline: $outline;
+
+        display:none; // temp removal
 
         :nth-child(1) {
             outline: none;
