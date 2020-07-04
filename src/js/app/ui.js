@@ -142,6 +142,12 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
             $("#overlay").css("display", "block");
             $("#popup").css("display", "flex");
             $("#popup .prod-demand h1").text(demandString);
+
+            TESTER = document.getElementById('tester');
+            Plotly.newPlot( TESTER, [{
+            x: [1, 2, 3, 4, 5],
+            y: [1, 2, 4, 8, 16] }], {
+            margin: { t: 0 } } );
         });
 
         $("#popup .prod-buttons__produce").click(function() {
