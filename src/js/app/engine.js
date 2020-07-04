@@ -54,6 +54,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         }
     }
 
+    var marketHistory = {};
+
     //#endregion
 
     //#region Initialize
@@ -111,6 +113,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
 
         loanAvailable = 0;
         roundNumber = 1;
+
+        saveMarketHistory();
     }
 
     //#endregion
@@ -148,19 +152,12 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
     function produce(){
         calculateStars()
 
-        market = {
-            power: $.extend(true, {}, power),
-            iron: $.extend(true, {}, iron),
-            aluminium: $.extend(true, {}, aluminium),
-            carbon: $.extend(true, {}, carbon),
-            steel: $.extend(true, {}, steel),
-            chemicals: $.extend(true, {}, chemicals)
-        }
+        marketCopy = getMarketCopy();
 
-        updateMarket(playerRed, market);
-        updateMarket(playerBlue, market);
-        updateMarket(playerGreen, market);
-        updateMarket(playerYellow, market);
+        updateMarket(playerRed, marketCopy);
+        updateMarket(playerBlue, marketCopy);
+        updateMarket(playerGreen, marketCopy);
+        updateMarket(playerYellow, marketCopy);
         correctAllPrices();
 
         adjustSupplyForDemand();
@@ -174,6 +171,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         updateSolarPanelsProduction();
         
         roundNumber++;
+
+        saveMarketHistory();
     }
 
     //#region Price
@@ -663,6 +662,25 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         }
     }
 
+    function getMarketHistory(){
+        return marketHistory;
+    }
+
+    function saveMarketHistory(){
+        marketHistory[roundNumber] = getMarketCopy()
+    }
+
+    function getMarketCopy() {
+        return {
+            power: $.extend(true, {}, power),
+            iron: $.extend(true, {}, iron),
+            aluminium: $.extend(true, {}, aluminium),
+            carbon: $.extend(true, {}, carbon),
+            steel: $.extend(true, {}, steel),
+            chemicals: $.extend(true, {}, chemicals)
+        }
+    }
+
     //#endregion
 
     //#region Resources
@@ -750,8 +768,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
     function randomIntInRange(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-
-    //#endregion
 
     //#endregion
 
@@ -866,6 +882,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         getWeather: getWeather,
         buyGovernmentContract: buyGovernmentContract,
         removeGovernmentContract: removeGovernmentContract,
+        getMarketHistory: getMarketHistory,
         getRoundNumber: function() {
             return roundNumber;
         },
