@@ -332,6 +332,11 @@ div[data-player]:first-child .popover {
   padding: 0 4px;
   color: #28a745;
 }
+.player__header__item .score {
+  text-shadow: -1px 0 #1c2338, 0 1px #1c2338, 1px 0 #1c2338, 0 -1px #1c2338;
+  padding: 0 4px;
+  color: #6b88dc;
+}
 .player__buildings {
   flex: 3 1 0;
   display: flex;

@@ -170,6 +170,9 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         $(".js-resource-demand").each(function() {
             let resource = getParentResource($(this));
             let $child_elems = $(this).find(".js-item-template");
+            
+            console.log(resource);
+            console.log(resource.maxDemand)
 
             for (i = 0; i < resource.maxDemand; i++) {
                 if (resource.demand > i) {
@@ -207,24 +210,14 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
             $(this).text(getParentPlayer($(this)).name);
         });
 
-        // Render stars
-        $(".player[data-player]").each(function() {
-            let player = engine.getPlayer($(this).attr("data-player"));
-            let shown_stars = 0;
-
-            $(this).find(".js-player-star").each(function() {
-                if (player.stars > shown_stars) {
-                    $(this).removeClass("disabled");
-                } else {
-                    $(this).addClass("disabled");
-                }
-                shown_stars += 1;
-            });
+        // Render score
+        $(".js-player-score").each(function() {
+            $(this).text(engine.getScore(getParentPlayer($(this))) + "p");
         });
 
         // Render income
         $(".js-player-income").each(function() {
-            $(this).text(engine.getIncomeFromBuildings(getParentPlayer($(this))) + "$");
+            $(this).text(engine.getIncome(getParentPlayer($(this))) + "$");
         });
 
         // Render buildings
