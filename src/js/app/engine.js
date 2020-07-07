@@ -127,6 +127,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
             name: "Player",
             buildings: [],
             stars: 0,
+            score: 0,
             governmentContracts: initializePlayerGovernmentContracts(),
         };
     }
@@ -141,7 +142,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
             supply: supply,
             maxSupply: maxSupply,
             demand: 0,
-            maxDemand: 6
+            maxDemand: 1000
         };
     }
 
@@ -151,6 +152,11 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
 
     function produce(){
         calculateStars()
+
+        playerRed.score += getIncomeFromBuildings(playerRed)
+        playerBlue.score += getIncomeFromBuildings(playerBlue)
+        playerGreen.score += getIncomeFromBuildings(playerGreen)
+        playerYellow.score += getIncomeFromBuildings(playerYellow)
 
         marketCopy = getMarketCopy();
 
@@ -255,7 +261,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
             case EDevelopment.MineAluminium: adjustSupplyNoRestrictions(aluminium, 1); break;
             case EDevelopment.MineCarbon: adjustSupplyNoRestrictions(carbon, 1); break;
             case EDevelopment.Furnace:  adjustSupplyNoRestrictions(steel, 1); adjustSupplyNoRestrictions(iron, -1); break;
-            case EDevelopment.Lab:  adjustSupplyNoRestrictions(chemicals, 1); adjustSupplyNoRestrictions(aluminium, -1); adjustSupplyNoRestrictions(carbon, -1); break;
+            case EDevelopment.Lab:  adjustSupplyNoRestrictions(chemicals, 1); adjustSupplyNoRestrictions(iron, -1); adjustSupplyNoRestrictions(carbon, -1); break;
             case EDevelopment.FossilPowerPlant:  adjustSupplyNoRestrictions(power, 3); adjustSupplyNoRestrictions(carbon, -1); break;
             case EDevelopment.GeothermalPlant:  adjustSupplyNoRestrictions(power, 2); break;
             case EDevelopment.SolarPanels:  adjustSupplyNoRestrictions(power, getWeather()); break;
@@ -269,7 +275,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
             case EDevelopment.MineAluminium: adjustSupplyNoRestrictions(aluminium, 1); adjustSupplyNoRestrictions(power, -1); break;
             case EDevelopment.MineCarbon: adjustSupplyNoRestrictions(carbon, 1); adjustSupplyNoRestrictions(power, -1); break;
             case EDevelopment.Furnace:  adjustSupplyNoRestrictions(steel, 1); adjustSupplyNoRestrictions(power, -1); adjustSupplyNoRestrictions(iron, -1); break;
-            case EDevelopment.Lab:  adjustSupplyNoRestrictions(chemicals, 1); adjustSupplyNoRestrictions(aluminium, -1); adjustSupplyNoRestrictions(carbon, -1); break;
+            case EDevelopment.Lab:  adjustSupplyNoRestrictions(chemicals, 1); adjustSupplyNoRestrictions(iron, -1); adjustSupplyNoRestrictions(carbon, -1); break;
             case EDevelopment.FossilPowerPlant:  adjustSupplyNoRestrictions(power, 3); adjustSupplyNoRestrictions(carbon, -1); break;
             case EDevelopment.GeothermalPlant:  adjustSupplyNoRestrictions(power, 2); break;
             case EDevelopment.SolarPanels:  adjustSupplyNoRestrictions(power, getWeather()); break;
@@ -453,7 +459,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.MineAluminium: revenue = getPrice(market.aluminium); break;
                 case EDevelopment.MineCarbon: revenue = getPrice(market.carbon); break;
                 case EDevelopment.Furnace: revenue = getPrice(market.steel) - getPrice(iron); break;
-                case EDevelopment.Lab: revenue = getPrice(market.chemicals) - getPrice(market.carbon) - getPrice(market.aluminium); break;
+                case EDevelopment.Lab: revenue = getPrice(market.chemicals) - getPrice(market.carbon) - getPrice(market.iron); break;
                 case EDevelopment.FossilPowerPlant: revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
                 case EDevelopment.GeothermalPlant: revenue = getPrice(market.power) * 2; break;
                 case EDevelopment.SolarPanels: revenue = getPrice(market.power) * getWeather();; break;
@@ -474,7 +480,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.MineAluminium: revenue = getPrice(market.aluminium) - getPrice(market.power); break;
                 case EDevelopment.MineCarbon: revenue = getPrice(market.carbon) - getPrice(market.power); break;
                 case EDevelopment.Furnace: revenue = getPrice(market.steel) - getPrice(market.power) - getPrice(iron); break;
-                case EDevelopment.Lab: revenue = getPrice(market.chemicals) - getPrice(market.carbon) - getPrice(market.aluminium); break;
+                case EDevelopment.Lab: revenue = getPrice(market.chemicals) - getPrice(market.carbon) - getPrice(market.iron); break;
                 case EDevelopment.FossilPowerPlant: revenue = getPrice(market.power) * 3 - getPrice(carbon); break;
                 case EDevelopment.GeothermalPlant: revenue = getPrice(market.power) * 2; break;
                 case EDevelopment.SolarPanels: revenue = getPrice(market.power) * getWeather(); break;
@@ -860,6 +866,10 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
 
     //#endregion
 
+    function getScore(player) {
+        return player.score;
+    }
+
     //#region API Layer
 
     /**
@@ -876,6 +886,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         adjustSupply: adjustSupply,
         getIncome: getIncome,
         getIncomeFromBuildings: getIncomeFromBuildings,
+        getScore: getScore,
         getBuildingPrice: getBuildingPrice,
         getConsumedResources: getConsumedResources,
         getProducedResources: getProducedResources,
