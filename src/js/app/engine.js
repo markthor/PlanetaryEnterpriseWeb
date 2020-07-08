@@ -63,10 +63,10 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
     function initializeResources(){
         power = resource("power", 3, 8, randomIntInRange(2,6));
         iron = resource("iron", 6, 5, randomIntInRange(2,4));
-        aluminium = resource("aluminium", 6, 5, randomIntInRange(2,4));
+        aluminium = resource("aluminium", 6, 5, 5);
         carbon = resource("carbon", 6, 5, randomIntInRange(2,4));
-        steel = resource("steel", 12, 5, randomIntInRange(2,5));
-        chemicals = resource("chemicals", 18, 5, randomIntInRange(1,5));
+        steel = resource("steel", 12, 4, 4);
+        chemicals = resource("chemicals", 18, 3, randomIntInRange(1,5));
     }
 
     function initializeDemandDeck() {
