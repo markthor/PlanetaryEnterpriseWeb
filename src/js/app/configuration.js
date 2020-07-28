@@ -1,6 +1,6 @@
 define(["jquery"], function($) {
     return {
         numberOfRoundsWithAdditionalIncome: 99999,
-        additionalIncome: 25
+        additionalIncome: 20
     }
 });

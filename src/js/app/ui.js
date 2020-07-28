@@ -170,9 +170,6 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
         $(".js-resource-demand").each(function() {
             let resource = getParentResource($(this));
             let $child_elems = $(this).find(".js-item-template");
-            
-            console.log(resource);
-            console.log(resource.maxDemand)
 
             for (i = 0; i < resource.maxDemand; i++) {
                 if (resource.demand > i) {

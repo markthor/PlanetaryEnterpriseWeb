@@ -194,6 +194,11 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         else return (amount - resource.supply) * (resource.price + 1) + resource.supply * resource.price;
     }
 
+    function getPriceStatic(resource, amount){
+        if(!amount) amount = 1;
+        return getPrice(resource, 1) * amount;
+    }
+
     function correctAllPrices() {
         correctPrice(power);
         correctPrice(iron);
@@ -375,6 +380,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
     }
 
     function getBuildingPrice(player, buildingName){
+        var currentMarket = getMarketAtStartOfCurrentRound();
         if(doesPlayerHaveDevelopment(player, EDevelopment.CarbonFabrication)){
             switch (buildingName) {
                 case EDevelopment.MineIron:
@@ -383,25 +389,25 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.Furnace:
                 case EDevelopment.Lab:
                 case EDevelopment.FossilPowerPlant:
-                    return getPrice(carbon, 3);
+                    return getPriceStatic(currentMarket.carbon, 3);
                 case EDevelopment.GeothermalPlant:
-                    return getPrice(chemicals, 2) + getPrice(carbon);
+                    return getPriceStatic(currentMarket.chemicals, 2) + getPriceStatic(carbon);
                 case EDevelopment.SolarPanels:
-                    return getPrice(carbon, 3);
+                    return getPriceStatic(currentMarket.carbon, 3);
                 case EDevelopment.SupplyConnector:
-                    return getPrice(aluminium);
+                    return getPriceStatic(currentMarket.aluminium);
                 case EDevelopment.ConstructionSite:
-                    return getPrice(carbon, 2);
+                    return getPriceStatic(currentMarket.carbon, 2);
                 case EDevelopment.CarbonFabrication:
-                    return getPrice(chemicals) + getPrice(carbon, 3);
+                    return getPriceStatic(currentMarket.chemicals) + getPriceStatic(currentMarket.carbon, 3);
                 case EDevelopment.FusionReactor:
-                    return getPrice(chemicals)
+                    return getPriceStatic(currentMarket.chemicals)
                 case EDevelopment.GovernmentContracts:
-                    return getPrice(chemicals)
+                    return getPriceStatic(currentMarket.chemicals)
                 case EDevelopment.CloudSeedingRockets:
-                    return getPrice(chemicals)
+                    return getPriceStatic(currentMarket.chemicals)
                 case EDevelopment.NuclearDetonation:
-                    return getPrice(chemicals)
+                    return getPriceStatic(currentMarket.chemicals)
                 default:
                     exception ="Illegal argument exception. buildingName: " + buildingName;
                     console.error(exception);
@@ -415,25 +421,25 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.Furnace: 
                 case EDevelopment.Lab: 
                 case EDevelopment.FossilPowerPlant: 
-                    return getPrice(steel, 2);
+                    return getPriceStatic(currentMarket.steel, 2);
                 case EDevelopment.GeothermalPlant: 
-                    return getPrice(chemicals, 2) + getPrice(steel);
+                    return getPriceStatic(currentMarket.chemicals, 2) + getPriceStatic(currentMarket.steel);
                 case EDevelopment.SolarPanels: 
-                    return getPrice(steel, 2);
+                    return getPriceStatic(currentMarket.steel, 2);
                 case EDevelopment.SupplyConnector:
-                    return getPrice(aluminium);
+                    return getPriceStatic(currentMarket.aluminium);
                 case EDevelopment.ConstructionSite:
-                    return getPrice(steel);
+                    return getPriceStatic(currentMarket.steel);
                 case EDevelopment.CarbonFabrication:
-                    return getPrice(chemicals) + getPrice(carbon, 3);
+                    return getPriceStatic(currentMarket.chemicals) + getPriceStatic(currentMarket.carbon, 3);
                 case EDevelopment.FusionReactor:
-                    return getPrice(chemicals)
+                    return getPriceStatic(currentMarket.chemicals)
                 case EDevelopment.GovernmentContracts:
-                    return getPrice(chemicals)
+                    return getPriceStatic(currentMarket.chemicals)
                 case EDevelopment.CloudSeedingRockets:
-                    return getPrice(chemicals)
+                    return getPriceStatic(currentMarket.chemicals)
                 case EDevelopment.NuclearDetonation:
-                    return getPrice(chemicals)
+                    return getPriceStatic(currentMarket.chemicals)
                 default:
                     exception = "Illegal argument exception. buildingName: " + buildingName;
                     console.error(exception);
@@ -666,6 +672,10 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
             steel: steel,
             chemicals: chemicals
         }
+    }
+
+    function getMarketAtStartOfCurrentRound(){
+        return getMarketHistory()[roundNumber];
     }
 
     function getMarketHistory(){
