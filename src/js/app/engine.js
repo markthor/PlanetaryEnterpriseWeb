@@ -17,8 +17,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
 
     var roundNumber;
 
-    var starIncomeRequirement = 40;
-
     var EDevelopment = {
         MineIron: "mineIron",
         MineCarbon: "mineCarbon",
@@ -111,7 +109,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
 
         updateSolarPanelsProduction();
 
-        loanAvailable = 0;
         roundNumber = 1;
 
         saveMarketHistory();
@@ -151,8 +148,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
     //#region Logic
 
     function produce(){
-        calculateStars()
-
         playerRed.score += getIncomeFromBuildings(playerRed)
         playerBlue.score += getIncomeFromBuildings(playerBlue)
         playerGreen.score += getIncomeFromBuildings(playerGreen)
@@ -319,7 +314,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                     adjustSupply(carbon, 2 * multiplier);
                     break;
                 case EDevelopment.CarbonFabrication:
-                    adjustSupply(chemicals, 1 * multiplier);
+                    adjustSupply(carbon, 2 * multiplier);
                     break;
                 case EDevelopment.FusionReactor:
                     adjustSupply(chemicals, 1 * multiplier);
@@ -362,7 +357,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                     adjustSupply(steel, 1 * multiplier);
                     break;
                 case EDevelopment.CarbonFabrication:
-                    adjustSupply(chemicals, 1 * multiplier);
+                    adjustSupply(carbon, 2 * multiplier);
                     break;
                 case EDevelopment.FusionReactor:
                     adjustSupply(chemicals, 1 * multiplier);
@@ -404,7 +399,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.ConstructionSite:
                     return getPriceStatic(currentMarket.carbon, 2);
                 case EDevelopment.CarbonFabrication:
-                    return getPriceStatic(currentMarket.chemicals);
+                    return getPriceStatic(currentMarket.carbon, 2);
                 case EDevelopment.FusionReactor:
                     return getPriceStatic(currentMarket.chemicals)
                 case EDevelopment.GovernmentContracts:
@@ -437,7 +432,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.ConstructionSite:
                     return getPriceStatic(currentMarket.steel);
                 case EDevelopment.CarbonFabrication:
-                    return getPriceStatic(currentMarket.chemicals);
+                    return getPriceStatic(currentMarket.carbon, 2);
                 case EDevelopment.FusionReactor:
                     return getPriceStatic(currentMarket.chemicals)
                 case EDevelopment.GovernmentContracts:
@@ -640,17 +635,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
     function nuclearDetonation() {
         weather.nuclearDetonation();
         updateSolarPanelsProduction();
-    }
-
-    function calculateStars(){
-        listOfplayerIncome = [[playerRed, getIncomeFromBuildings(playerRed)],[playerBlue, getIncomeFromBuildings(playerBlue)],[playerGreen, getIncomeFromBuildings(playerGreen)],[playerYellow, getIncomeFromBuildings(playerYellow)]]
-        listOfplayerIncome.sort((a, b) => (a[1] > b[1]) ? -1 : 1)
-
-        if(listOfplayerIncome[0][1] != listOfplayerIncome[1][1]){
-            if(listOfplayerIncome[0][1] > starIncomeRequirement){
-                listOfplayerIncome[0][0].stars++
-            }
-        }
     }
 
     //#endregion
@@ -912,9 +896,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         getMarketHistory: getMarketHistory,
         getRoundNumber: function() {
             return roundNumber;
-        },
-        getLoanAvailable: function() {
-            return loanAvailable;
         },
 
         getResource: function(resourceName) {
