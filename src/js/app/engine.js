@@ -33,6 +33,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         GovernmentContracts: "governmentContracts",
         CloudSeedingRockets: "cloudSeedingRockets",
         NuclearDetonation: "nuclearDetonation",
+        Headquarter: "headquarter",
         properties: {
             "mineIron": { produce: "iron", consume: ["power"], requiresPower: true, sortPriority: 0 },
             "mineCarbon": { produce: "carbon", consume: ["power"], requiresPower: true, sortPriority: 2 },
@@ -48,7 +49,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
             "fusionReactor": { produce: "", consume: [], requiresPower: false, sortPriority: 11 },
             "governmentContracts": { produce: "", consume: [], requiresPower: false, sortPriority: 12 },
             "cloudSeedingRockets": { produce: "", consume: [], requiresPower: false, sortPriority: 13 },
-            "nuclearDetonation": { produce: "", consume: [], requiresPower: false, sortPriority: 14 }
+            "nuclearDetonation": { produce: "", consume: [], requiresPower: false, sortPriority: 14 },
+            "headquarter": { produce: "", consume: [], requiresPower: false, sortPriority: 15 }
         }
     }
 
@@ -152,6 +154,11 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         playerBlue.score += getIncomeFromBuildings(playerBlue)
         playerGreen.score += getIncomeFromBuildings(playerGreen)
         playerYellow.score += getIncomeFromBuildings(playerYellow)
+
+        playerRed.score += getHqScore(playerRed);
+        playerBlue.score += getHqScore(playerBlue);
+        playerGreen.score += getHqScore(playerGreen);
+        playerYellow.score += getHqScore(playerYellow);
 
         marketCopy = getMarketCopy();
 
@@ -328,6 +335,9 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.NuclearDetonation:
                     adjustSupply(chemicals, 1 * multiplier);
                     break;
+                case EDevelopment.Headquarter:
+                    adjustSupply(chemicals, 1 * multiplier); adjustSupply(carbon, 6 * multiplier);
+                    break;
                 default:
                     console.error("Illegal argument exception. buildingName: " + buildingName);
                     break;
@@ -371,6 +381,9 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.NuclearDetonation:
                     adjustSupply(chemicals, 1 * multiplier);
                     break;
+                case EDevelopment.Headquarter:
+                    adjustSupply(chemicals, 1 * multiplier); adjustSupply(steel, 3 * multiplier);
+                    break;
                 default:
                     console.error("Illegal argument exception. buildingName: " + buildingName);
                     break;
@@ -408,6 +421,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                     return getPriceStatic(currentMarket.chemicals)
                 case EDevelopment.NuclearDetonation:
                     return getPriceStatic(currentMarket.chemicals)
+                case EDevelopment.Headquarter:
+                    return getPriceStatic(currentMarket.chemicals) + getPriceStatic(currentMarket.carbon, 6);
                 default:
                     exception ="Illegal argument exception. buildingName: " + buildingName;
                     console.error(exception);
@@ -441,6 +456,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                     return getPriceStatic(currentMarket.chemicals)
                 case EDevelopment.NuclearDetonation:
                     return getPriceStatic(currentMarket.chemicals)
+                case EDevelopment.Headquarter:
+                    return getPriceStatic(currentMarket.chemicals) + getPriceStatic(currentMarket.steel, 3);
                 default:
                     exception = "Illegal argument exception. buildingName: " + buildingName;
                     console.error(exception);
@@ -477,6 +494,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.GovernmentContracts: revenue = 0; break;
                 case EDevelopment.CloudSeedingRockets: revenue = 0; break;
                 case EDevelopment.NuclearDetonation: revenue = 0; break;
+                case EDevelopment.Headquarter: revenue = 0; break;
                 default:
                     console.error("Illegal argument exception. name: " + buildingName);
                     break;
@@ -498,6 +516,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.GovernmentContracts: revenue = 0; break;
                 case EDevelopment.CloudSeedingRockets: revenue = 0; break;
                 case EDevelopment.NuclearDetonation: revenue = 0; break;
+                case EDevelopment.Headquarter: revenue = 0; break;
                 default:
                     console.error("Illegal argument exception. name: " + buildingName);
                     break;
@@ -687,6 +706,15 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         }
     }
 
+    function getHqScore(player){
+        hqs = player.buildings.filter(building => building === EDevelopment.Headquarter).length;
+        if (player.hqsScored === undefined) {
+            player.hqsScored = 0;
+        }
+        hqsToScore = hqs - player.hqsScored;
+        player.hqsScored = hqs;
+        return hqsToScore * 80;
+    }
     //#endregion
 
     //#region Resources
@@ -928,6 +956,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case "governmentContracts": return EDevelopment.GovernmentContracts;
                 case "cloudSeedingRockets": return EDevelopment.CloudSeedingRockets;
                 case "nuclearDetonation": return EDevelopment.NuclearDetonation;
+                case "headquarter": return EDevelopment.Headquarter;
                 default:
                     console.error("Illegal argument exception. name: " + buildingName);
                     break;
