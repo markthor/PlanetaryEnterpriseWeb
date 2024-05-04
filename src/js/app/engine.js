@@ -309,7 +309,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                     adjustSupply(carbon, 2 * multiplier); adjustSupply(aluminium, 1 * multiplier);
                     break;
                 case EDevelopment.GeothermalPlant: 
-                    adjustSupply(carbon, 6 * multiplier);
+                    adjustSupply(carbon, 2 * multiplier); adjustSupply(chemicals, 1 * multiplier);
                     break;
                 case EDevelopment.SolarPanels: 
                     adjustSupply(carbon, 2 * multiplier); adjustSupply(aluminium, 1 * multiplier);
@@ -355,7 +355,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                     adjustSupply(steel, 1 * multiplier); adjustSupply(aluminium, 1 * multiplier);
                     break;
                 case EDevelopment.GeothermalPlant: 
-                    adjustSupply(steel, 3 * multiplier);
+                    adjustSupply(steel, 1 * multiplier); adjustSupply(chemicals, 1 * multiplier);
                     break;
                 case EDevelopment.SolarPanels: 
                     adjustSupply(steel, 1 * multiplier); adjustSupply(aluminium, 1 * multiplier);
@@ -404,7 +404,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.FossilPowerPlant:
                     return getPriceStatic(currentMarket.carbon, 2) + getPriceStatic(currentMarket.aluminium);
                 case EDevelopment.GeothermalPlant:
-                    return getPriceStatic(currentMarket.carbon, 6);
+                    return getPriceStatic(currentMarket.chemicals) + getPriceStatic(currentMarket.carbon, 2);
                 case EDevelopment.SolarPanels:
                     return getPriceStatic(currentMarket.carbon, 2) + getPriceStatic(currentMarket.aluminium);
                 case EDevelopment.SupplyConnector:
@@ -439,7 +439,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                 case EDevelopment.FossilPowerPlant: 
                     return getPriceStatic(currentMarket.steel, 1) + getPriceStatic(currentMarket.aluminium);
                 case EDevelopment.GeothermalPlant: 
-                    return getPriceStatic(currentMarket.steel, 3);
+                return getPriceStatic(currentMarket.chemicals) + getPriceStatic(currentMarket.steel, 1);
                 case EDevelopment.SolarPanels: 
                     return getPriceStatic(currentMarket.steel, 1) + getPriceStatic(currentMarket.aluminium); 
                 case EDevelopment.SupplyConnector:
