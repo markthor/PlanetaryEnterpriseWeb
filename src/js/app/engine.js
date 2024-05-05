@@ -2,7 +2,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
 
     //#region Properties
 
-    var deck;
+    var demandDeck;
+    var supplyDeck;
     var power = {};
     var iron = {};
     var aluminium = {};
@@ -70,15 +71,33 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
     }
 
     function initializeDemandDeck() {
-        deck = {cardsDrawn: 0};
-        deck.steel = 4;
-        deck.chemicals = 4;
-        deck.carbon = 4;
-        deck.iron = 4;
-        deck.aluminium = 4;
-        deck.power = 6;
-        deck.firstCard = getDemand();
-        deck.secondCard = getDemand();
+        demandDeck = {cardsDrawn: 0};
+        demandDeck.steel = 4;
+        demandDeck.chemicals = 4;
+        demandDeck.carbon = 4;
+        demandDeck.iron = 4;
+        demandDeck.aluminium = 4;
+        demandDeck.power = 6;
+        demandDeck.firstCard = getDemand();
+        demandDeck.secondCard = getDemand();
+    }
+
+    function initializeSupplyDeck() {
+        supplyDeck = {cardsDrawn: 0};
+        supplyDeck.steelShortage = 2;
+        supplyDeck.chemicalsShortage = 2;
+        supplyDeck.carbonShortage = 2;
+        supplyDeck.ironShortage = 2;
+        supplyDeck.aluminiumShortage = 2;
+        supplyDeck.powerShortage = 3;
+        supplyDeck.steelSurplus = 2;
+        supplyDeck.chemicalsSurplus = 2;
+        supplyDeck.carbonSurplus = 2;
+        supplyDeck.ironSurplus = 2;
+        supplyDeck.aluminiumSurplus = 2;
+        supplyDeck.powerSurplus = 3;
+        supplyDeck.firstCard = getSupply();
+        supplyDeck.secondCard = getSupply();
     }
 
     function initializePlayers(){
@@ -107,6 +126,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
 
         initializeResources();
         initializeDemandDeck();
+        initializeSupplyDeck();
         initializePlayers();
 
         updateSolarPanelsProduction();
@@ -175,7 +195,10 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
             popDemandCard(); //Again
         }
 
-        randomSurplusOrShortage();
+        popSupplyCard();
+        if(drawSupplyTwice()) {
+            popSupplyCard(); //Again
+        }
 
         weather.advanceRound();
         updateSolarPanelsProduction();
@@ -257,24 +280,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         adjustSupply(aluminium, -aluminium.demand);
         adjustSupply(steel, -steel.demand);
         adjustSupply(chemicals, -chemicals.demand);
-    }
-
-    function randomSurplusOrShortage(){
-        amount = (randomIntInRange(0, roundNumber)) * randomIntInRange(-1, 1);
-        resource = getRandomResource();
-        console.log("Adjusting supply of " + resource.name + " by " + amount);
-        adjustSupply(getRandomResource(), amount);
-    }
-
-    function getRandomResource(){
-        switch(randomIntInRange(0, 5)){
-            case 0: return power;
-            case 1: return iron;
-            case 2: return aluminium;
-            case 3: return carbon;
-            case 4: return steel;
-            case 5: return chemicals;
-        }
     }
 
     //#endregion
@@ -828,60 +833,64 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
     //#region Demand
 
     function peekFirstDemandCard() {
-        return deck.firstCard;
+        return demandDeck.firstCard;
     }
 
     function peekSecondDemandCard() {
-        return deck.secondCard;
+        return demandDeck.secondCard;
     }
 
     function popDemandCard() {
-        modifyDemandState(deck.firstCard);
-        deck.firstCard = deck.secondCard;
-        deck.secondCard = getDemand();
+        modifyDemandState(demandDeck.firstCard);
+        demandDeck.firstCard = demandDeck.secondCard;
+        demandDeck.secondCard = getDemand();
     }
 
     function getDemand() {
-        total = getTotal(deck)
+        total = getTotalDemandDeck(demandDeck)
         if (total === 0) {
             return "nothing"
         }
-        deck.cardsDrawn++;
+        demandDeck.cardsDrawn++;
         randomInt = Math.floor(Math.random() * total);
         temp = 0
-        temp += deck.steel
+        temp += demandDeck.steel
         if(randomInt < temp) {
-            deck.steel = deck.steel - 1;
+            demandDeck.steel = demandDeck.steel - 1;
             return "steel"
         }
-        temp += deck.chemicals
+        temp += demandDeck.chemicals
         if(randomInt < temp) {
-            deck.chemicals = deck.chemicals - 1;
+            demandDeck.chemicals = demandDeck.chemicals - 1;
             return "chemicals"
         }
-        temp += deck.carbon
+        temp += demandDeck.carbon
         if(randomInt < temp) {
-            deck.carbon = deck.carbon - 1;
+            demandDeck.carbon = demandDeck.carbon - 1;
             return "carbon"
         }
-        temp += deck.iron
+        temp += demandDeck.iron
         if(randomInt < temp) {
-            deck.iron = deck.iron - 1;
+            demandDeck.iron = demandDeck.iron - 1;
             return "iron"
         }
-        temp += deck.aluminium
+        temp += demandDeck.aluminium
         if(randomInt < temp) {
-            deck.aluminium = deck.aluminium - 1;
+            demandDeck.aluminium = demandDeck.aluminium - 1;
             return "aluminium"
         }
-        temp += deck.power
+        temp += demandDeck.power
         if(randomInt < temp) {
-            deck.power = deck.power - 1;
+            demandDeck.power = demandDeck.power - 1;
             return "power"
         }
-        exception = "IllegalStateException. Deck: " + deck
+        exception = "IllegalStateException. Deck: " + demandDeck
         console.error(exception);
         return exception
+    }
+
+    function getTotalDemandDeck(deck) {
+        return deck.steel + deck.chemicals + deck.carbon + deck.iron + deck.aluminium + deck.power;
     }
 
     function modifyDemandState(card) {
@@ -896,20 +905,123 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         }
     }
 
+    function getSupply() {
+        total = getTotalSupplyDeck(supplyDeck)
+        if (total === 0) {
+            return "nothing"
+        }
+        supplyDeck.cardsDrawn++;
+        randomInt = Math.floor(Math.random() * total);
+        temp = 0
+        temp += supplyDeck.steelShortage        
+        if(randomInt < temp) {
+            supplyDeck.steelShortage = supplyDeck.steelShortage - 1;
+            return "steelShortage"
+        }
+        temp += supplyDeck.chemicalsShortage
+        if(randomInt < temp) {
+            supplyDeck.chemicalsShortage = supplyDeck.chemicalsShortage - 1;
+            return "chemicalsShortage"
+        }
+        temp += supplyDeck.carbonShortage
+        if(randomInt < temp) {
+            supplyDeck.carbonShortage = supplyDeck.carbonShortage - 1;
+            return "carbonShortage"
+        }
+        temp += supplyDeck.ironShortage
+        if(randomInt < temp) {
+            supplyDeck.ironShortage = supplyDeck.ironShortage - 1;
+            return "ironShortage"
+        }
+        temp += supplyDeck.aluminiumShortage
+        if(randomInt < temp) {
+            supplyDeck.aluminiumShortage = supplyDeck.aluminiumShortage - 1;
+            return "aluminiumShortage"
+        }
+        temp += supplyDeck.powerShortage
+        if(randomInt < temp) {
+            supplyDeck.powerShortage = supplyDeck.powerShortage - 1;
+            return "powerShortage"
+        }
+        temp += supplyDeck.steelSurplus
+        if(randomInt < temp) {
+            supplyDeck.steelSurplus = supplyDeck.steelSurplus - 1;
+            return "steelSurplus"
+        }
+        temp += supplyDeck.chemicalsSurplus
+
+        if(randomInt < temp) {
+            supplyDeck.chemicalsSurplus = supplyDeck.chemicalsSurplus - 1;
+            return "chemicalsSurplus"
+        }
+        temp += supplyDeck.carbonSurplus
+        if(randomInt < temp) {
+            supplyDeck.carbonSurplus = supplyDeck.carbonSurplus - 1;
+            return "carbonSurplus"
+        }
+        temp += supplyDeck.ironSurplus
+        if(randomInt < temp) {
+            supplyDeck.ironSurplus = supplyDeck.ironSurplus - 1;
+            return "ironSurplus"
+        }
+        temp += supplyDeck.aluminiumSurplus
+        if(randomInt < temp) {
+            supplyDeck.aluminiumSurplus = supplyDeck.aluminiumSurplus - 1;
+            return "aluminiumSurplus"
+        }
+        temp += supplyDeck.powerSurplus
+        if(randomInt < temp) {
+            supplyDeck.powerSurplus = supplyDeck.powerSurplus - 1;
+            return "powerSurplus"
+        }
+        exception = "IllegalStateException. Deck: " + supplyDeck
+        console.error(exception);
+        return exception
+    }
+
+    function getTotalSupplyDeck(deck) {
+        return deck.steelShortage + deck.chemicalsShortage + deck.carbonShortage + deck.ironShortage + deck.aluminiumShortage + deck.powerShortage + deck.steelSurplus + deck.chemicalsSurplus + deck.carbonSurplus + deck.ironSurplus + deck.aluminiumSurplus + deck.powerSurplus;
+    }
+
+    function peekFirstSupplyCard() {
+        return supplyDeck.firstCard;
+    }
+
+    function peekSecondSupplyCard() {
+        return supplyDeck.secondCard;
+    }
+
+    function popSupplyCard() {
+        modifySupplyState(supplyDeck.firstCard);
+        supplyDeck.firstCard = supplyDeck.secondCard;
+        supplyDeck.secondCard = getSupply();
+    }
+
+    function modifySupplyState(card) {
+        console.log("Modifying supply state for card: " + card);
+        switch(card) {
+            case "powerShortage": adjustSupply(power, -8); break;
+            case "ironShortage": adjustSupply(iron, -6); break;
+            case "aluminiumShortage": adjustSupply(aluminium, -6); break;
+            case "carbonShortage": adjustSupply(carbon, -6); break;
+            case "steelShortage": adjustSupply(steel, -4); break;
+            case "chemicalsShortage": adjustSupply(chemicals, -4); break;
+            case "powerSurplus": adjustSupply(power, 8); break;
+            case "ironSurplus": adjustSupply(iron, 6); break;
+            case "aluminiumSurplus": adjustSupply(aluminium, 6); break;
+            case "carbonSurplus": adjustSupply(carbon, 6); break;
+            case "steelSurplus": adjustSupply(steel, 4); break;
+            case "chemicalsSurplus": adjustSupply(chemicals, 4); break;
+            default: break;
+        }
+    }
+
     function drawDemandTwice() {
         return roundNumber < 4;
     }
 
-    function getTotal(deck) {
-        total = 0
-        total += deck.steel
-        total += deck.chemicals
-        total += deck.carbon
-        total += deck.iron
-        total += deck.aluminium
-        total += deck.power
-
-        return total
+    function drawSupplyTwice() {
+        return roundNumber > 8;
     }
 
     //#endregion
@@ -929,6 +1041,9 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         peekFirstDemandCard: peekFirstDemandCard,
         peekSecondDemandCard: peekSecondDemandCard,
         drawDemandTwice: drawDemandTwice,
+        peekFirstSupplyCard: peekFirstSupplyCard,
+        peekSecondSupplyCard: peekSecondSupplyCard,
+        drawSupplyTwice: drawSupplyTwice,
         addBuilding: addBuilding,
         removeBuilding: removeBuilding,
         adjustSupply: adjustSupply,

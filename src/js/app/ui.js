@@ -128,6 +128,15 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
                 demandString = "Demand: " + firstDemandCard;
             }
 
+            var firstSupplyCard = engine.peekFirstSupplyCard();
+            var secondSupplyCard = engine.peekSecondSupplyCard();
+            var supplyString;
+            if(engine.drawSupplyTwice()) {
+                supplyString = "Supply: " + firstSupplyCard + " and " + secondSupplyCard;
+            } else {
+                supplyString = "Supply: " + firstSupplyCard;
+            }
+
             $(".prod-table__column__content").each(function() {
                 let $player_elem = $(this).parents(".prod-table__column[data-player]");
                 $(this).text(engine.getIncome(engine.getPlayer($player_elem.attr("data-player"))) + "$");
@@ -141,7 +150,7 @@ define(["jquery", "handlebars", "app/engine"], function($, Handlebars, engine) {
             
             $("#overlay").css("display", "block");
             $("#popup").css("display", "flex");
-            $("#popup .prod-demand h1").text(demandString);
+            $("#popup .prod-demand h1").text(demandString + " " + supplyString);
         });
 
         $("#popup .prod-buttons__produce").click(function() {
