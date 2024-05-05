@@ -175,6 +175,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
             popDemandCard(); //Again
         }
 
+        randomSurplusOrShortage();
+
         weather.advanceRound();
         updateSolarPanelsProduction();
         
@@ -255,6 +257,24 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         adjustSupply(aluminium, -aluminium.demand);
         adjustSupply(steel, -steel.demand);
         adjustSupply(chemicals, -chemicals.demand);
+    }
+
+    function randomSurplusOrShortage(){
+        amount = (randomIntInRange(0, roundNumber)) * randomIntInRange(-1, 1);
+        resource = getRandomResource();
+        console.log("Adjusting supply of " + resource.name + " by " + amount);
+        adjustSupply(getRandomResource(), amount);
+    }
+
+    function getRandomResource(){
+        switch(randomIntInRange(0, 5)){
+            case 0: return power;
+            case 1: return iron;
+            case 2: return aluminium;
+            case 3: return carbon;
+            case 4: return steel;
+            case 5: return chemicals;
+        }
     }
 
     //#endregion
