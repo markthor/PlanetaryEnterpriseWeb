@@ -3,6 +3,7 @@
 
 @font-face {
     font-family: "dragon";
+    font-weight: lighter !important;
     src: url("../resources/fonts/dragon.ttf") format("truetype");
 }
 
@@ -14,6 +15,7 @@ body {
 
 p, div, h1, h2 {
     font-family: dragon, calibri;
+    font-weight: lighter !important;
 }
 
 p {

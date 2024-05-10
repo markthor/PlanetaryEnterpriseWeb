@@ -364,8 +364,8 @@ div[data-player]:first-child .popover {
   padding: 6px 0;
 }
 .player__buildings .building-row img {
-  height: 60px;
-  width: 60px;
+  height: 45px;
+  width: 45px;
   vertical-align: middle;
 }
 .player__buildings .building-price {
@@ -466,6 +466,7 @@ div[data-player]:first-child .popover {
 @font-face {
   font-family: "dragon";
   src: url("../resources/fonts/dragon.ttf") format("truetype");
+  font-weight: lighter !important;
 }
 body {
   height: 100%;
@@ -475,6 +476,7 @@ body {
 
 p, div, h1, h2 {
   font-family: dragon, calibri;
+  font-weight: lighter !important;
 }
 
 p {
