@@ -62,12 +62,12 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
     //#region Initialize
 
     function initializeResources(){
-        power = resource("power", 2, 8, randomIntInRange(2,6));
-        iron = resource("iron", 6, 5, randomIntInRange(2,4));
-        aluminium = resource("aluminium", 6, 5, 5);
-        carbon = resource("carbon", 6, 5, randomIntInRange(2,4));
-        steel = resource("steel", 12, 4, 4);
-        chemicals = resource("chemicals", 18, 3, randomIntInRange(1,5));
+        power = resource("power", 2, 8, randomIntInRange(2,6), 1, 4);
+        iron = resource("iron", 6, 5, randomIntInRange(2,4), 3, 3);
+        aluminium = resource("aluminium", 6, 5, 5, 3, 3);
+        carbon = resource("carbon", 6, 5, randomIntInRange(2,4), 3, 3);
+        steel = resource("steel", 12, 4, 4, 5, 1);
+        chemicals = resource("chemicals", 18, 3, randomIntInRange(1,5), 5, 1);
     }
 
     function initializeDemandDeck() {
@@ -121,6 +121,21 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         return obj;
     }
 
+    function initializePlayerInvestments(){
+        let obj = {};
+        let resources = ["power", "iron", "aluminium", "carbon", "steel", "chemicals"];
+
+        resources.forEach(function(resource) {
+            obj[resource] = {
+                "turnAge": 0,
+                "buyPrice": 0,
+                "active": false
+            }
+        });
+
+        return obj;
+    }
+
     function initialize(){
         console.log("Initializing engine...");
 
@@ -148,10 +163,11 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
             stars: 0,
             score: 0,
             governmentContracts: initializePlayerGovernmentContracts(),
+            investments: initializePlayerInvestments()
         };
     }
 
-    function resource(name, price, maxSupply, supply) {
+    function resource(name, price, maxSupply, supply, gearing, investmentAmount) {
         if(!supply) {
             supply = maxSupply;
         }
@@ -161,7 +177,9 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
             supply: supply,
             maxSupply: maxSupply,
             demand: 0,
-            maxDemand: 1000
+            maxDemand: 1000,
+            gearing: gearing,
+            investmentAmount: investmentAmount
         };
     }
 
@@ -324,7 +342,7 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         if(doesPlayerHaveDevelopment(player, EDevelopment.CarbonFabrication)){
             switch (buildingName) {
                 case EDevelopment.MineIron: 
-                case EDevelopment.MineAluminium: 
+                case EDevelopment.MineAluminium:
                 case EDevelopment.MineCarbon: 
                 case EDevelopment.Furnace: 
                 case EDevelopment.Lab: 
@@ -612,6 +630,19 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         player.governmentContracts[resource.name].modifier = demandToAdd;
 
         addBuilding(player, "governmentContracts")
+    }
+
+    function buyInvestment(player, resource){
+        let investment = player.investments[resource.name];
+        // Ensure player has not already invested in the given resource
+        if (investment.active) {
+            console.log("Player " + player.name + " already invested in " + resource.name);
+            return;
+        }
+
+        investment.active = true
+        investment.buyPrice = getPrice(resource)
+        investment.turnAge = 0
     }
 
     function removeGovernmentContract(player, resource){
