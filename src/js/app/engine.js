@@ -616,6 +616,16 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         addBuilding(player, "governmentContracts")
     }
 
+    function getHqScore(player){
+        hqs = player.buildings.filter(building => building === EDevelopment.Headquarter).length;
+        if (player.hqsScored === undefined) {
+            player.hqsScored = 0;
+        }
+        hqsToScore = hqs - player.hqsScored;
+        player.hqsScored = hqs;
+        return hqsToScore * 80;
+    }
+
     function removeGovernmentContract(player, resource){
         let contract = player.governmentContracts[resource.name];
         if (!contract.enabled) {
@@ -733,15 +743,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         }
     }
 
-    function getHqScore(player){
-        hqs = player.buildings.filter(building => building === EDevelopment.Headquarter).length;
-        if (player.hqsScored === undefined) {
-            player.hqsScored = 0;
-        }
-        hqsToScore = hqs - player.hqsScored;
-        player.hqsScored = hqs;
-        return hqsToScore * 80;
-    }
     //#endregion
 
     //#region Resources
