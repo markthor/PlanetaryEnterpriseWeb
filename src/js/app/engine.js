@@ -208,6 +208,8 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         saveMarketHistory();
     }
 
+    //#endregion
+
     //#region Price
     function getPrice(resource, amount){
         if(!amount) amount = 1;
@@ -1026,10 +1028,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
 
     //#endregion
 
-    function getScore(player) {
-        return player.score;
-    }
-
     //#region API Layer
 
     /**
@@ -1049,7 +1047,6 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
         adjustSupply: adjustSupply,
         getIncome: getIncome,
         getIncomeFromBuildings: getIncomeFromBuildings,
-        getScore: getScore,
         getBuildingPrice: getBuildingPrice,
         getConsumedResources: getConsumedResources,
         getProducedResources: getProducedResources,
@@ -1113,6 +1110,10 @@ define(["jquery", "app/weather", "app/configuration"], function($, weather, _con
                     break;
                 
             }
+        },
+
+        getScore: function(player) {
+            return player.score;
         }
     };
 
